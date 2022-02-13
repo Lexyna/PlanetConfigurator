@@ -2,13 +2,13 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { planetActionCreators } from "../store";
-import { State } from "../types/storeType";
+import { radiusSelector } from "../store/selectors/planetSelector";
 
 export const Setting = () => {
 
     const dispatch = useDispatch();
 
-    const radius = useSelector((state: State) => state.planet.radius);
+    const radius = useSelector(radiusSelector);
 
     const { updatePlanetRadius } = bindActionCreators(
         planetActionCreators, dispatch
