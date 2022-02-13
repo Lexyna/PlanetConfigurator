@@ -1,6 +1,8 @@
 import { PixelMatrix } from "../../types/matrixType";
-import { updatePixelMatrix } from "./matrixUtils";
+import { createPixelMatrix, updatePixelMatrix } from "./matrixUtils";
 
-const pixelMatrix: PixelMatrix = updatePixelMatrix();
+const pixelMatrix: PixelMatrix = createPixelMatrix();
+
+window.addEventListener("resize", updatePixelMatrix)
 
 export default pixelMatrix;
