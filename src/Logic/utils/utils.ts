@@ -5,6 +5,8 @@ export const circleGenerator = (radius: number): point2d[] => {
     if (radius > 64)
         return [];
 
+    //Bresenham’s circle drawing algorithm
+
     let d = 3 - (2 * radius);
     let x = 0;
     let y = radius;

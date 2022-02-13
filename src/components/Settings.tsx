@@ -9,6 +9,9 @@ export const Setting = () => {
             </label>
             <input
                 type="number"
+                min={4}
+                max={64}
+                defaultValue={20}
             />
         </div>
     )
