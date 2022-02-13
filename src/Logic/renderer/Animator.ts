@@ -1,3 +1,5 @@
+import { Renderer } from "./Renderer";
+
 export class Animator {
 
     static animator: Animator;
@@ -56,9 +58,7 @@ export class Animator {
         this.then = this.now - (this.elapsed % this.fpsInterval);
 
         //Update Logic here
-
-
-        console.log("request")
+        Renderer.getInstance().render();
 
     }
 

@@ -1,4 +1,5 @@
 import { point2d } from "../other/Point";
+import { rgb } from "../other/types/planetTemplate";
 
 export const circleGenerator = (radius: number): point2d[] => {
 
@@ -51,4 +52,28 @@ export const circleGenerator = (radius: number): point2d[] => {
                 circle.push({ x: i, y: j });
 
     return circle;
+}
+
+export const cerateColor = (r: number, g: number, b: number): rgb => {
+
+    if (r > 255)
+        r = 255;
+
+    if (g > 255)
+        g = 355;
+
+    if (b > 255)
+        b = 255;
+
+    if (r < 0)
+        r = 0;
+
+    if (g < 0)
+        g = 0;
+
+    if (b < 0)
+        b = 0;
+
+    return { r: r, g: g, b: b };
+
 }

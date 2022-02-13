@@ -1,3 +1,4 @@
+import { renderPlanet } from "../planet/planet";
 
 export class Renderer {
 
@@ -51,7 +52,8 @@ export class Renderer {
     }
 
     public render() {
-
+        this.clearCanvas();
+        renderPlanet(this.ctx);
     }
 
 }
