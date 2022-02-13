@@ -7,8 +7,8 @@ const planet: PlanetTemplate = creatNewPlanet();
 
 export const renderPlanet = (ctx: CanvasRenderingContext2D) => {
 
-    const middleX = (Math.round(pixelMatrix.pixelCountX / 2) * pixelMatrix.pixelWeight) - pixelMatrix.pixelWeight;
-    const middleY = (Math.round(pixelMatrix.pixelCountY / 2) * pixelMatrix.pixelWeight) - pixelMatrix.pixelWeight;
+    const middleX = pixelMatrix.middleX;
+    const middleY = pixelMatrix.middleY;
 
     const weight = pixelMatrix.pixelWeight;
 
