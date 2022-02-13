@@ -3,7 +3,6 @@ export class Animator {
     static animator: Animator;
 
     private stop: boolean = false;
-    private frameCount: number = 0;
 
     private fps: number = 1;
     private fpsInterval: number = 0;
@@ -17,8 +16,16 @@ export class Animator {
         Animator.animator = new Animator();
     }
 
-    public static getInstance(): Animator {
+    private static getInstance(): Animator {
         return Animator.animator;
+    }
+
+    public static stop() {
+        this.getInstance().stop = true;
+    }
+
+    public static start() {
+        this.getInstance().stop = false;
     }
 
     /**
@@ -47,6 +54,9 @@ export class Animator {
             return
 
         this.then = this.now - (this.elapsed % this.fpsInterval);
+
+        //Update Logic here
+
 
         console.log("request")
 
