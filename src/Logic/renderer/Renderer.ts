@@ -1,3 +1,4 @@
+
 export class Renderer {
 
     static instance: Renderer;
@@ -47,6 +48,10 @@ export class Renderer {
         this.ctx.fillStyle = "#000000";
 
         this.ctx.fillRect(0, 0, this.width, this.height);
+    }
+
+    public render() {
+
     }
 
 }

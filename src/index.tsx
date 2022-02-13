@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
+import { Animator } from './Logic/renderer/Animator';
 import { getCanvas, Renderer } from './Logic/renderer/Renderer';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store/store';
@@ -17,6 +18,8 @@ ReactDOM.render(
 );
 
 Renderer.createRenderer(getCanvas());
+
+Animator.createAnimator();
 
 const editor: HTMLDivElement = document.querySelector(".editor") as HTMLDivElement;
 const header: HTMLHeadElement = editor.querySelector("header") as HTMLHeadElement;
