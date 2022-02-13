@@ -7,9 +7,18 @@ import { cerateColor } from "../utils/utils";
 
 export const creatNewPlanet = (): PlanetTemplate => {
     return {
+        shape: getPlanetShape(),
         noiseMap: [],
         texture: createTexture()
     }
+}
+
+export const getPlanetShape = (): point2d[] => {
+
+    const state: State = store.getState();
+    const radius = state.planet.radius;
+
+    return Circles.getCircle(radius);
 }
 
 export const createTexture = (): planetPixel[] => {
