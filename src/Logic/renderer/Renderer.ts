@@ -44,7 +44,7 @@ export class Renderer {
 
     private clearCanvas() {
 
-        this.ctx.fillStyle = "#000000";
+        this.ctx.fillStyle = "#00ff00";
 
         this.ctx.fillRect(0, 0, this.width, this.height);
     }
