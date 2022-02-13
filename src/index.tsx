@@ -18,7 +18,6 @@ ReactDOM.render(
 
 Renderer.createRenderer(getCanvas());
 
-
 const editor: HTMLDivElement = document.querySelector(".editor") as HTMLDivElement;
 const header: HTMLHeadElement = editor.querySelector("header") as HTMLHeadElement;
 

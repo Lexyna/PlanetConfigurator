@@ -1,7 +1,6 @@
 import { PlanetProps } from "../../types/planetProp";
-import { State } from "../../types/storeType";
 import { planetActionType } from "../action-types/planetActionType";
-import { UpdateRadiusAction } from "../actions/planetAction";
+import { updateRadius } from "./functions/planetReducerFunctions";
 import reducerFactory, { IHandler } from "./reducerFactory";
 
 
@@ -11,12 +10,7 @@ const initialState: PlanetProps = {
 
 const handlers: IHandler = {};
 
-handlers[planetActionType.UPDATE_RADIUS] = (state: State, action: UpdateRadiusAction) => {
-    return {
-        ...state.planet,
-        radius: action.payload
-    }
-}
+handlers[planetActionType.UPDATE_RADIUS] = updateRadius;
 
 const planetReducers = reducerFactory(initialState, handlers);
 

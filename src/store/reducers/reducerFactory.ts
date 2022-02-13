@@ -1,4 +1,3 @@
-import { State } from "../../types/storeType";
 
 const reducerFactory = (initialState: any, handlers: IHandler) => {
     return function (state = initialState, action: IAction) {
@@ -21,4 +20,4 @@ export interface IHandler {
     [k: string]: reducerFun
 }
 
-export type reducerFun = (state: State, action: any) => any;
+export type reducerFun = (state: any, action: any) => any;
