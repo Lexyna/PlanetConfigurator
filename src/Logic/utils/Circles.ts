@@ -1,5 +1,5 @@
+import { CircleDictionary } from "../../types/circleDictionary";
 import { point2d } from "../other/Point";
-import { CircleDictionary } from "../other/types/circleDictionary";
 import { circleGenerator } from "./utils";
 
 export class Circles {

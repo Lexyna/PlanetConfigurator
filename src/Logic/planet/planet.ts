@@ -1,4 +1,4 @@
-import { planetPixel, PlanetTemplate } from "../other/types/planetTemplate";
+import { planetPixel, PlanetTemplate } from "../../types/planetTemplate";
 import { creatNewPlanet } from "./planetUtils";
 
 const planet: PlanetTemplate = creatNewPlanet();

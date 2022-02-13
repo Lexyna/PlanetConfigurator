@@ -1,9 +1,10 @@
 import { store } from "../../store/store";
+import { planetPixel, PlanetTemplate } from "../../types/planetTemplate";
 import { State } from "../../types/storeType";
 import { point2d } from "../other/Point";
-import { planetPixel, PlanetTemplate } from "../other/types/planetTemplate";
 import { Circles } from "../utils/Circles";
 import { cerateColor } from "../utils/utils";
+
 
 export const creatNewPlanet = (): PlanetTemplate => {
     return {

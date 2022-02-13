@@ -1,5 +1,5 @@
+import { rgb } from "../../types/planetTemplate";
 import { point2d } from "../other/Point";
-import { rgb } from "../other/types/planetTemplate";
 
 export const circleGenerator = (radius: number): point2d[] => {
 
