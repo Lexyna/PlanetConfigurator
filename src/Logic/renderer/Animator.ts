@@ -6,7 +6,7 @@ export class Animator {
 
     private stop: boolean = false;
 
-    private fps: number = 1;
+    private fps: number = 30;
     private fpsInterval: number = 0;
     private now: number = 0;
     private then: number = 0;
