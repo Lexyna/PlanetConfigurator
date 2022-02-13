@@ -7,7 +7,8 @@ const planet: PlanetTemplate = creatNewPlanet();
 
 export const renderPlanet = (ctx: CanvasRenderingContext2D) => {
 
-    const middle = 500;
+    const middleX = (Math.round(pixelMatrix.pixelCountX / 2) * pixelMatrix.pixelWeight) - pixelMatrix.pixelWeight;
+    const middleY = (Math.round(pixelMatrix.pixelCountY / 2) * pixelMatrix.pixelWeight) - pixelMatrix.pixelWeight;
 
     const weight = pixelMatrix.pixelWeight;
 
@@ -15,7 +16,7 @@ export const renderPlanet = (ctx: CanvasRenderingContext2D) => {
 
         ctx.fillStyle = "#ffffff";
 
-        ctx.fillRect(pixel.x + middle, pixel.y + middle, weight, weight);
+        ctx.fillRect(pixel.x + middleX, pixel.y + middleY, weight, weight);
 
     })
 }

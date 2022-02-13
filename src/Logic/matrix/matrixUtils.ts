@@ -6,7 +6,7 @@ export const updatePixelMatrix = (): PixelMatrix => {
 
     return {
         pixelWeight: pixelWeigh,
-        pixelCountX: Math.round(document.body.clientWidth / pixelWeigh),
-        pixelCountY: Math.round(document.body.clientHeight / pixelWeigh)
+        pixelCountX: Math.round(window.innerWidth / pixelWeigh),
+        pixelCountY: Math.round(window.innerHeight / pixelWeigh)
     }
 }
