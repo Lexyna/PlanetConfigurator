@@ -1,9 +1,19 @@
 import { PlanetTemplate } from "../../types/planetTemplate";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
-import { creatNewPlanet } from "./planetUtils";
+import { createTexture, creatNewPlanet, getPlanetShape } from "./planetUtils";
 
 const planet: PlanetTemplate = creatNewPlanet();
+
+export const updatePlanet = () => {
+
+    const shape = getPlanetShape();
+    const texture = createTexture();
+
+    planet.shape = shape;
+    planet.texture = texture;
+
+}
 
 export const renderPlanet = (ctx: CanvasRenderingContext2D) => {
 

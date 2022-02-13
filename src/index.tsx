@@ -6,6 +6,7 @@ import './index.css';
 import { Animator } from './Logic/renderer/Animator';
 import { getCanvas, Renderer } from './Logic/renderer/Renderer';
 import reportWebVitals from './reportWebVitals';
+import { initObservers } from './store/observers';
 import { store } from './store/store';
 
 ReactDOM.render(
@@ -16,6 +17,8 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+initObservers();
 
 Renderer.createRenderer(getCanvas());
 
