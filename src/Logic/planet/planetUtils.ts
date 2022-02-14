@@ -3,6 +3,8 @@ import { planetPixel, PlanetTemplate } from "../../types/planetTemplate";
 import { State } from "../../types/storeType";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
+import { generatePerlinNoise } from "../Random/perlinNoise";
+import { generateWhiteNoiseWithSeed } from "../Random/seededNoise";
 import { Circles } from "../utils/Circles";
 import { cerateColor } from "../utils/utils";
 
@@ -10,7 +12,7 @@ import { cerateColor } from "../utils/utils";
 export const creatNewPlanet = (): PlanetTemplate => {
     return {
         shape: getPlanetShape(),
-        noiseMap: [],
+        noiseMap: createNoiseMap(),
         texture: createTexture()
     }
 }
@@ -51,4 +53,20 @@ export const createTexture = (): planetPixel[] => {
     })
 
     return texture;
+}
+
+export const createNoiseMap = () => {
+
+    const state: State = store.getState();
+    const radius = state.planet.radius;
+
+    //calculate next power of two
+    let width = 2 * Math.PI * radius;
+    width = Math.round(width);
+    width = 1 << 32 - Math.clz32(width);
+
+    const seed = "TempSeed"
+    const whiteNoise = generateWhiteNoiseWithSeed(seed, width, width);
+
+    return generatePerlinNoise(whiteNoise, 7);
 }
