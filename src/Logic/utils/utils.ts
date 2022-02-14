@@ -28,7 +28,7 @@ export const circleGenerator = (radius: number): point2d[] => {
         points.push({ x: - y, y: - x })
 
         points.forEach((point: point2d) => {
-            if (!circle.some((p: point2d) => p === point))
+            if (!circle.some((p: point2d) => p.x === point.x && p.y === point.y))
                 circle.push(point);
         })
 

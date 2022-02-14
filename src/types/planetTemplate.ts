@@ -1,14 +1,19 @@
 import { point2d } from "../Logic/other/Point";
 
 export interface PlanetTemplate {
-    shape: point2d[],
+    radius: number,
+    shape: planetShape,
     noiseMap: number[][],
-    texture: planetPixel[]
+    texture: planetPixel[][]
 }
 
 export interface planetPixel {
-    coordinate: point2d,
     color: rgb
+}
+
+export interface planetShape {
+    renderCircle: point2d[],
+    pixelCircle: point2d[]
 }
 
 export interface rgb {

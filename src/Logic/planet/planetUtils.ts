@@ -1,23 +1,29 @@
 import { store } from "../../store/store";
-import { planetPixel, PlanetTemplate } from "../../types/planetTemplate";
+import { planetPixel, planetShape, PlanetTemplate } from "../../types/planetTemplate";
 import { State } from "../../types/storeType";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
 import { generatePerlinNoise } from "../Random/perlinNoise";
 import { generateWhiteNoiseWithSeed } from "../Random/seededNoise";
 import { Circles } from "../utils/Circles";
-import { cerateColor } from "../utils/utils";
 
 
 export const creatNewPlanet = (): PlanetTemplate => {
+    const noise = createNoiseMap();
     return {
+        radius: getPlanetRadius(),
         shape: getPlanetShape(),
-        noiseMap: createNoiseMap(),
-        texture: createTexture()
+        noiseMap: noise,
+        texture: createTexture(noise)
     }
 }
 
-export const getPlanetShape = (): point2d[] => {
+export const getPlanetRadius = () => {
+    const state: State = store.getState();
+    return state.planet.radius;
+}
+
+export const getPlanetShape = (): planetShape => {
 
     const state: State = store.getState();
     const radius = state.planet.radius;
@@ -31,26 +37,28 @@ export const getPlanetShape = (): point2d[] => {
         shape.push({ x: (-weight + point.x * weight), y: (-weight + point.y * weight) })
     })
 
-    return shape;
+    const planetShape: planetShape = {
+        renderCircle: shape,
+        pixelCircle: points
+    }
+
+    return planetShape;
 }
 
-export const createTexture = (): planetPixel[] => {
+export const createTexture = (noiseMap: number[][]): planetPixel[][] => {
 
-    const state: State = store.getState();
+    const texture: planetPixel[][] = [];
 
-    const radius = state.planet.radius;
+    for (var i = 0; i < noiseMap.length; i++)
+        texture[i] = [];
 
-    const points = Circles.getCircle(radius);
-
-    const texture: planetPixel[] = [];
-
-    points.forEach((p: point2d) => {
-        const pixel: planetPixel = {
-            coordinate: p,
-            color: cerateColor(255, 255, 255),
+    for (var i = 0; i < noiseMap.length; i++)
+        for (var j = 0; j < noiseMap[0].length; j++) {
+            const value = noiseMap[i][j];
+            texture[i][j] = {
+                color: { r: 255 * value, g: 255 * value, b: 255 * value }
+            }
         }
-        texture.push(pixel);
-    })
 
     return texture;
 }
