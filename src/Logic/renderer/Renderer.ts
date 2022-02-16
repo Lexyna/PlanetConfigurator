@@ -60,7 +60,7 @@ export class Renderer {
     public render() {
         this.clearCanvas();
 
-        renderPlanet(this.ctx, this.imgBuffer, this.width, this.height);
+        renderPlanet(this.imgBuffer, this.width, this.height);
 
         this.ctx.putImageData(this.canvasImg, 0, 0);
 

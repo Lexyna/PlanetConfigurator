@@ -16,7 +16,7 @@ export const updatePlanet = () => {
 
 }
 
-export const renderPlanet = (ctx: CanvasRenderingContext2D, buffer: Uint32Array, width: number, height: number) => {
+export const renderPlanet = (buffer: Uint32Array, width: number, height: number) => {
 
     const middleX = pixelMatrix.middleX;
     const middleY = pixelMatrix.middleY;
