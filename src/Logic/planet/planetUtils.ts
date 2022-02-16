@@ -1,11 +1,12 @@
 import { store } from "../../store/store";
-import { planetPixel, planetShape, PlanetTemplate } from "../../types/planetTemplate";
+import { planetPixel, planetShape, PlanetTemplate, rgb } from "../../types/planetTemplate";
 import { State } from "../../types/storeType";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
 import { generatePerlinNoise } from "../Random/perlinNoise";
 import { generateWhiteNoiseWithSeed } from "../Random/seededNoise";
 import { Circles } from "../utils/Circles";
+import { cerateRGBColor, rgbToHex } from "../utils/utils";
 
 
 export const creatNewPlanet = (): PlanetTemplate => {
@@ -54,12 +55,25 @@ export const createTexture = (noiseMap: number[][]): planetPixel[][] => {
 
     for (var i = 0; i < noiseMap.length; i++)
         for (var j = 0; j < noiseMap[0].length; j++) {
+
             const value = noiseMap[i][j];
+
+            const color: rgb = cerateRGBColor(
+                Math.floor(255 * value),
+                Math.floor(255 * value),
+                Math.floor(255 * value),
+                255);
+
+            const hexString = rgbToHex(color)
+
             texture[i][j] = {
-                color: { r: 255 * value, g: 255 * value, b: 255 * value }
+                color: {
+                    rgb: color,
+                    hex: hexString,
+                    decimal: Number(hexString)
+                }
             }
         }
-
     return texture;
 }
 

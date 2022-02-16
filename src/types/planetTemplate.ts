@@ -8,7 +8,7 @@ export interface PlanetTemplate {
 }
 
 export interface planetPixel {
-    color: rgb
+    color: pixelColor
 }
 
 export interface planetShape {
@@ -16,8 +16,15 @@ export interface planetShape {
     pixelCircle: point2d[]
 }
 
+export interface pixelColor {
+    rgb: rgb,
+    hex: string //HexString are Alpha, Blue, Green, Red for ImageBuffer
+    decimal: number //Decimal value of hex string for ImageBuffer
+}
+
 export interface rgb {
     r: number,
     g: number,
-    b: number
+    b: number,
+    alpha?: number
 }

@@ -16,7 +16,7 @@ export const updatePlanet = () => {
 
 }
 
-export const renderPlanet = (ctx: CanvasRenderingContext2D) => {
+export const renderPlanet = (ctx: CanvasRenderingContext2D, buffer: Uint32Array, width: number, height: number) => {
 
     const middleX = pixelMatrix.middleX;
     const middleY = pixelMatrix.middleY;
@@ -34,16 +34,15 @@ export const renderPlanet = (ctx: CanvasRenderingContext2D) => {
 
         if (pixelPoint.x < 0)
             indexX = planet.texture.length + pixelPoint.x;
-        else
-            indexX = frameIndex + pixelPoint.x;
+        else indexX = frameIndex + pixelPoint.x;
 
-        const color = planet.texture[indexX][indexY];
+        const pixelColor = planet.texture[indexX][indexY].color.decimal;
 
-        ctx.fillStyle = `rgb(${color.color.r}, ${color.color.r}, ${color.color.r})`;
-
-        ctx.fillRect(pixel.x + middleX, pixel.y + middleY, weight, weight);
-
-    })
+        //create a whole pixel
+        for (let x = pixel.x; x < pixel.x + weight; x++)
+            for (let y = pixel.y; y < pixel.y + weight; y++)
+                buffer[(y + middleY) * width + (x + middleX)] = pixelColor;
+    });
 }
 
 export default planet;

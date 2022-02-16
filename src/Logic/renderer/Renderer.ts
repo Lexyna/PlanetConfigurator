@@ -21,6 +21,9 @@ export class Renderer {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
 
+    private canvasImg: ImageData;
+    private imgBuffer: Uint32Array;
+
     private width: number = 0;
     private height: number = 0;
 
@@ -28,11 +31,12 @@ export class Renderer {
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-        setCanvasSize(canvas);
+        setCanvasSize(this.canvas);
+        this.width = this.canvas.width;
+        this.height = this.canvas.height;
 
-        this.width = canvas.width;
-        this.height = canvas.height;
-        this.clearCanvas();
+        this.canvasImg = this.ctx.createImageData(this.width, this.height);
+        this.imgBuffer = new Uint32Array(this.canvasImg.data.buffer);
 
         window.addEventListener("resize", this.updateCanvas.bind(this))
     }
@@ -41,19 +45,25 @@ export class Renderer {
         setCanvasSize(this.canvas);
         this.width = this.canvas.width;
         this.height = this.canvas.height;
+
+        this.canvasImg = this.ctx.createImageData(this.width, this.height);
+        this.imgBuffer = new Uint32Array(this.canvasImg.data.buffer);
+
         this.clearCanvas();
     }
 
     private clearCanvas() {
-
-        this.ctx.fillStyle = "#000000";
-
-        this.ctx.fillRect(0, 0, this.width, this.height);
+        for (let i = 0; i < this.imgBuffer.length; i++)
+            this.imgBuffer[i] = 0x00000000;
     }
 
     public render() {
         this.clearCanvas();
-        renderPlanet(this.ctx);
+
+        renderPlanet(this.ctx, this.imgBuffer, this.width, this.height);
+
+        this.ctx.putImageData(this.canvasImg, 0, 0);
+
     }
 
 }

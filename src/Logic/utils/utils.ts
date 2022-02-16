@@ -54,13 +54,19 @@ export const circleGenerator = (radius: number): point2d[] => {
     return circle;
 }
 
-export const cerateColor = (r: number, g: number, b: number): rgb => {
+export const cerateRGBColor = (r: number, g: number, b: number, alpha?: number): rgb => {
+
+    if (alpha)
+        if (alpha > 255)
+            alpha = 255;
+        else if (alpha < 0)
+            alpha = 0;
 
     if (r > 255)
         r = 255;
 
     if (g > 255)
-        g = 355;
+        g = 255;
 
     if (b > 255)
         b = 255;
@@ -74,6 +80,18 @@ export const cerateColor = (r: number, g: number, b: number): rgb => {
     if (b < 0)
         b = 0;
 
-    return { r: r, g: g, b: b };
+    return { r: r, g: g, b: b, alpha: alpha };
 
+}
+
+export const rgbToHex = (color: rgb): string => {
+    if (!color.alpha)
+        return "0x" + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
+    else
+        return "0x" + valueToHex(color.alpha) + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
+}
+
+const valueToHex = (value: number) => {
+    let hexadecimal = value.toString(16);
+    return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
 }
