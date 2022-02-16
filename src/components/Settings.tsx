@@ -1,18 +1,27 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
-import { planetActionCreators } from "../store";
+import { planetActionCreators, renderSettingsCreator } from "../store";
 import { radiusSelector } from "../store/selectors/planetSelector";
+import { animateSelector } from "../store/selectors/renderSelector";
 
 export const Setting = () => {
 
     const dispatch = useDispatch();
 
     const radius = useSelector(radiusSelector);
+    const animate = useSelector(animateSelector);
 
     const { updatePlanetRadius } = bindActionCreators(
-        planetActionCreators, dispatch
+        planetActionCreators,
+        dispatch
     );
+
+    const { updateRenderSettingAnimate } = bindActionCreators(
+        renderSettingsCreator,
+        dispatch
+    );
+
 
     return (
         <div>
@@ -28,6 +37,15 @@ export const Setting = () => {
                     ({ target: { value } }) => updatePlanetRadius(parseInt(value))
                 }
             />
+            <br />
+            <label>
+                animate:
+                <input
+                    type="checkbox"
+                    defaultChecked={animate}
+                    onChange={() => updateRenderSettingAnimate(!animate)}
+                />
+            </label>
         </div>
     )
 

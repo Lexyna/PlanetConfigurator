@@ -1,0 +1,5 @@
+export enum renderActionType {
+    UPDATE_ANIMATE = "UPDATE_ANIMATE",
+    UPDATE_FPS = "UPDATE_FPS",
+    UPDATE_PIXEL_WEIGHT = "UPDATE_PIXEL_WEIGHT"
+}

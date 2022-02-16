@@ -5,16 +5,6 @@ export class Animator {
 
     static animator: Animator;
 
-    private stop: boolean = false;
-
-    private animationFrame: number = 0;
-
-    private fps: number = 30;
-    private fpsInterval: number = 0;
-    private now: number = 0;
-    private then: number = 0;
-    private elapsed: number = 0;
-
     public static createAnimator() {
         if (Animator.animator)
             return;
@@ -25,17 +15,32 @@ export class Animator {
         return Animator.animator;
     }
 
-    public static stop() {
-        this.getInstance().stop = true;
+    public static isAnimating() {
+        return !Animator.getInstance().stop;
     }
 
-    public static start() {
-        this.getInstance().stop = false;
+    public static getAnimationFrame() {
+        return Animator.getInstance().animationFrame;
+    }
+
+    public static changeAnimationStatus() {
+        Animator.getInstance().stop = !Animator.getInstance().stop;
+        Animator.getInstance().tick();
     }
 
     /**
      * Class
      */
+
+    private stop: boolean = false;
+
+    private animationFrame: number = 0;
+
+    private fps: number = 30;
+    private fpsInterval: number = 0;
+    private now: number = 0;
+    private then: number = 0;
+    private elapsed: number = 0;
 
     private constructor() {
         this.startTicking();
