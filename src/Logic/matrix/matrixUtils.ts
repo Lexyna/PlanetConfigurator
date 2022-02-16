@@ -3,7 +3,7 @@ import pixelMatrix from "./matrix";
 
 export const createPixelMatrix = (): PixelMatrix => {
 
-    const pixelWeigh = 10;
+    const pixelWeigh = 5;
 
     const countX = Math.round(window.innerWidth / pixelWeigh);
     const countY = Math.round(window.innerHeight / pixelWeigh);

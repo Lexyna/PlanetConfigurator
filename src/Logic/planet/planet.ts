@@ -1,18 +1,17 @@
 import { PlanetTemplate } from "../../types/planetTemplate";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
-import { createTexture, creatNewPlanet, getPlanetRadius, getPlanetShape } from "./planetUtils";
+import { creatNewPlanet, getPlanetRadius, getPlanetShape } from "./planetUtils";
 
 const planet: PlanetTemplate = creatNewPlanet();
 
 export const updatePlanet = () => {
 
+    const radius = getPlanetRadius();
     const shape = getPlanetShape();
-    const texture = createTexture(planet.noiseMap);
 
-    planet.radius = getPlanetRadius();
+    planet.radius = radius;
     planet.shape = shape;
-    planet.texture = texture;
 
 }
 
@@ -30,7 +29,7 @@ export const renderPlanet = (buffer: Uint32Array, width: number, height: number)
         const pixelPoint: point2d = planet.shape.pixelCircle[index];
 
         let indexX = 0;
-        let indexY = pixelPoint.y + planet.radius;
+        let indexY = (pixelPoint.y) + planet.radius;
 
         if (pixelPoint.x < 0)
             indexX = planet.texture.length + pixelPoint.x;

@@ -79,16 +79,12 @@ export const createTexture = (noiseMap: number[][]): planetPixel[][] => {
 
 export const createNoiseMap = () => {
 
-    const state: State = store.getState();
-    const radius = state.planet.radius;
-
-    //calculate next power of two
-    let width = 2 * Math.PI * radius;
-    width = Math.round(width);
-    width = 1 << 32 - Math.clz32(width);
+    /**
+     * TODO: Implement different values for width (2^n)
+     */
 
     const seed = "TempSeed"
-    const whiteNoise = generateWhiteNoiseWithSeed(seed, width, width);
+    const whiteNoise = generateWhiteNoiseWithSeed(seed, 256, 256);
 
-    return generatePerlinNoise(whiteNoise, 7);
+    return generatePerlinNoise(whiteNoise, 6);
 }
