@@ -1,3 +1,4 @@
+import planet from "../planet/planet";
 import { Renderer } from "./Renderer";
 
 export class Animator {
@@ -5,6 +6,8 @@ export class Animator {
     static animator: Animator;
 
     private stop: boolean = false;
+
+    private animationFrame: number = 0;
 
     private fps: number = 30;
     private fpsInterval: number = 0;
@@ -58,7 +61,10 @@ export class Animator {
         this.then = this.now - (this.elapsed % this.fpsInterval);
 
         //Update Logic here
-        Renderer.getInstance().render();
+        Renderer.getInstance().render(this.animationFrame);
+
+        this.animationFrame++;
+        this.animationFrame = (this.animationFrame % planet.texture.length);
 
     }
 

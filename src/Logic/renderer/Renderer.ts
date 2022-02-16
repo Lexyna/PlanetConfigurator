@@ -57,10 +57,10 @@ export class Renderer {
             this.imgBuffer[i] = 0x00000000;
     }
 
-    public render() {
+    public render(animationFrame: number) {
         this.clearCanvas();
 
-        renderPlanet(this.imgBuffer, this.width, this.height);
+        renderPlanet(this.imgBuffer, this.width, this.height, animationFrame);
 
         this.ctx.putImageData(this.canvasImg, 0, 0);
 
