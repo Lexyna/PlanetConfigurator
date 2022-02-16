@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import { planetActionCreators, renderSettingsCreator } from "../store";
 import { radiusSelector } from "../store/selectors/planetSelector";
 import { animateSelector } from "../store/selectors/renderSelector";
+import { Colorator } from "./Colorator";
 
 export const Setting = () => {
 
@@ -37,6 +38,8 @@ export const Setting = () => {
                     ({ target: { value } }) => updatePlanetRadius(parseInt(value))
                 }
             />
+            <br />
+            < Colorator />
             <br />
             <label>
                 animate:
