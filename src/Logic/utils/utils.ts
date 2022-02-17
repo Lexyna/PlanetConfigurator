@@ -80,15 +80,15 @@ export const cerateRGBColor = (r: number, g: number, b: number, alpha?: number):
     if (b < 0)
         b = 0;
 
-    return { r: r, g: g, b: b, alpha: alpha };
+    return { r: r, g: g, b: b, a: alpha };
 
 }
 
 export const rgbToHex = (color: rgb): string => {
-    if (!color.alpha)
+    if (!color.a)
         return "0x" + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
     else
-        return "0x" + valueToHex(color.alpha) + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
+        return "0x" + valueToHex(color.a) + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
 }
 
 const valueToHex = (value: number) => {

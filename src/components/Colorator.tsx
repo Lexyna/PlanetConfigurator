@@ -1,52 +1,51 @@
-import { nanoid } from "nanoid";
 import React, { useState } from "react";
-import { SketchPicker } from "react-color";
+import { ColorResult, SketchPicker } from "react-color";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
+import { planetActionCreators } from "../store";
+import { colorMappingIdSelector, colorMappingSelector } from "../store/selectors/planetSelector";
 
 export const Colorator = () => {
 
-    const [pickers, setPickers] = useState([
-        { id: nanoid() },
-        { id: nanoid() },
-        { id: nanoid() }
-    ]);
-
-    const addPicker = () => {
-        const picker = { id: nanoid() };
-        setPickers(pickers.concat(picker));
-    }
+    const colorMappings = useSelector(colorMappingSelector);
 
     return (
         <div style={{ display: "inline" }}>
             <p>Color Settings:</p>
-            {pickers.map(picker => {
-                return <PlanetColorPicker key={picker.id} />
+            {colorMappings.map(mappings => {
+                return <PlanetColorPicker id={mappings.id} key={mappings.id} />
             })}
-            <button onClick={addPicker}>Add</button>
+            <button>Add</button>
         </div>
     )
 }
 
-const PlanetColorPickers = (length: number) => {
+const PlanetColorPicker: React.FC<{ id: string }> = (props) => {
 
-    const pickers: any[] = [];
-    let id: number = 0;
+    const mappingColor = useSelector(colorMappingIdSelector(props.id))
 
-    for (var i = 0; i < length; i++) {
-        pickers.push(PlanetColorPicker())
-    }
-    return pickers;
-}
+    const [color, setColor] = useState(mappingColor.color);
 
-const PlanetColorPicker = () => {
+    const [value, setValue] = useState(mappingColor.value);
 
     const [display, setDisplay] = useState(false);
 
-    const [color, setColor] = useState({
-        r: 241,
-        g: 112,
-        b: 19,
-        a: 1
-    });
+    const dispatch = useDispatch();
+
+    const { updateColorMapping } = bindActionCreators(
+        planetActionCreators,
+        dispatch
+    );
+
+    console.log("picker1: " + props.id)
+    console.log("Mapping: ")
+    console.log(mappingColor)
+
+    const onChangeMethod = (color: ColorResult) => {
+        mappingColor.color = color.rgb;
+        updateColorMapping(mappingColor);
+        setColor({ ...color.rgb })
+    }
 
     const onClickMethod = () => {
         setDisplay(!display);
@@ -54,10 +53,6 @@ const PlanetColorPicker = () => {
 
     const onCloseMethod = () => {
         setDisplay(false);
-    }
-
-    const onChangeMethod = (color: any) => {
-        setColor({ ...color.rgb });
     }
 
     const colorStyle = {
@@ -108,7 +103,7 @@ const PlanetColorPicker = () => {
             <div style={inputDivStyle}>
                 <input
                     type="number"
-                    defaultValue={0}
+                    defaultValue={value}
                     min={0}
                     max={1}
                     step={0.01}
@@ -136,4 +131,11 @@ const PlanetColorPicker = () => {
                     <div style={cover} onClick={onCloseMethod} />
                     <ChromePicker color={color} onChange={onChangeMethod} />
                 </div> : null}
+                mappingColor.color = val.rgb;
+                        mappingColor.color.alpha = val.rgb.a;
+                        if (mappingColor.color.alpha) {
+                            mappingColor.color.alpha *= 255;
+                            console.log(mappingColor.color.alpha)
+                        }
+                        updateColorMapping(mappingColor);
  */
