@@ -1,4 +1,5 @@
 import { store } from "../../store/store";
+import { ColorMapping } from "../../types/planetProp";
 import { planetPixel, planetShape, PlanetTemplate, rgb } from "../../types/planetTemplate";
 import { State } from "../../types/storeType";
 import pixelMatrix from "../matrix/matrix";
@@ -6,7 +7,7 @@ import { point2d } from "../other/Point";
 import { generatePerlinNoise } from "../Random/perlinNoise";
 import { generateWhiteNoiseWithSeed } from "../Random/seededNoise";
 import { Circles } from "../utils/Circles";
-import { cerateRGBColor, rgbToHex } from "../utils/utils";
+import { rgbToHex } from "../utils/utils";
 
 
 export const creatNewPlanet = (): PlanetTemplate => {
@@ -15,6 +16,7 @@ export const creatNewPlanet = (): PlanetTemplate => {
         radius: getPlanetRadius(),
         shape: getPlanetShape(),
         noiseMap: noise,
+        colorMappings: getPlanetColorMapping(),
         texture: createTexture(noise)
     }
 }
@@ -22,6 +24,11 @@ export const creatNewPlanet = (): PlanetTemplate => {
 export const getPlanetRadius = () => {
     const state: State = store.getState();
     return state.planet.radius;
+}
+
+export const getPlanetColorMapping = () => {
+    const state: State = store.getState();
+    return state.planet.colorMapping;
 }
 
 export const getPlanetShape = (): planetShape => {
@@ -50,6 +57,10 @@ export const createTexture = (noiseMap: number[][]): planetPixel[][] => {
 
     const texture: planetPixel[][] = [];
 
+    const state: State = store.getState();
+
+    const colorMappings: ColorMapping[] = state.planet.colorMapping;
+
     for (var i = 0; i < noiseMap.length; i++)
         texture[i] = [];
 
@@ -58,11 +69,12 @@ export const createTexture = (noiseMap: number[][]): planetPixel[][] => {
 
             const value = noiseMap[i][j];
 
-            const color: rgb = cerateRGBColor(
+            /*const color: rgb = cerateRGBColor(
                 Math.floor(255 * value),
                 Math.floor(255 * value),
                 Math.floor(255 * value),
-                255);
+                255);*/
+            const color: rgb = calculatePixelColor(value, colorMappings);
 
             const hexString = rgbToHex(color)
 
@@ -74,6 +86,8 @@ export const createTexture = (noiseMap: number[][]): planetPixel[][] => {
                 }
             }
         }
+    //console.log("texture");
+    //console.log(texture)
     return texture;
 }
 
@@ -87,4 +101,32 @@ export const createNoiseMap = () => {
     const whiteNoise = generateWhiteNoiseWithSeed(seed, 256, 256);
 
     return generatePerlinNoise(whiteNoise, 6);
+}
+
+export const calculatePixelColor = (value: number, colorMappings: ColorMapping[]): rgb => {
+
+    const pixelColor: rgb = {
+        r: Math.floor(255 * value),
+        g: Math.floor(255 * value),
+        b: Math.floor(255 * value),
+        a: 255
+    }
+
+    let min = 1;
+
+    colorMappings.forEach((mapping => {
+
+        if (value <= mapping.value && mapping.value <= min) {
+
+            min = mapping.value;
+
+            pixelColor.r = Math.floor(mapping.color.r);
+            pixelColor.b = Math.floor(mapping.color.b);
+            pixelColor.g = Math.floor(mapping.color.g);
+            pixelColor.a = mapping.color.a;
+        }
+    }))
+
+
+    return pixelColor;
 }

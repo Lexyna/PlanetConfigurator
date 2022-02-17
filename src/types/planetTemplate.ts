@@ -1,9 +1,11 @@
 import { point2d } from "../Logic/other/Point";
+import { ColorMapping } from "./planetProp";
 
 export interface PlanetTemplate {
     radius: number,
     shape: planetShape,
     noiseMap: number[][],
+    colorMappings: ColorMapping[],
     texture: planetPixel[][]
 }
 
@@ -26,5 +28,5 @@ export interface rgb {
     r: number,
     g: number,
     b: number,
-    alpha?: number
+    a?: number
 }

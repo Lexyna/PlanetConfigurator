@@ -1,12 +1,15 @@
-import { observe } from "redux-observers";
+import { observe, Observer } from "redux-observers";
+import { State } from "../../types/storeType";
 import { store } from "../store";
-import { planetRadiusObserver } from "./planetObserver";
+import { colorMappingsObserver, planetRadiusObserver } from "./planetObserver";
 import { animateObserver } from "./renderSettingsObserver";
 
+export const observers: Observer<State>[] = [
+    planetRadiusObserver,
+    colorMappingsObserver,
+    animateObserver
+]
+
 export const initObservers = () => {
-    observe(store,
-        [
-            planetRadiusObserver,
-            animateObserver
-        ]);
+    observe(store, observers);
 }
