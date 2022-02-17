@@ -24,6 +24,7 @@ export class Animator {
     }
 
     public static changeAnimationStatus() {
+        Animator.getInstance().animationFrame--;
         Animator.getInstance().stop = !Animator.getInstance().stop;
         Animator.getInstance().tick();
     }

@@ -21,7 +21,7 @@ export const Colorator = () => {
     const defaultColorMapping: ColorMapping = {
         id: "none",
         value: 0,
-        color: { r: 0, g: 0, b: 0, a: 1 }
+        color: { r: 0, g: 0, b: 0, a: 255 }
     }
 
     const onAddColorMapping = () => {
@@ -60,6 +60,8 @@ const PlanetColorPicker: React.FC<{ id: string }> = (props) => {
 
     const onChangeColorMethod = (color: ColorResult) => {
         mappingColor.color = color.rgb;
+        if (mappingColor.color.a)
+            mappingColor.color.a = Math.floor(mappingColor.color.a * 255);
         updateColorMapping(mappingColor);
         setColor({ ...color.rgb })
     }

@@ -11,8 +11,28 @@ const initialState: PlanetProps = {
     colorMapping: [
         {
             id: nanoid(),
-            value: 0.3,
-            color: cerateRGBColor(131, 24, 6, 255)
+            value: 0.35,
+            color: cerateRGBColor(29, 43, 83, 255)
+        },
+        {
+            id: nanoid(),
+            value: 0.45,
+            color: cerateRGBColor(41, 173, 255, 255)
+        },
+        {
+            id: nanoid(),
+            value: 0.55,
+            color: cerateRGBColor(0, 228, 54, 255)
+        },
+        {
+            id: nanoid(),
+            value: 0.7,
+            color: cerateRGBColor(0, 135, 81, 255)
+        },
+        {
+            id: nanoid(),
+            value: 1,
+            color: cerateRGBColor(95, 87, 79, 255)
         }
     ]
 }
