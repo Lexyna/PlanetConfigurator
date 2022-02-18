@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { planetActionCreators, renderSettingsCreator } from "../store";
 import { radiusSelector, seedSelector } from "../store/selectors/planetSelector";
-import { animateSelector } from "../store/selectors/renderSelector";
+import { animateSelector, fpsSelector } from "../store/selectors/renderSelector";
 import { Colorator } from "./Colorator";
 
 export const Setting = () => {
@@ -12,15 +12,17 @@ export const Setting = () => {
     const dispatch = useDispatch();
 
     const radius = useSelector(radiusSelector);
-    const animate = useSelector(animateSelector);
     const seed = useSelector(seedSelector);
+    const animate = useSelector(animateSelector);
+    const fps = useSelector(fpsSelector);
+
 
     const { updatePlanetRadius, updateSeed } = bindActionCreators(
         planetActionCreators,
         dispatch
     );
 
-    const { updateRenderSettingAnimate } = bindActionCreators(
+    const { updateRenderSettingAnimate, updateRenderSettingsFps } = bindActionCreators(
         renderSettingsCreator,
         dispatch
     );
@@ -61,6 +63,16 @@ export const Setting = () => {
                     onChange={() => updateRenderSettingAnimate(!animate)}
                 />
             </label>
+            <label>
+                fps:
+            </label>
+            <input
+                type="number"
+                value={fps}
+                min={1}
+                max={60}
+                onChange={({ target: { value } }) => { updateRenderSettingsFps(parseInt(value)) }}
+            />
         </div>
     )
 

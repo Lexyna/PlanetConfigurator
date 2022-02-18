@@ -1,3 +1,5 @@
+import { store } from "../../store/store";
+import { State } from "../../types/storeType";
 import planet from "../planet/planet";
 import { Renderer } from "./Renderer";
 
@@ -28,6 +30,23 @@ export class Animator {
         Animator.getInstance().stop = !Animator.getInstance().stop;
         Animator.getInstance().tick();
     }
+
+    public static updateFPS() {
+        const state: State = store.getState();
+        Animator.getInstance().fps = state.renderSettings.fps;
+        Animator.stop();
+        Animator.getInstance().startTicking();
+        Animator.start();
+    }
+
+    public static stop() {
+        Animator.getInstance().stop = true;
+    }
+
+    public static start() {
+        Animator.getInstance().stop = false;
+    }
+
 
     /**
      * Class
