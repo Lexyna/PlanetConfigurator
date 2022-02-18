@@ -1,5 +1,5 @@
 import { RenderProps } from "../../../types/storeType";
-import { UpdateAnimateAction, UpdateFpsAction } from "../../actions/renderActions";
+import { UpdateAnimateAction, UpdateFpsAction, UpdatePixelSizeAction } from "../../actions/renderActions";
 
 export const updateAnimate = (state: RenderProps, action: UpdateAnimateAction): RenderProps => {
     return {
@@ -9,8 +9,21 @@ export const updateAnimate = (state: RenderProps, action: UpdateAnimateAction): 
 }
 
 export const updateFps = (state: RenderProps, action: UpdateFpsAction): RenderProps => {
+    if (!action.payload || action.payload < 1 || action.payload > 60)
+        return state;
+
     return {
         ...state,
         fps: action.payload
+    }
+}
+
+export const updatePixelSize = (state: RenderProps, action: UpdatePixelSizeAction): RenderProps => {
+    if (!action.payload || action.payload < 1 || action.payload > 20)
+        return state;
+
+    return {
+        ...state,
+        pixelSize: action.payload
     }
 }

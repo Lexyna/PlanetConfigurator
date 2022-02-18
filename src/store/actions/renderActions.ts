@@ -9,3 +9,8 @@ export interface UpdateFpsAction {
     type: renderActionType.UPDATE_FPS,
     payload: number
 }
+
+export interface UpdatePixelSizeAction {
+    type: renderActionType.UPDATE_PIXEL_WEIGHT;
+    payload: number
+}

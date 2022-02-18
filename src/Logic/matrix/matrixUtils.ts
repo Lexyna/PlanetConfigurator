@@ -1,9 +1,13 @@
+import { store } from "../../store/store";
 import { PixelMatrix } from "../../types/matrixType";
+import { State } from "../../types/storeType";
+import { updatePlanet } from "../planet/planet";
 import pixelMatrix from "./matrix";
 
 export const createPixelMatrix = (): PixelMatrix => {
 
-    const pixelWeigh = 10;
+    const state: State = store.getState();
+    const pixelWeigh = state.renderSettings.pixelSize;
 
     const countX = Math.round(window.innerWidth / pixelWeigh);
     const countY = Math.round(window.innerHeight / pixelWeigh);
@@ -20,7 +24,8 @@ export const createPixelMatrix = (): PixelMatrix => {
 
 export const updatePixelMatrix = (): void => {
 
-    const pixelWeigh = 10;
+    const state: State = store.getState();
+    const pixelWeigh = state.renderSettings.pixelSize;
 
     const countX = Math.round(window.innerWidth / pixelWeigh);
     const countY = Math.round(window.innerHeight / pixelWeigh);
@@ -30,4 +35,5 @@ export const updatePixelMatrix = (): void => {
     pixelMatrix.pixelCountY = countY;
     pixelMatrix.middleX = (Math.round(countX / 2) * pixelWeigh) - pixelWeigh;
     pixelMatrix.middleY = (Math.round(countY / 2) * pixelWeigh) - pixelWeigh;
+    updatePlanet();
 }

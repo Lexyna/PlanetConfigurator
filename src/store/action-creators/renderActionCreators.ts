@@ -1,6 +1,6 @@
 import { Dispatch } from "react"
 import { renderActionType } from "../action-types/renderActionType"
-import { UpdateAnimateAction, UpdateFpsAction } from "../actions/renderActions"
+import { UpdateAnimateAction, UpdateFpsAction, UpdatePixelSizeAction } from "../actions/renderActions"
 
 export const updateRenderSettingAnimate = (animate: boolean) => {
     return (dispatch: Dispatch<UpdateAnimateAction>) => {
@@ -16,6 +16,15 @@ export const updateRenderSettingsFps = (fps: number) => {
         dispatch({
             type: renderActionType.UPDATE_FPS,
             payload: fps
+        })
+    }
+}
+
+export const updateRenderSettingPixelSize = (pixelSize: number) => {
+    return (dispatch: Dispatch<UpdatePixelSizeAction>) => {
+        dispatch({
+            type: renderActionType.UPDATE_PIXEL_WEIGHT,
+            payload: pixelSize
         })
     }
 }

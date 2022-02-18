@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { planetActionCreators, renderSettingsCreator } from "../store";
 import { radiusSelector, seedSelector } from "../store/selectors/planetSelector";
-import { animateSelector, fpsSelector } from "../store/selectors/renderSelector";
+import { animateSelector, fpsSelector, pixelSizeSelector } from "../store/selectors/renderSelector";
 import { Colorator } from "./Colorator";
 
 export const Setting = () => {
@@ -15,6 +15,7 @@ export const Setting = () => {
     const seed = useSelector(seedSelector);
     const animate = useSelector(animateSelector);
     const fps = useSelector(fpsSelector);
+    const pixelSize = useSelector(pixelSizeSelector);
 
 
     const { updatePlanetRadius, updateSeed } = bindActionCreators(
@@ -22,7 +23,7 @@ export const Setting = () => {
         dispatch
     );
 
-    const { updateRenderSettingAnimate, updateRenderSettingsFps } = bindActionCreators(
+    const { updateRenderSettingAnimate, updateRenderSettingsFps, updateRenderSettingPixelSize } = bindActionCreators(
         renderSettingsCreator,
         dispatch
     );
@@ -56,6 +57,17 @@ export const Setting = () => {
             < Colorator />
             <br />
             <label>
+                pixelSize:
+            </label>
+            <input
+                type="number"
+                defaultValue={pixelSize}
+                min={1}
+                max={20}
+                onChange={({ target: { value } }) => { updateRenderSettingPixelSize(parseInt(value)) }}
+            />
+            <br />
+            <label>
                 animate:
                 <input
                     type="checkbox"
@@ -68,7 +80,7 @@ export const Setting = () => {
             </label>
             <input
                 type="number"
-                value={fps}
+                defaultValue={fps}
                 min={1}
                 max={60}
                 onChange={({ target: { value } }) => { updateRenderSettingsFps(parseInt(value)) }}
