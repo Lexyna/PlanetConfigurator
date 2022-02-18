@@ -2,7 +2,7 @@ import { PlanetTemplate } from "../../types/planetTemplate";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
 import { rgbToHex } from "../utils/utils";
-import { calculatePixelColor, createTexture, creatNewPlanet, getPlanetColorMapping, getPlanetRadius, getPlanetShape } from "./planetUtils";
+import { calculatePixelColor, createNoiseMap, createTexture, creatNewPlanet, getPlanetColorMapping, getPlanetRadius, getPlanetShape } from "./planetUtils";
 
 const planet: PlanetTemplate = creatNewPlanet();
 
@@ -18,6 +18,11 @@ export const updatePlanet = () => {
 
 export const updatePlanetTexture = () => {
     planet.texture = createTexture(planet.noiseMap);
+}
+
+export const updateNoiseMap = () => {
+    planet.noiseMap = createNoiseMap();
+    updatePlanetColorMapping();
 }
 
 export const updatePlanetColorMapping = () => {

@@ -1,13 +1,22 @@
 import { Dispatch } from "react"
 import { ColorMapping } from "../../types/planetProp"
 import { planetActionType } from "../action-types/planetActionType"
-import { AddColorMappingAction, RemoveColorMappingAction, UpdateColorMappingAction, UpdateRadiusAction } from "../actions/planetAction"
+import { AddColorMappingAction, RemoveColorMappingAction, UpdateColorMappingAction, UpdateRadiusAction, UpdateSeedAction } from "../actions/planetAction"
 
 export const updatePlanetRadius = (radius: number) => {
     return (dispatch: Dispatch<UpdateRadiusAction>) => {
         dispatch({
             type: planetActionType.UPDATE_RADIUS,
             payload: radius
+        })
+    }
+}
+
+export const updateSeed = (seed: string) => {
+    return (dispatch: Dispatch<UpdateSeedAction>) => {
+        dispatch({
+            type: planetActionType.UPDATE_SEED,
+            payload: seed
         })
     }
 }

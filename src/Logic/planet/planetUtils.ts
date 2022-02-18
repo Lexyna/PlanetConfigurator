@@ -1,3 +1,4 @@
+import { seedSelector } from "../../store/selectors/planetSelector";
 import { store } from "../../store/store";
 import { ColorMapping } from "../../types/planetProp";
 import { planetPixel, planetShape, PlanetTemplate, rgb } from "../../types/planetTemplate";
@@ -69,11 +70,6 @@ export const createTexture = (noiseMap: number[][]): planetPixel[][] => {
 
             const value = noiseMap[i][j];
 
-            /*const color: rgb = cerateRGBColor(
-                Math.floor(255 * value),
-                Math.floor(255 * value),
-                Math.floor(255 * value),
-                255);*/
             const color: rgb = calculatePixelColor(value, colorMappings);
 
             const hexString = rgbToHex(color)
@@ -86,8 +82,6 @@ export const createTexture = (noiseMap: number[][]): planetPixel[][] => {
                 }
             }
         }
-    //console.log("texture");
-    //console.log(texture)
     return texture;
 }
 
@@ -97,7 +91,9 @@ export const createNoiseMap = () => {
      * TODO: Implement different values for width (2^n)
      */
 
-    const seed = "TempSeed"
+    const state: State = store.getState();
+
+    const seed = seedSelector(state);
     const whiteNoise = generateWhiteNoiseWithSeed(seed, 256, 256);
 
     return generatePerlinNoise(whiteNoise, 6);

@@ -6,6 +6,8 @@ export const planetSelector = (state: State) => state.planet;
 
 export const radiusSelector = (state: State): number => planetSelector(state).radius;
 
+export const seedSelector = (state: State): string => planetSelector(state).seed;
+
 export const colorMappingSelector = (state: State): ColorMapping[] => planetSelector(state).colorMapping;
 
 export const colorMappingIdSelector = (id: string) => (state: State): ColorMapping => {

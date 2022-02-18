@@ -1,5 +1,5 @@
 import { PlanetProps } from "../../../types/planetProp";
-import { AddColorMappingAction, RemoveColorMappingAction, UpdateColorMappingAction, UpdateRadiusAction } from "../../actions/planetAction";
+import { AddColorMappingAction, RemoveColorMappingAction, UpdateColorMappingAction, UpdateRadiusAction, UpdateSeedAction } from "../../actions/planetAction";
 
 export const updateRadius = (state: PlanetProps, action: UpdateRadiusAction): PlanetProps => {
     if (!action.payload || action.payload < 4 || action.payload > 64)
@@ -8,6 +8,13 @@ export const updateRadius = (state: PlanetProps, action: UpdateRadiusAction): Pl
     return {
         ...state,
         radius: action.payload
+    }
+}
+
+export const updateSeed = (state: PlanetProps, action: UpdateSeedAction): PlanetProps => {
+    return {
+        ...state,
+        seed: action.payload
     }
 }
 

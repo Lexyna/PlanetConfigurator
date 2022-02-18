@@ -2,6 +2,7 @@ import { RGBColor } from "react-color";
 
 export interface PlanetProps {
     radius: number;
+    seed: string,
     colorMapping: ColorMapping[]
 }
 

@@ -1,3 +1,4 @@
+
 export const mulberry32 = (seed: number): () => number => {
     return () => {
         var t = seed += 0x6D2B79F5;

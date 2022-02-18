@@ -1,8 +1,8 @@
 import { observer } from "redux-observers";
-import { updatePlanet, updatePlanetColorMapping } from "../../Logic/planet/planet";
+import { updateNoiseMap, updatePlanet, updatePlanetColorMapping } from "../../Logic/planet/planet";
 import { Animator } from "../../Logic/renderer/Animator";
 import { Renderer } from "../../Logic/renderer/Renderer";
-import { colorMappingSelector, radiusSelector } from "../selectors/planetSelector";
+import { colorMappingSelector, radiusSelector, seedSelector } from "../selectors/planetSelector";
 import { compareColorMappings } from "./observerUtils";
 
 export const planetRadiusObserver = observer(
@@ -11,6 +11,13 @@ export const planetRadiusObserver = observer(
         updatePlanet();
         if (!Animator.isAnimating())
             Renderer.getInstance().render(Animator.getAnimationFrame());
+    }
+)
+
+export const planetSeedObserver = observer(
+    seedSelector,
+    (dispatch, current, previous) => {
+        updateNoiseMap();
     }
 )
 

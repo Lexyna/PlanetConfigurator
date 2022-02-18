@@ -7,6 +7,11 @@ export interface UpdateRadiusAction {
     payload: number
 }
 
+export interface UpdateSeedAction {
+    type: planetActionType.UPDATE_SEED,
+    payload: string,
+}
+
 export interface AddColorMappingAction {
     type: planetActionType.ADD_COLOR_MAPPING,
     payload: ColorMapping
