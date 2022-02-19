@@ -41,9 +41,14 @@ export class Animator {
     public static updateFPS() {
         const state: State = store.getState();
         Animator.getInstance().fps = state.renderSettings.fps;
-        Animator.stop();
+        if (Animator.isAnimating()) {
+            Animator.stop();
+            Animator.getInstance().startTicking();
+            Animator.start();
+            return;
+        }
         Animator.getInstance().startTicking();
-        Animator.start();
+        Animator.stop();
     }
 
     public static stop() {

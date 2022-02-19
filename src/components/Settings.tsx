@@ -48,12 +48,13 @@ export const Setting = () => {
             <label>
                 seed:
             </label>
-            <input
+            <input style={{ width: "80%" }}
                 type="text"
                 value={seed}
                 onChange={({ target: { value } }) => { updateSeed(value) }}
             />
-            <button onClick={() => updateSeed(nanoid())}>Generate</button>
+            <br />
+            <button onClick={() => updateSeed(nanoid())}>New Seed</button>
             <br />
             < Colorator />
             <br />
@@ -88,7 +89,7 @@ export const Setting = () => {
             />
             <br />
             <button onClick={() => { Renderer.downloadPlanetImg(); }}>Download .png</button>
-            <button onClick={() => { Renderer.downloadPlanetAnimation(); }}>Download Anim</button>
+            <button onClick={() => { Renderer.downloadPlanetAnimation(); }}>Download Animation</button>
         </div>
     )
 
