@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/PlanetConfigurator/static/css/main.1abf2ada.css",
+    "main.js": "/PlanetConfigurator/static/js/main.7de10ab6.js",
+    "static/js/787.f710fa9a.chunk.js": "/PlanetConfigurator/static/js/787.f710fa9a.chunk.js",
+    "index.html": "/PlanetConfigurator/index.html",
+    "main.1abf2ada.css.map": "/PlanetConfigurator/static/css/main.1abf2ada.css.map",
+    "main.7de10ab6.js.map": "/PlanetConfigurator/static/js/main.7de10ab6.js.map",
+    "787.f710fa9a.chunk.js.map": "/PlanetConfigurator/static/js/787.f710fa9a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1abf2ada.css",
+    "static/js/main.7de10ab6.js"
+  ]
+}
