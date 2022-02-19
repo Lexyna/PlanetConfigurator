@@ -1,3 +1,5 @@
+import { saveAs } from 'file-saver';
+import JSZip from "jszip";
 import planet, { renderPlanet } from "../planet/planet";
 import { createPlanetPNG } from "../planet/planetExporter";
 import { Animator } from "./Animator";
@@ -14,6 +16,10 @@ export class Renderer {
 
     public static downloadPlanetImg() {
         Renderer.getInstance().downloadPlanetPNG();
+    }
+
+    public static downloadPlanetAnimation() {
+        Renderer.getInstance().downloadPlanetAnimation();
     }
 
     public static getInstance(): Renderer {
@@ -96,6 +102,40 @@ export class Renderer {
         link.download = "planet.png";
         link.href = this.downloadCanvas.toDataURL();
         link.click();
+
+    }
+
+    private downloadPlanetAnimation() {
+
+        const length = planet.noiseMap.length;
+        const imgSize = planet.radius * 2;
+
+        this.downloadCanvas.width = imgSize;
+        this.downloadCanvas.height = imgSize;
+
+        const images: string[] = [];
+        for (let i = 0; i < length; i++) {
+            const planetImg = this.downloadCtx.createImageData(imgSize, imgSize);
+            createPlanetPNG(
+                new Uint32Array(planetImg.data.buffer),
+                i
+            );
+            this.downloadCtx.putImageData(planetImg, 0, 0);
+            const base64 = this.downloadCanvas.toDataURL()
+                .replace(/^data:image\/(png|jpg);base64,/, "");
+            images.push(base64);
+        }
+
+        const zip: JSZip = new JSZip();
+        const imgFolder = zip.folder("animation");
+
+        for (let i = 0; i < length; i++)
+            imgFolder?.file(`animation${i}.png`, images[i], { base64: true });
+
+        zip.generateAsync({ type: "blob" }).then(function (content) {
+            saveAs(content, "animation.zip");
+        })
+
 
     }
 

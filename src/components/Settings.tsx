@@ -88,7 +88,7 @@ export const Setting = () => {
             />
             <br />
             <button onClick={() => { Renderer.downloadPlanetImg(); }}>Download .png</button>
-            <button>Download Anim</button>
+            <button onClick={() => { Renderer.downloadPlanetAnimation(); }}>Download Anim</button>
         </div>
     )
 
