@@ -2,6 +2,11 @@
 
 ![samplePlanet1](https://github.com/Lexyna/PlanetConfigurator/blob/dev/res/gifs/samplePlanet.gif)
 ![samplePlanet2](https://github.com/Lexyna/PlanetConfigurator/blob/dev/res/gifs/samplePlanet2.gif)
+
+## Demo
+
+https://Lexyna.github.io/PlanetConfigurator
+
 ## Properties
 |name|description|min|max  |
 |--|--|--|--|
