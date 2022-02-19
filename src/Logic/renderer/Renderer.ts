@@ -4,6 +4,9 @@ import planet, { renderPlanet } from "../planet/planet";
 import { createPlanetPNG } from "../planet/planetExporter";
 import { Animator } from "./Animator";
 
+/**
+ * Class handling canvas and ctx
+ */
 export class Renderer {
 
     static instance: Renderer;
@@ -30,15 +33,19 @@ export class Renderer {
      * Renderer class
      */
 
+    //Main canvas in the scene
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
 
+    //Separate Canvas to download .png and and animation from 
     private downloadCanvas: HTMLCanvasElement;
     private downloadCtx: CanvasRenderingContext2D;
 
+    //Image data to store the pixel data for before downloading
     private canvasImg: ImageData;
     private imgBuffer: Uint32Array;
 
+    //width and height of the current client
     private width: number = 0;
     private height: number = 0;
 
@@ -59,6 +66,7 @@ export class Renderer {
         window.addEventListener("resize", this.updateCanvas.bind(this))
     }
 
+    //update class variables should the window size change 
     private updateCanvas() {
         setCanvasSize(this.canvas);
         this.width = this.canvas.width;
@@ -68,8 +76,10 @@ export class Renderer {
         this.imgBuffer = new Uint32Array(this.canvasImg.data.buffer);
 
         this.clearCanvas();
+        this.render(Animator.getAnimationFrame());
     }
 
+    //Write all transparent black pixel in the imgBuffer for the main canvas image
     private clearCanvas() {
         for (let i = 0; i < this.imgBuffer.length; i++)
             this.imgBuffer[i] = 0x00000000;
@@ -84,6 +94,7 @@ export class Renderer {
 
     }
 
+    //Draw planet on the second canvas an create a link, downloading that img
     private downloadPlanetPNG() {
 
         const imgSize = planet.radius * 2;
@@ -103,8 +114,11 @@ export class Renderer {
         link.href = this.downloadCanvas.toDataURL();
         link.click();
 
+        document.removeChild(link);
+
     }
 
+    //Similar to downloadPlanetPNG, but convert img url to bas64 and download as Zip file
     private downloadPlanetAnimation() {
 
         const length = planet.noiseMap.length;
@@ -146,6 +160,7 @@ export const getCanvas = (id: string) => {
     return canvas;
 }
 
+//Get the fullScreen size and adjust the canvas accordingly
 const setCanvasSize = (canvas: HTMLCanvasElement) => {
 
     const clientWidth = canvas.getBoundingClientRect().width;

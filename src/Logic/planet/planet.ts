@@ -2,7 +2,7 @@ import { PlanetTemplate } from "../../types/planetTemplate";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
 import { rgbToHex } from "../utils/utils";
-import { calculatePixelColor, createNoiseMap, createTexture, creatNewPlanet, getPlanetColorMapping, getPlanetRadius, getPlanetShape } from "./planetUtils";
+import { calculatePixelColor, createNoiseMap, creatNewPlanet, getPlanetColorMapping, getPlanetRadius, getPlanetShape } from "./planetUtils";
 
 const planet: PlanetTemplate = creatNewPlanet();
 
@@ -14,10 +14,6 @@ export const updatePlanet = () => {
     planet.radius = radius;
     planet.shape = shape;
 
-}
-
-export const updatePlanetTexture = () => {
-    planet.texture = createTexture(planet.noiseMap);
 }
 
 export const updateNoiseMap = () => {
@@ -46,7 +42,7 @@ export const renderPlanet = (buffer: Uint32Array, width: number, height: number,
 
         if (indexX < 0)
             indexX = planet.noiseMap.length + indexX;
-        else if (indexX >= planet.texture.length)
+        else if (indexX >= planet.noiseMap.length)
             indexX -= planet.noiseMap.length;
 
         const colorValue = planet.noiseMap[indexX][indexY];
@@ -54,7 +50,6 @@ export const renderPlanet = (buffer: Uint32Array, width: number, height: number,
         const rgbColor = calculatePixelColor(colorValue, planet.colorMappings);
 
         const pixelColor = Number(rgbToHex(rgbColor));
-
 
         //create a whole pixel
         for (let x = pixel.x; x < pixel.x + weight; x++)

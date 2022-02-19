@@ -101,7 +101,7 @@ export class Animator {
         Renderer.getInstance().render(this.animationFrame);
 
         this.animationFrame++;
-        this.animationFrame = (this.animationFrame % planet.texture.length);
+        this.animationFrame = (this.animationFrame % planet.noiseMap.length);
         this.updateKeyframe();
     }
 

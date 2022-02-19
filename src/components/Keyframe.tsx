@@ -19,10 +19,8 @@ export const Keyframe = () => {
     const keyFrameStyle = {
         position: "absolute",
         bottom: "4rem",
-        //width: "80%",
         left: "3rem",
         right: "3rem",
-        //border: "1px solid white"
     } as React.CSSProperties
 
     const slider = {

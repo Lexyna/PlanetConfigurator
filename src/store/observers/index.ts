@@ -4,6 +4,10 @@ import { store } from "../store";
 import { colorMappingsObserver, planetRadiusObserver, planetSeedObserver } from "./planetObserver";
 import { animateObserver, fpsObserver, pixelSizeObserver } from "./renderSettingsObserver";
 
+/**
+ * Observers watch the redux store and trigger if they notice a change to the previous state 
+ * https://github.com/xuoe/redux-observers
+ */
 export const observers: Observer<State>[] = [
     planetRadiusObserver,
     planetSeedObserver,
