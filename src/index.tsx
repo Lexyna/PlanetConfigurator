@@ -20,13 +20,14 @@ ReactDOM.render(
 
 initObservers();
 
-Renderer.createRenderer(getCanvas());
+Renderer.createRenderer(getCanvas("rootCanvas"));
 
 Animator.createAnimator();
 
 const editor: HTMLDivElement = document.querySelector(".editor") as HTMLDivElement;
 const header: HTMLHeadElement = editor.querySelector("header") as HTMLHeadElement;
 
+//Code to create a draggable div
 const onDrag = (e: MouseEvent) => {
   const getStyle = window.getComputedStyle(editor);
   const left = parseInt(getStyle.left);

@@ -1,13 +1,13 @@
+import { seedSelector } from "../../store/selectors/planetSelector";
 import { store } from "../../store/store";
 import { ColorMapping } from "../../types/planetProp";
-import { planetPixel, planetShape, PlanetTemplate, rgb } from "../../types/planetTemplate";
+import { planetShape, PlanetTemplate, rgb } from "../../types/planetTemplate";
 import { State } from "../../types/storeType";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
 import { generatePerlinNoise } from "../Random/perlinNoise";
 import { generateWhiteNoiseWithSeed } from "../Random/seededNoise";
 import { Circles } from "../utils/Circles";
-import { rgbToHex } from "../utils/utils";
 
 
 export const creatNewPlanet = (): PlanetTemplate => {
@@ -17,7 +17,6 @@ export const creatNewPlanet = (): PlanetTemplate => {
         shape: getPlanetShape(),
         noiseMap: noise,
         colorMappings: getPlanetColorMapping(),
-        texture: createTexture(noise)
     }
 }
 
@@ -53,51 +52,15 @@ export const getPlanetShape = (): planetShape => {
     return planetShape;
 }
 
-export const createTexture = (noiseMap: number[][]): planetPixel[][] => {
-
-    const texture: planetPixel[][] = [];
-
-    const state: State = store.getState();
-
-    const colorMappings: ColorMapping[] = state.planet.colorMapping;
-
-    for (var i = 0; i < noiseMap.length; i++)
-        texture[i] = [];
-
-    for (var i = 0; i < noiseMap.length; i++)
-        for (var j = 0; j < noiseMap[0].length; j++) {
-
-            const value = noiseMap[i][j];
-
-            /*const color: rgb = cerateRGBColor(
-                Math.floor(255 * value),
-                Math.floor(255 * value),
-                Math.floor(255 * value),
-                255);*/
-            const color: rgb = calculatePixelColor(value, colorMappings);
-
-            const hexString = rgbToHex(color)
-
-            texture[i][j] = {
-                color: {
-                    rgb: color,
-                    hex: hexString,
-                    decimal: Number(hexString)
-                }
-            }
-        }
-    //console.log("texture");
-    //console.log(texture)
-    return texture;
-}
-
 export const createNoiseMap = () => {
 
     /**
      * TODO: Implement different values for width (2^n)
      */
 
-    const seed = "TempSeed"
+    const state: State = store.getState();
+
+    const seed = seedSelector(state);
     const whiteNoise = generateWhiteNoiseWithSeed(seed, 256, 256);
 
     return generatePerlinNoise(whiteNoise, 6);

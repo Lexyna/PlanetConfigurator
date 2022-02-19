@@ -1,9 +1,11 @@
+import { nanoid } from "nanoid";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Renderer } from "../Logic/renderer/Renderer";
 import { planetActionCreators, renderSettingsCreator } from "../store";
-import { radiusSelector } from "../store/selectors/planetSelector";
-import { animateSelector } from "../store/selectors/renderSelector";
+import { radiusSelector, seedSelector } from "../store/selectors/planetSelector";
+import { animateSelector, fpsSelector, pixelSizeSelector } from "../store/selectors/renderSelector";
 import { Colorator } from "./Colorator";
 
 export const Setting = () => {
@@ -11,14 +13,18 @@ export const Setting = () => {
     const dispatch = useDispatch();
 
     const radius = useSelector(radiusSelector);
+    const seed = useSelector(seedSelector);
     const animate = useSelector(animateSelector);
+    const fps = useSelector(fpsSelector);
+    const pixelSize = useSelector(pixelSizeSelector);
 
-    const { updatePlanetRadius } = bindActionCreators(
+
+    const { updatePlanetRadius, updateSeed } = bindActionCreators(
         planetActionCreators,
         dispatch
     );
 
-    const { updateRenderSettingAnimate } = bindActionCreators(
+    const { updateRenderSettingAnimate, updateRenderSettingsFps, updateRenderSettingPixelSize } = bindActionCreators(
         renderSettingsCreator,
         dispatch
     );
@@ -39,16 +45,51 @@ export const Setting = () => {
                 }
             />
             <br />
+            <label>
+                seed:
+            </label>
+            <input style={{ width: "80%" }}
+                type="text"
+                value={seed}
+                onChange={({ target: { value } }) => { updateSeed(value) }}
+            />
+            <br />
+            <button onClick={() => updateSeed(nanoid())}>New Seed</button>
+            <br />
             < Colorator />
+            <br />
+            <label>
+                pixelSize:
+            </label>
+            <input
+                type="number"
+                defaultValue={pixelSize}
+                min={1}
+                max={20}
+                onChange={({ target: { value } }) => { updateRenderSettingPixelSize(parseInt(value)) }}
+            />
             <br />
             <label>
                 animate:
                 <input
                     type="checkbox"
-                    defaultChecked={animate}
+                    checked={animate}
                     onChange={() => updateRenderSettingAnimate(!animate)}
                 />
             </label>
+            <label>
+                fps:
+            </label>
+            <input
+                type="number"
+                defaultValue={fps}
+                min={1}
+                max={60}
+                onChange={({ target: { value } }) => { updateRenderSettingsFps(parseInt(value)) }}
+            />
+            <br />
+            <button onClick={() => { Renderer.downloadPlanetImg(); }}>Download .png</button>
+            <button onClick={() => { Renderer.downloadPlanetAnimation(); }}>Download Animation</button>
         </div>
     )
 

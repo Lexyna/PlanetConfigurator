@@ -1,3 +1,10 @@
+/**
+ * Reducer factory 
+ * @param initialState The initialState to create the State with
+ * @param handlers An array of reducer functions for this state
+ * @returns state
+ */
+
 
 const reducerFactory = (initialState: any, handlers: IHandler) => {
     return function (state = initialState, action: IAction) {

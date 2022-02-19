@@ -1,13 +1,20 @@
 import { observe, Observer } from "redux-observers";
 import { State } from "../../types/storeType";
 import { store } from "../store";
-import { colorMappingsObserver, planetRadiusObserver } from "./planetObserver";
-import { animateObserver } from "./renderSettingsObserver";
+import { colorMappingsObserver, planetRadiusObserver, planetSeedObserver } from "./planetObserver";
+import { animateObserver, fpsObserver, pixelSizeObserver } from "./renderSettingsObserver";
 
+/**
+ * Observers watch the redux store and trigger if they notice a change to the previous state 
+ * https://github.com/xuoe/redux-observers
+ */
 export const observers: Observer<State>[] = [
     planetRadiusObserver,
+    planetSeedObserver,
     colorMappingsObserver,
-    animateObserver
+    animateObserver,
+    fpsObserver,
+    pixelSizeObserver
 ]
 
 export const initObservers = () => {

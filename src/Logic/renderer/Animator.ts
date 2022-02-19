@@ -1,3 +1,6 @@
+import { renderActionType } from "../../store/action-types/renderActionType";
+import { store } from "../../store/store";
+import { State } from "../../types/storeType";
 import planet from "../planet/planet";
 import { Renderer } from "./Renderer";
 
@@ -19,6 +22,12 @@ export class Animator {
         return !Animator.getInstance().stop;
     }
 
+    public static setAnimationFrame(keyframe: number) {
+        Animator.stop();
+        Animator.getInstance().animationFrame = keyframe - 1;
+        Animator.getInstance().tick();
+    }
+
     public static getAnimationFrame() {
         return Animator.getInstance().animationFrame;
     }
@@ -28,6 +37,28 @@ export class Animator {
         Animator.getInstance().stop = !Animator.getInstance().stop;
         Animator.getInstance().tick();
     }
+
+    public static updateFPS() {
+        const state: State = store.getState();
+        Animator.getInstance().fps = state.renderSettings.fps;
+        if (Animator.isAnimating()) {
+            Animator.stop();
+            Animator.getInstance().startTicking();
+            Animator.start();
+            return;
+        }
+        Animator.getInstance().startTicking();
+        Animator.stop();
+    }
+
+    public static stop() {
+        Animator.getInstance().stop = true;
+    }
+
+    public static start() {
+        Animator.getInstance().stop = false;
+    }
+
 
     /**
      * Class
@@ -70,8 +101,16 @@ export class Animator {
         Renderer.getInstance().render(this.animationFrame);
 
         this.animationFrame++;
-        this.animationFrame = (this.animationFrame % planet.texture.length);
+        this.animationFrame = (this.animationFrame % planet.noiseMap.length);
+        this.updateKeyframe();
+    }
 
+    private updateKeyframe() {
+        store.dispatch(
+            {
+                type: renderActionType.UPDATE_KEYFRAME,
+                payload: this.animationFrame
+            })
     }
 
 }

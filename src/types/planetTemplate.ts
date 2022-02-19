@@ -6,7 +6,6 @@ export interface PlanetTemplate {
     shape: planetShape,
     noiseMap: number[][],
     colorMappings: ColorMapping[],
-    texture: planetPixel[][]
 }
 
 export interface planetPixel {
