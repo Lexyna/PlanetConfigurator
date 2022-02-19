@@ -1,5 +1,5 @@
 import { RenderProps } from "../../../types/storeType";
-import { UpdateAnimateAction, UpdateFpsAction, UpdatePixelSizeAction } from "../../actions/renderActions";
+import { UpdateAnimateAction, UpdateFpsAction, UpdateKeyframeAction, UpdatePixelSizeAction } from "../../actions/renderActions";
 
 export const updateAnimate = (state: RenderProps, action: UpdateAnimateAction): RenderProps => {
     return {
@@ -25,5 +25,15 @@ export const updatePixelSize = (state: RenderProps, action: UpdatePixelSizeActio
     return {
         ...state,
         pixelSize: action.payload
+    }
+}
+
+export const updateKeyframe = (state: RenderProps, action: UpdateKeyframeAction): RenderProps => {
+    if (!action.payload || action.payload < 0)
+        return state;
+
+    return {
+        ...state,
+        keyframe: action.payload
     }
 }

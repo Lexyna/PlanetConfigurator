@@ -1,3 +1,4 @@
+import { renderActionType } from "../../store/action-types/renderActionType";
 import { store } from "../../store/store";
 import { State } from "../../types/storeType";
 import planet from "../planet/planet";
@@ -19,6 +20,12 @@ export class Animator {
 
     public static isAnimating() {
         return !Animator.getInstance().stop;
+    }
+
+    public static setAnimationFrame(keyframe: number) {
+        Animator.stop();
+        Animator.getInstance().animationFrame = keyframe - 1;
+        Animator.getInstance().tick();
     }
 
     public static getAnimationFrame() {
@@ -90,7 +97,15 @@ export class Animator {
 
         this.animationFrame++;
         this.animationFrame = (this.animationFrame % planet.texture.length);
+        this.updateKeyframe();
+    }
 
+    private updateKeyframe() {
+        store.dispatch(
+            {
+                type: renderActionType.UPDATE_KEYFRAME,
+                payload: this.animationFrame
+            })
     }
 
 }

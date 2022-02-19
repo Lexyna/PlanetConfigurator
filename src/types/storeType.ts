@@ -8,5 +8,6 @@ export interface State {
 export interface RenderProps {
     animate: boolean;
     fps: number
-    pixelSize: number
+    pixelSize: number,
+    keyframe: number
 }

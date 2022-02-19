@@ -7,3 +7,5 @@ export const animateSelector = (state: State) => renderSettingsSelector(state).a
 export const fpsSelector = (state: State) => renderSettingsSelector(state).fps;
 
 export const pixelSizeSelector = (state: State) => renderSettingsSelector(state).pixelSize;
+
+export const keyframeSelector = (state: State) => renderSettingsSelector(state).keyframe;
