@@ -1,7 +1,7 @@
 # Planet Configurator
 
-[samplePlanet1](https://github.com/Lexyna/PlanetConfigurator/res/gifs/samplePlanet.gif)
-[samplePlanet2](https://github.com/Lexyna/PlanetConfigurator/res/gifs/samplePlanet2.gif)
+[samplePlanet1](https://github.com/Lexyna/PlanetConfigurator/blob/dev/res/gifs/samplePlanet.gif)
+[samplePlanet2](https://github.com/Lexyna/PlanetConfigurator/blob/dev/res/gifs/samplePlanet2.gif)
 ## Properties
 |name|description|min|max  |
 |--|--|--|--|
