@@ -5,8 +5,9 @@ import { animateSelector, fpsSelector, pixelSizeSelector } from "../selectors/re
 
 export const animateObserver = observer(
     animateSelector,
-    () => {
-        Animator.changeAnimationStatus();
+    (dispatch, previous, current) => {
+        if (previous !== current)
+            Animator.changeAnimationStatus();
     }
 )
 

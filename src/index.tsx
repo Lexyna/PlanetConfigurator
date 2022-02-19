@@ -20,7 +20,7 @@ ReactDOM.render(
 
 initObservers();
 
-Renderer.createRenderer(getCanvas());
+Renderer.createRenderer(getCanvas("rootCanvas"));
 
 Animator.createAnimator();
 

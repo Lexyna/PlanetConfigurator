@@ -1,4 +1,6 @@
-import { renderPlanet } from "../planet/planet";
+import planet, { renderPlanet } from "../planet/planet";
+import { createPlanetPNG } from "../planet/planetExporter";
+import { Animator } from "./Animator";
 
 export class Renderer {
 
@@ -8,6 +10,10 @@ export class Renderer {
         if (Renderer.instance)
             return;
         Renderer.instance = new Renderer(canvas);
+    }
+
+    public static downloadPlanetImg() {
+        Renderer.getInstance().downloadPlanetPNG();
     }
 
     public static getInstance(): Renderer {
@@ -20,6 +26,9 @@ export class Renderer {
 
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
+
+    private downloadCanvas: HTMLCanvasElement;
+    private downloadCtx: CanvasRenderingContext2D;
 
     private canvasImg: ImageData;
     private imgBuffer: Uint32Array;
@@ -37,6 +46,9 @@ export class Renderer {
 
         this.canvasImg = this.ctx.createImageData(this.width, this.height);
         this.imgBuffer = new Uint32Array(this.canvasImg.data.buffer);
+
+        this.downloadCanvas = getCanvas("downloadCanvas") as HTMLCanvasElement;
+        this.downloadCtx = this.downloadCanvas.getContext("2d") as CanvasRenderingContext2D;
 
         window.addEventListener("resize", this.updateCanvas.bind(this))
     }
@@ -66,10 +78,31 @@ export class Renderer {
 
     }
 
+    private downloadPlanetPNG() {
+
+        const imgSize = planet.radius * 2;
+        this.downloadCanvas.width = imgSize;
+        this.downloadCanvas.height = imgSize;
+
+        const planetImg = this.downloadCtx.createImageData(imgSize, imgSize);
+
+        createPlanetPNG(
+            new Uint32Array(planetImg.data.buffer),
+            Animator.getAnimationFrame());
+
+        this.downloadCtx.putImageData(planetImg, 0, 0);
+
+        const link = document.createElement("a");
+        link.download = "planet.png";
+        link.href = this.downloadCanvas.toDataURL();
+        link.click();
+
+    }
+
 }
 
-export const getCanvas = () => {
-    const canvas = document.getElementById("rootCanvas") as HTMLCanvasElement;
+export const getCanvas = (id: string) => {
+    const canvas = document.getElementById(id) as HTMLCanvasElement;
     return canvas;
 }
 

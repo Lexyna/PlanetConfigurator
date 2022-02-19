@@ -13,8 +13,12 @@ code {
     monospace;
 }
 
-canvas{
+#rootCanvas {
   position: absolute;
   width: 100%;
   height: 100%;
+}
+
+#downloadCanvas {
+  background-color: white;
 }

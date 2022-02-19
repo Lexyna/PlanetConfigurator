@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Renderer } from "../Logic/renderer/Renderer";
 import { planetActionCreators, renderSettingsCreator } from "../store";
 import { radiusSelector, seedSelector } from "../store/selectors/planetSelector";
 import { animateSelector, fpsSelector, pixelSizeSelector } from "../store/selectors/renderSelector";
@@ -71,7 +72,7 @@ export const Setting = () => {
                 animate:
                 <input
                     type="checkbox"
-                    defaultChecked={animate}
+                    checked={animate}
                     onChange={() => updateRenderSettingAnimate(!animate)}
                 />
             </label>
@@ -85,6 +86,9 @@ export const Setting = () => {
                 max={60}
                 onChange={({ target: { value } }) => { updateRenderSettingsFps(parseInt(value)) }}
             />
+            <br />
+            <button onClick={() => { Renderer.downloadPlanetImg(); }}>Download .png</button>
+            <button>Download Anim</button>
         </div>
     )
 
