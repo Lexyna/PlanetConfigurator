@@ -32,7 +32,7 @@ export const ColorSetting = () => {
     }
 
     return (
-        <div className="overflow-y-auto max-h-screen pb-10 scroll-px-10 no-scrollbar">
+        <div className="overflow-y-auto max-h-screen h-screen pb-10 scroll-px-10 no-scrollbar">
             {colorMappings.map(mappings => {
                 return <ColorElement id={mappings.id} key={mappings.id} />
             })}
