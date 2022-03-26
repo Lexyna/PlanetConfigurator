@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IoColorPalette, IoDice, IoPlanet, IoPlayCircle } from "react-icons/io5";
-import { PropertieEditor } from "./PropertieEditor";
+import { PropertiesEditor } from "./PropertieEditor";
 import { ColorSetting } from "./SettingTemplate/ColorSettings";
 import { PlanetSettingsTemplate } from "./SettingTemplate/PlanetSettings";
 import { RandomSetting } from "./SettingTemplate/RandomSettings";
@@ -27,7 +27,7 @@ export const SideBar = () => {
 
     return (
         <div className="fixed top-0 left-0 h-screen w-16 m-0 text-white
-            flex flex-col bg-gray-600 shadow">
+            flex flex-col bg-gray-600 shadow z-10">
 
             <SideBarIcon icon={<IoPlanet size="32" />} text="Planet settings" settingsTemplate={<PlanetSettingsTemplate />} display={displayState[0]} toggleDisplay={() => updateEditor(0)} />
             <SideBarIcon icon={<IoColorPalette size="32" />} text="Color settings" settingsTemplate={<ColorSetting />} display={displayState[1]} toggleDisplay={() => updateEditor(1)} />
@@ -48,6 +48,6 @@ const SideBarIcon = ({ icon, text = "tooltip", settingsTemplate, display, toggle
             {text}
         </span>
     </div>
-        {display ? <PropertieEditor template={settingsTemplate} /> : null}
+        {display ? <PropertiesEditor template={settingsTemplate} /> : null}
     </div>
 }
