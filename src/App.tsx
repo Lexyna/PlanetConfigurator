@@ -1,14 +1,13 @@
 import React from 'react';
 import './App.css';
 import { Keyframe } from './components/Keyframe';
-import { Setting } from './components/Settings';
+import { SideBar } from './components/SideBar';
 
 function App() {
   return (
-    <div>
-      <div className="editor">
-        <header>PlanetProperties</header>
-        < Setting />
+    <div className="flex">
+      <div >
+        <SideBar />
       </div>
       <Keyframe />
     </div>
