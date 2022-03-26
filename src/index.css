@@ -1,3 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+  .sidebar-icon {
+    @apply relative flex items-center justify-center h-12 w-12 mt-2 mb-2 mx-auto shadow-lg
+    bg-gray-800 text-green-500
+    hover:bg-green-600 hover:text-white
+    rounded-3xl hover:rounded-xl
+    transition-all duration-300 ease-linear
+    cursor-pointer;
+  }
+
+  .sidebar-tooltip {
+    @apply absolute w-auto p-2 m-2 min-w-max left-14 
+    rounded-md shadow-md
+    text-white bg-gray-900
+    text-xs font-bold
+    transition-all duration-100 scale-0 origin-left;
+  }
+
+  .settingsLabel {
+    @apply inline-block mb-2 text-black font-bold font-mono
+  }
+
+  .settingsInput {
+    @apply block w-full px-3 py-1.5 text-base font-normal
+    border border-solid border-gray-300 rounded-xl
+    transition ease-in-out m-0
+    focus:text-gray-700 focus:bg-white focus:border-gray-700 focus:outline-none
+  }
+
+  .settingsButton{
+    @apply px-6 py-2.5 bg-gray-400 
+     text-white font-medium text-xs mt-2 w-full
+    leading-tight uppercase rounded-xl shadow-md hover:bg-gray-700 hover:shadow-lg 
+    focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 
+    active:bg-gray-800 active:shadow-lg
+    transition duration-150 ease-in-out;
+  }
+
+}
+
 html, body {
   background-color: black;
   margin: 0;
@@ -26,4 +70,13 @@ code {
 
 .inner{
   position: absolute;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

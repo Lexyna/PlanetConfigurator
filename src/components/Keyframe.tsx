@@ -16,23 +16,14 @@ export const Keyframe = () => {
         dispatch
     );
 
-    const keyFrameStyle = {
-        position: "absolute",
-        bottom: "4rem",
-        left: "3rem",
-        right: "3rem",
-    } as React.CSSProperties
-
-    const slider = {
-        width: "100%"
-    } as React.CSSProperties
-
     return (
-        <div style={keyFrameStyle}>
-            <input style={slider}
+        <div className="absolute bottom-5 left-20 right-20">
+            <input
+                className="w-full bg-gray-600 rounded-xl h-6 p-0
+                focus:outline-none focus:ring-0 focus:shadow-none appearance-none"
                 type="range"
                 min={0}
-                max={256}
+                max={255}
                 value={frame}
                 onChange={({ target: { value } }) => {
                     Animator.setAnimationFrame(parseInt(value))
