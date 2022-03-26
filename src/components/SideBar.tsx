@@ -7,29 +7,47 @@ import { RandomSetting } from "./SettingTemplate/RandomSettings";
 import { RenderSetting } from "./SettingTemplate/RenderSettings";
 
 export const SideBar = () => {
+
+    const [displayState, setDisplayState] = useState([
+        false,
+        false,
+        false,
+        false
+    ])
+
+    const updateEditor = (index: number) => {
+
+        const newDisplayState: boolean[] = [false, false, false, false];
+
+        newDisplayState[index] = !displayState[index];
+
+        setDisplayState(newDisplayState);
+
+    }
+
     return (
         <div className="fixed top-0 left-0 h-screen w-16 m-0 text-white
             flex flex-col bg-gray-600 shadow">
 
-            <SideBarIcon icon={<IoPlanet size="32" />} text="Planet settings" settingsTemplate={<PlanetSettingsTemplate />} />
-            <SideBarIcon icon={<IoColorPalette size="32" />} text="Color settings" settingsTemplate={<ColorSetting />} />
-            <SideBarIcon icon={<IoDice size="32" />} text="Random settings" settingsTemplate={<RandomSetting />} />
-            <SideBarIcon icon={<IoPlayCircle size="32" />} text="Render settings" settingsTemplate={<RenderSetting />} />
+            <SideBarIcon icon={<IoPlanet size="32" />} text="Planet settings" settingsTemplate={<PlanetSettingsTemplate />} display={displayState[0]} toggleDisplay={() => updateEditor(0)} />
+            <SideBarIcon icon={<IoColorPalette size="32" />} text="Color settings" settingsTemplate={<ColorSetting />} display={displayState[1]} toggleDisplay={() => updateEditor(1)} />
+            <SideBarIcon icon={<IoDice size="32" />} text="Random settings" settingsTemplate={<RandomSetting />} display={displayState[2]} toggleDisplay={() => updateEditor(2)} />
+            <SideBarIcon icon={<IoPlayCircle size="32" />} text="Render settings" settingsTemplate={<RenderSetting />} display={displayState[3]} toggleDisplay={() => updateEditor(3)} />
 
         </div>
     )
 }
 
-const SideBarIcon = ({ icon, text = "tooltip", settingsTemplate }: any) => {
+const SideBarIcon = ({ icon, text = "tooltip", settingsTemplate, display, toggleDisplay }: any) => {
 
-    const [displaySettings, setDisplaySettings] = useState(false);
 
-    return <div><div className="sidebar-icon group" onClick={() => { setDisplaySettings(!displaySettings) }}>
+
+    return <div><div className="sidebar-icon group" onClick={toggleDisplay}>
         {icon}
         <span className="sidebar-tooltip group-hover:scale-100">
             {text}
         </span>
     </div>
-        {displaySettings ? <PropertieEditor template={settingsTemplate} /> : null}
+        {display ? <PropertieEditor template={settingsTemplate} /> : null}
     </div>
 }

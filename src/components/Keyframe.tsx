@@ -17,7 +17,7 @@ export const Keyframe = () => {
     );
 
     return (
-        <div className="absolute bottom-5 left-20 right-20">
+        <div className="absolute bottom-5 left-20 right-20 -z-10">
             <input
                 className="w-full bg-gray-600 rounded-xl h-6 p-0
                 focus:outline-none focus:ring-0 focus:shadow-none appearance-none"
