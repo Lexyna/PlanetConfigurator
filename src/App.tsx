@@ -1,9 +1,13 @@
 import React from 'react';
 import './App.css';
+import { SideBar } from './components/SideBar';
 
 function App() {
   return (
-    <div>
+    <div className="flex">
+      <div >
+        <SideBar />
+      </div>
     </div>
   );
 }
@@ -11,10 +15,10 @@ function App() {
 export default App;
 
 /**
- * /*<div className="editor">
+ <div className="editor">
         <header>PlanetProperties</header>
         < Setting />
       </div>
-      <Keyframe />/*
+      <Keyframe />
 
  */

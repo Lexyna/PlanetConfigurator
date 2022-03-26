@@ -24,7 +24,7 @@ Renderer.createRenderer(getCanvas("rootCanvas"));
 
 Animator.createAnimator();
 
-const editor: HTMLDivElement = document.querySelector(".editor") as HTMLDivElement;
+/*const editor: HTMLDivElement = document.querySelector(".editor") as HTMLDivElement;
 const header: HTMLHeadElement = editor.querySelector("header") as HTMLHeadElement;
 
 //Code to create a draggable div
@@ -44,7 +44,7 @@ const onMouseDown = (e: MouseEvent) => {
 header.addEventListener("mousedown", (onMouseDown))
 document.addEventListener("mouseup", () => {
   header.removeEventListener("mousemove", onDrag);
-})
+})*/
 
 
 // If you want to start measuring performance in your app, pass a function
