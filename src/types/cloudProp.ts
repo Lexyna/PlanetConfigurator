@@ -14,6 +14,7 @@ export interface CloudProps {
     width: number,
     height: number,
     depth: number,
+    startFrame: number,
     transition: boolean,
     transitionFrames: number
 }
