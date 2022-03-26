@@ -15,12 +15,3 @@ function App() {
 }
 
 export default App;
-
-/**
- <div className="editor">
-        <header>PlanetProperties</header>
-        < Setting />
-      </div>
-      <Keyframe />
-
- */
