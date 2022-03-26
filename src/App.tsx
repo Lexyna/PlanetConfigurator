@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import { Keyframe } from './components/Keyframe';
 import { SideBar } from './components/SideBar';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
       <div >
         <SideBar />
       </div>
+      <Keyframe />
     </div>
   );
 }
