@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoColorPalette, IoDice, IoPlanet, IoPlayCircle } from "react-icons/io5";
 import { PropertieEditor } from "./PropertieEditor";
+import { ColorSetting } from "./SettingTemplate/ColorSettings";
 import { PlanetSettingsTemplate } from "./SettingTemplate/PlanetSettings";
 
 export const SideBar = () => {
@@ -9,7 +10,7 @@ export const SideBar = () => {
             flex flex-col bg-gray-600 shadow">
 
             <SideBarIcon icon={<IoPlanet size="32" />} text="Planet settings" settingsTemplate={<PlanetSettingsTemplate />} />
-            <SideBarIcon icon={<IoColorPalette size="32" />} text="Color settings" settingsTemplate={null} />
+            <SideBarIcon icon={<IoColorPalette size="32" />} text="Color settings" settingsTemplate={<ColorSetting />} />
             <SideBarIcon icon={<IoDice size="32" />} text="Random settings" settingsTemplate={null} />
             <SideBarIcon icon={<IoPlayCircle size="32" />} text="Render settings" settingsTemplate={null} />
 

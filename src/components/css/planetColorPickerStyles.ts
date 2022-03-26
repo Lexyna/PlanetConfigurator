@@ -1,21 +1,14 @@
 export const planetColorPickerStyle = {
     display: "flex",
-    border: "1px solid black",
-    width: "inherit",
-    paddingInline: "5px",
-    paddingTop: "2px",
-    marginTop: "3px",
-    paddingBottom: "2px"
+    width: "100%",
+    //paddingInline: "5px",
+    //paddingTop: "2px",
+    //marginTop: "3px",
+    //paddingBottom: "2px"
 }
 
 export const swatch = {
-    padding: "5px",
-    background: "000",
-    borderRadius: "5px",
-    boyShadow: "0 0 0 1px rgba(0,0,0,1",
     display: "flex",
-    cursor: "pointer",
-    marginLeft: "-50%"
 } as React.CSSProperties
 
 export const popover = {

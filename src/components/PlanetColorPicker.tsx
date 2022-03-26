@@ -53,8 +53,8 @@ export const PlanetColorPicker: React.FC<{ id: string }> = (props) => {
         marginTop: "3px",
         marginLeft: "7px",
         padding: "0px",
-        width: "45px",
-        height: "18px",
+        width: "130px",
+        height: "35px",
         borderRadius: "2px",
         background: `rgb(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
     } as React.CSSProperties
@@ -63,6 +63,7 @@ export const PlanetColorPicker: React.FC<{ id: string }> = (props) => {
         <div style={planetColorPickerStyle}>
             <div style={inputDivStyle}>
                 <input
+                    className="settingsInput"
                     type="number"
                     defaultValue={value}
                     min={0}
@@ -75,7 +76,7 @@ export const PlanetColorPicker: React.FC<{ id: string }> = (props) => {
             </div>
             <div>
                 <div style={swatch} onClick={onClickMethod}>
-                    <label>Color: </label> <div style={colorStyle} />
+                    <div style={colorStyle} />
                 </div>
                 {display ? <div style={popover}>
                     <div style={cover} onClick={onCloseMethod} />
@@ -83,7 +84,9 @@ export const PlanetColorPicker: React.FC<{ id: string }> = (props) => {
                 </div> : null}
             </div>
             <div>
-                <button style={{ marginLeft: "0%", marginTop: "30%" }} onClick={() => onRemoveColorMapping(props.id)}>X</button>
+                <button
+                    className="settingsButton"
+                    onClick={() => onRemoveColorMapping(props.id)}>X</button>
             </div>
         </div>
     );
