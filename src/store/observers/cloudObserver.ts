@@ -6,8 +6,7 @@ import { compareClouds } from "./observerUtils";
 export const cloudObserver = observer(
     cloudsSelector,
     (dispatch, current, previous) => {
-        console.log("change detected")
-        //updateClouds();
+        updateClouds();
     },
     {
         equals: compareClouds

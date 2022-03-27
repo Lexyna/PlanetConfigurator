@@ -21,9 +21,9 @@ export const updateClouds = () => {
 export const createCloud = (): CloudProps => {
 
     const seed = nanoid();
-    const width = 8;
-    const height = 8;
-    const depth = 6;
+    const width = 16;
+    const height = 16;
+    const depth = 26;
 
     return {
         texture: create3DSimplexNoiseMap(seed, width, height, depth),
