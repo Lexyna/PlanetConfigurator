@@ -21,6 +21,7 @@ export const removeCloud = (state: CloudsProps, action: RemoveCloudAction): Clou
 
 export const updateClouds = (state: CloudsProps, action: UpdateCloudAction): CloudsProps => {
     const newClouds = state.clouds.slice(0);
+
     newClouds.forEach((cloud, index) => {
         if (cloud.id === action.payload.id)
             newClouds[index] = action.payload;

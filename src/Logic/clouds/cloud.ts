@@ -1,9 +1,22 @@
 import { nanoid } from "nanoid";
+import { stat } from "node:fs";
 import { text } from "node:stream/consumers";
-import { CloudProps } from "../../types/cloudProp";
+import { store } from "../../store/store";
+import { CloudProps, CloudsProps } from "../../types/cloudProp";
+import { State } from "../../types/storeType";
 import { create3DSimplexNoiseMap } from "../Random/simplexNoise";
 import { Animator } from "../renderer/Animator";
 import { cerateRGBColor } from "../utils/utils";
+
+export const clouds: CloudsProps = {
+    clouds: []
+};
+
+export const updateClouds = () => {
+    const state: State = store.getState();
+
+    clouds.clouds = state.cloudSettings.clouds;
+}
 
 export const createCloud = (): CloudProps => {
 

@@ -33,7 +33,7 @@ export const SideBar = () => {
 
             <SideBarIcon icon={<IoPlanet size="32" />} text="Planet settings" settingsTemplate={<PlanetSettingsTemplate />} display={displayState[0]} toggleDisplay={() => updateEditor(0)} />
             <SideBarIcon icon={<IoColorPalette size="32" />} text="Color settings" settingsTemplate={<ColorSetting />} display={displayState[1]} toggleDisplay={() => updateEditor(1)} />
-            <SideBarIcon icon={<IoCloud size="32" />} text="Render settings" settingsTemplate={<CloudsSettings />} display={displayState[2]} toggleDisplay={() => updateEditor(2)} />
+            <SideBarIcon icon={<IoCloud size="32" />} text="Cloud settings" settingsTemplate={<CloudsSettings />} display={displayState[2]} toggleDisplay={() => updateEditor(2)} />
             <SideBarIcon icon={<IoDice size="32" />} text="Random settings" settingsTemplate={<RandomSetting />} display={displayState[3]} toggleDisplay={() => updateEditor(3)} />
             <SideBarIcon icon={<IoPlayCircle size="32" />} text="Render settings" settingsTemplate={<RenderSetting />} display={displayState[4]} toggleDisplay={() => updateEditor(4)} />
 

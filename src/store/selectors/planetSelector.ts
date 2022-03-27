@@ -12,12 +12,13 @@ export const colorMappingSelector = (state: State): ColorMapping[] => planetSele
 
 export const colorMappingIdSelector = (id: string) => (state: State): ColorMapping => {
 
-    let selectedMapping = initialColorMapping;
+    let selectedMapping: ColorMapping = initialColorMapping;
     colorMappingSelector(state).forEach((mapping) => {
         if (mapping.id === id) {
-            selectedMapping = mapping
+            selectedMapping = Object.assign({}, mapping);
         }
     })
+
     return selectedMapping;
 }
 

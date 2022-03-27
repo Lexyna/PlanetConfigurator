@@ -1,4 +1,4 @@
-import { PlanetProps } from "../../../types/planetProp";
+import { ColorMapping, PlanetProps } from "../../../types/planetProp";
 import { AddColorMappingAction, RemoveColorMappingAction, UpdateColorMappingAction, UpdateRadiusAction, UpdateSeedAction } from "../../actions/planetAction";
 
 export const updateRadius = (state: PlanetProps, action: UpdateRadiusAction): PlanetProps => {
@@ -26,13 +26,12 @@ export const addColorMapping = (state: PlanetProps, action: AddColorMappingActio
 }
 
 export const updateColorMapping = (state: PlanetProps, action: UpdateColorMappingAction): PlanetProps => {
-
-    const colorMappings = state.colorMapping.slice(0);
+    const colorMappings: ColorMapping[] = JSON.parse(JSON.stringify(state.colorMapping));
 
     colorMappings.forEach((mapping, index) => {
         if (mapping.id === action.payload.id) {
-            mapping.value = action.payload.value;
-            mapping.color = action.payload.color;
+            colorMappings[index].value = action.payload.value;
+            colorMappings[index].color = action.payload.color;
         }
     })
 

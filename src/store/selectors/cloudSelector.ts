@@ -7,10 +7,10 @@ export const cloudsSelector = (state: State) => state.cloudSettings.clouds;
 
 export const cloudSelector = (id: string) => (state: State): CloudProps => {
 
-    let selectedCloud = initialCloud;
+    let selectedCloud: CloudProps = initialCloud;
     cloudsSelector(state).forEach(cloud => {
         if (cloud.id === id)
-            selectedCloud = cloud;
+            selectedCloud = Object.assign({}, cloud);
     })
 
     return selectedCloud;

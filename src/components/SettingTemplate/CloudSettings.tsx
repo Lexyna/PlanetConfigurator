@@ -60,6 +60,21 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
         setColor({ ...color.rgb })
     }
 
+    const onPositionXChanged = (positionX: number) => {
+        cloud.positionX = positionX;
+        updateCloud(cloud);
+    }
+
+    const onPositionYChanged = (positionY: number) => {
+        cloud.positionY = positionY;
+        updateCloud(cloud);
+    }
+
+    const onStartFrameChanged = (startFrame: number) => {
+        cloud.startFrame = startFrame;
+        updateCloud(cloud);
+    }
+
     const onCloseMethod = () => {
         setDisplay(false);
     }
@@ -82,6 +97,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                 className="settingsInput"
                 type="text"
                 value={cloud.seed}
+                onChange={({ target: { value } }) => console.log("")}
             />
 
             <label className="settingsLabel">Color:</label>
@@ -100,6 +116,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                 min={1}
                 max={10}
                 value={cloud.width}
+                onChange={({ target: { value } }) => console.log("")}
             />
 
             <label className="settingsLabel">Height</label>
@@ -109,6 +126,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                 min={1}
                 max={10}
                 value={cloud.height}
+                onChange={({ target: { value } }) => console.log("")}
             />
 
             <label className="settingsLabel">Depth</label>
@@ -118,24 +136,27 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                 min={1}
                 max={10}
                 value={cloud.depth}
+                onChange={({ target: { value } }) => console.log("")}
             />
 
             <label className="settingsLabel">positionX</label>
             <input
                 className="settingsInput"
                 type="number"
-                min={1}
+                min={0}
                 max={10}
                 value={cloud.positionX}
+                onChange={({ target: { value } }) => onPositionXChanged(parseInt(value))}
             />
 
             <label className="settingsLabel">PositionY</label>
             <input
                 className="settingsInput"
                 type="number"
-                min={1}
+                min={0}
                 max={10}
                 value={cloud.positionY}
+                onChange={({ target: { value } }) => onPositionYChanged(parseInt(value))}
             />
 
             <label className="settingsLabel">StartFrame</label>
@@ -143,14 +164,16 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                 className="settingsInput"
                 type="number"
                 min={1}
-                max={10}
+                max={255}
                 value={cloud.startFrame}
+                onChange={({ target: { value } }) => onStartFrameChanged(parseInt(value))}
             />
 
-            <label className="settingsLabel">StartFrame</label>
+            <label className="settingsLabel">Transition: </label>
             <input
                 type="checkbox"
                 checked={cloud.transition}
+                onChange={() => console.log("")}
             />
 
             <br />
@@ -158,9 +181,10 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
             <input
                 className="settingsInput"
                 type="number"
-                min={1}
+                min={0}
                 max={10}
                 value={cloud.transitionFrames}
+                onChange={({ target: { value } }) => console.log("")}
             />
 
             <button

@@ -1,4 +1,6 @@
+import { store } from "../../store/store";
 import { PlanetTemplate } from "../../types/planetTemplate";
+import { State } from "../../types/storeType";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
 import { rgbToHex } from "../utils/utils";
@@ -56,6 +58,10 @@ export const renderPlanet = (buffer: Uint32Array, width: number, height: number,
             for (let y = pixel.y; y < pixel.y + weight; y++)
                 buffer[(y + middleY) * width + (x + middleX)] = pixelColor;
     });
+
+    //compute Clouds
+
+
 }
 
 export default planet;
