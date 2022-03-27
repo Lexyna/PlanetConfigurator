@@ -38,7 +38,6 @@ export const compareClouds = (curr: CloudProps[], prev: CloudProps[]) => {
         if (cloud.startFrame !== prev[index].startFrame)
             update = false;
 
-
         if (cloud.depth !== prev[index].depth)
             update = false;
 

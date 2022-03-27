@@ -18,6 +18,8 @@ export const planetSeedObserver = observer(
     seedSelector,
     (dispatch, current, previous) => {
         updateNoiseMap();
+        if (!Animator.isAnimating())
+            Renderer.getInstance().render(Animator.getAnimationFrame());
     }
 )
 
