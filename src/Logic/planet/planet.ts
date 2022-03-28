@@ -1,11 +1,7 @@
-import { RGBColor } from "react-color";
-import { store } from "../../store/store";
 import { PlanetTemplate, rgb } from "../../types/planetTemplate";
-import { State } from "../../types/storeType";
-import { clouds } from "../clouds/cloud";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
-import { addRGBColors, hexToRgb, rgbToHex } from "../utils/utils";
+import { rgbToHex } from "../utils/utils";
 import { calculatePixelColor, createNoiseMap, creatNewPlanet, getPlanetColorMapping, getPlanetRadius, getPlanetShape } from "./planetUtils";
 
 const planet: PlanetTemplate = creatNewPlanet();

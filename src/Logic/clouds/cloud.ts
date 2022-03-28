@@ -2,8 +2,11 @@ import { nanoid } from "nanoid";
 import { stat } from "node:fs";
 import { text } from "node:stream/consumers";
 import { RGBColor } from "react-color";
+import { useDispatch } from "react-redux";
+import { majorCloudsChange } from "../../store/observers/observerUtils";
 import { store } from "../../store/store";
 import { CloudProps, CloudsProps } from "../../types/cloudProp";
+import { CloudTemplate } from "../../types/cloudTemplate";
 import { State } from "../../types/storeType";
 import pixelMatrix from "../matrix/matrix";
 import planet from "../planet/planet";
@@ -11,18 +14,48 @@ import { randomRange } from "../Random/randomUtils";
 import { create3DSimplexNoiseMap } from "../Random/simplexNoise";
 import { Animator } from "../renderer/Animator";
 import { cerateRGBColor, rgbToHex } from "../utils/utils";
+import { addCloud, convertClouds, removeCloud, updateCloudAt } from "./cloudUtils";
 
-export const clouds: CloudsProps = {
-    clouds: []
-};
+export const clouds: CloudTemplate[] = []
 
 export const updateClouds = () => {
     const state: State = store.getState();
 
-    clouds.clouds = state.cloudSettings.clouds;
+    if (state.cloudSettings.clouds.length > clouds.length) {
+        addCloud();
+        return;
+    }
+
+    if (state.cloudSettings.clouds.length < clouds.length) {
+        removeCloud();
+        return;
+    }
+
+    updateCloudAt();
+
 }
 
+export const recalculateCloud = () => {
 
+    const state: State = store.getState();
+
+    const storeClouds = state.cloudSettings.clouds;
+
+    for (let i = 0; i < storeClouds.length; i++) {
+
+        for (let j = 0; j < clouds.length; j++) {
+            if (storeClouds[i].id === clouds[j].id)
+                if (!majorCloudsChange([storeClouds[i]], [clouds[j]])) {
+                    clouds[j].seed = storeClouds[i].seed;
+                    clouds[j].depth = storeClouds[i].depth;
+                    clouds[j].maskRadius = storeClouds[i].maskRadius;
+                    clouds[j].texture = create3DSimplexNoiseMap(clouds[i].seed, clouds[i].maskRadius, clouds[i].maskRadius, clouds[i].depth)
+
+                }
+        }
+    }
+
+}
 
 export const createCloud = (): CloudProps => {
 
@@ -42,7 +75,6 @@ export const createCloud = (): CloudProps => {
     const posY = -weight + pixelPositionY * weight;
 
     return {
-        texture: create3DSimplexNoiseMap(seed, maskRadius, maskRadius, depth),
         seed: seed,
         color: cerateRGBColor(255, 255, 255, 255),
         id: nanoid(),
@@ -66,7 +98,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
     const weight = pixelMatrix.pixelWeight;
 
-    clouds.clouds.forEach(cloud => {
+    clouds.forEach(cloud => {
 
         const startFrame = cloud.startFrame;
         const endFrame = (cloud.startFrame + cloud.depth) % planet.noiseMap.length;

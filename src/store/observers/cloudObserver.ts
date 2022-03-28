@@ -1,5 +1,5 @@
 import { observer } from "redux-observers";
-import { updateClouds } from "../../Logic/clouds/cloud";
+import { recalculateCloud, updateClouds } from "../../Logic/clouds/cloud";
 import { Animator } from "../../Logic/renderer/Animator";
 import { Renderer } from "../../Logic/renderer/Renderer";
 import { cloudsSelector } from "../selectors/cloudSelector";
@@ -20,6 +20,9 @@ export const minorCloudObserver = observer(
 export const majorCloudObserver = observer(
     cloudsSelector,
     (dispatch, current, previous) => {
+        recalculateCloud();
+        if (!Animator.isAnimating())
+            Renderer.getInstance().render(Animator.getAnimationFrame());
     },
     {
         equals: majorCloudsChange

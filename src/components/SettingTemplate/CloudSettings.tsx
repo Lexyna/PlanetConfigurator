@@ -151,7 +151,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     className="settingsInput"
                     type="number"
                     min={1}
-                    max={10}
+                    max={planet.noiseMap.length}
                     value={cloud.depth}
                     onChange={({ target: { value } }) => onAnimationLengthChanged(parseInt(value))}
                 />
@@ -161,7 +161,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     className="settingsInput"
                     type="number"
                     min={1}
-                    max={10}
+                    max={planet.radius - 1}
                     value={cloud.maskRadius}
                     onChange={({ target: { value } }) => onMaskRadiusChanged(parseInt(value))}
                 />

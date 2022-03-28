@@ -1,11 +1,7 @@
-import { RGBColor } from "react-color";
+import { RGBColor } from "react-color"
 
-export interface CloudsProps {
-    clouds: CloudProps[]
-}
-
-export interface CloudProps {
-    //texture: number[][][],
+export interface CloudTemplate {
+    texture: number[][][],
     color: RGBColor,
     seed: string,
     id: string,
