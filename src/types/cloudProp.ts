@@ -9,10 +9,9 @@ export interface CloudProps {
     color: RGBColor,
     seed: string,
     id: string,
+    maskRadius: number,
     positionX: number,
     positionY: number
-    width: number,
-    height: number,
     depth: number,
     startFrame: number,
     transition: boolean,

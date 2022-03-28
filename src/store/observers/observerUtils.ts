@@ -41,10 +41,7 @@ export const compareClouds = (curr: CloudProps[], prev: CloudProps[]) => {
         if (cloud.depth !== prev[index].depth)
             update = false;
 
-        if (cloud.width !== prev[index].width)
-            update = false;
-
-        if (cloud.height !== prev[index].height)
+        if (cloud.maskRadius !== prev[index].maskRadius)
             update = false;
 
         if (cloud.positionX !== prev[index].positionX)

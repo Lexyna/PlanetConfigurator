@@ -5,7 +5,10 @@ import { bindActionCreators } from "redux";
 import { createCloud } from "../../Logic/clouds/cloud";
 import { cloudActionCreators } from "../../store";
 import { cloudSelector, cloudsSelector } from "../../store/selectors/cloudSelector"
+import { radiusSelector } from "../../store/selectors/planetSelector";
 import { cover, popover } from "../css/planetColorPickerStyles";
+import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+import { IoCloseCircle } from "react-icons/io5";
 
 export const CloudsSettings = () => {
 
@@ -20,15 +23,15 @@ export const CloudsSettings = () => {
 
     return (
         <div className="overflow-y-auto max-h-screen h-screen pb-10 scroll-px-10 no-scrollbar">
-            {clouds.map(cloud => {
-                return <CloudSettings id={cloud.id} key={cloud.id} />
-            })}
             <button
                 className="settingsButton"
                 onClick={() => addCloud(createCloud())}
             >
                 Add Cloud
             </button>
+            {clouds.map(cloud => {
+                return <CloudSettings id={cloud.id} key={cloud.id} />
+            })}
         </div>
     )
 }
@@ -39,9 +42,13 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
 
     const [display, setDisplay] = useState(false);
 
+    const [collapsed, setCollapsed] = useState(true);
+
     const [color, setColor] = useState(cloud.color);
 
     const dispatch = useDispatch();
+
+    const radius = useSelector(radiusSelector);
 
     const { removeCloud, updateCloud } = bindActionCreators(
         cloudActionCreators,
@@ -92,105 +99,96 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
 
     return (
         <div className="mt-4 bg-gray-300 rounded-xl p-2 relative">
-            <label className="settingsLabel">Seed:</label>
-            <input
-                className="settingsInput"
-                type="text"
-                value={cloud.seed}
-                onChange={({ target: { value } }) => console.log("")}
-            />
+            <label className="settingsLabel w-full inline-block" onClick={() => setCollapsed(!collapsed)}>
+                Cloud <IoCloseCircle className="mt-1 float-right" size="20" onClick={() => onRemoveCloud(props.id)} />
+                {collapsed ? <BsChevronDown className=" pt-2 float-right" size="20" /> : <BsChevronUp className="pt-2 float-right" size="20" />}
+            </label>
+            {collapsed ? null : <div>
+                <label className="settingsLabel">Seed:</label>
+                <input
+                    className="settingsInput"
+                    type="text"
+                    value={cloud.seed}
+                    onChange={({ target: { value } }) => console.log("")}
+                />
 
-            <label className="settingsLabel">Color:</label>
-            <div onClick={onClickMethod}>
-                <div style={colorStyle} className="rounded-xl"></div>
-            </div>
-            {display ? <div style={popover}>
-                <div style={cover} onClick={onCloseMethod} />
-                <SketchPicker color={color} onChange={onChangeColorMethod} />
-            </div> : null}
+                <label className="settingsLabel">Color:</label>
+                <div onClick={onClickMethod}>
+                    <div style={colorStyle} className="rounded-xl"></div>
+                </div>
+                {display ? <div style={popover}>
+                    <div style={cover} onClick={onCloseMethod} />
+                    <SketchPicker color={color} onChange={onChangeColorMethod} />
+                </div> : null}
 
-            <label className="settingsLabel">Width</label>
-            <input
-                className="settingsInput"
-                type="number"
-                min={1}
-                max={10}
-                value={cloud.width}
-                onChange={({ target: { value } }) => console.log("")}
-            />
+                <label className="settingsLabel">Animation Length</label>
+                <input
+                    className="settingsInput"
+                    type="number"
+                    min={1}
+                    max={10}
+                    value={cloud.depth}
+                    onChange={({ target: { value } }) => console.log("")}
+                />
 
-            <label className="settingsLabel">Height</label>
-            <input
-                className="settingsInput"
-                type="number"
-                min={1}
-                max={10}
-                value={cloud.height}
-                onChange={({ target: { value } }) => console.log("")}
-            />
+                <label className="settingsLabel">MaskRadius</label>
+                <input
+                    className="settingsInput"
+                    type="number"
+                    min={1}
+                    max={10}
+                    value={cloud.maskRadius}
+                    onChange={({ target: { value } }) => console.log("")}
+                />
 
-            <label className="settingsLabel">Depth</label>
-            <input
-                className="settingsInput"
-                type="number"
-                min={1}
-                max={10}
-                value={cloud.depth}
-                onChange={({ target: { value } }) => console.log("")}
-            />
+                <label className="settingsLabel">positionX</label>
+                <input
+                    className="settingsInput"
+                    type="number"
+                    min={-radius}
+                    max={radius}
+                    value={cloud.positionX}
+                    onChange={({ target: { value } }) => onPositionXChanged(parseInt(value))}
+                />
 
-            <label className="settingsLabel">positionX</label>
-            <input
-                className="settingsInput"
-                type="number"
-                min={0}
-                max={10}
-                value={cloud.positionX}
-                onChange={({ target: { value } }) => onPositionXChanged(parseInt(value))}
-            />
+                <label className="settingsLabel">PositionY</label>
+                <input
+                    className="settingsInput"
+                    type="number"
+                    min={-radius}
+                    max={radius}
+                    value={cloud.positionY}
+                    onChange={({ target: { value } }) => onPositionYChanged(parseInt(value))}
+                />
 
-            <label className="settingsLabel">PositionY</label>
-            <input
-                className="settingsInput"
-                type="number"
-                min={0}
-                max={10}
-                value={cloud.positionY}
-                onChange={({ target: { value } }) => onPositionYChanged(parseInt(value))}
-            />
+                <label className="settingsLabel">StartFrame</label>
+                <input
+                    className="settingsInput"
+                    type="number"
+                    min={1}
+                    max={255}
+                    value={cloud.startFrame}
+                    onChange={({ target: { value } }) => onStartFrameChanged(parseInt(value))}
+                />
 
-            <label className="settingsLabel">StartFrame</label>
-            <input
-                className="settingsInput"
-                type="number"
-                min={1}
-                max={255}
-                value={cloud.startFrame}
-                onChange={({ target: { value } }) => onStartFrameChanged(parseInt(value))}
-            />
+                <label className="settingsLabel">Transition: </label>
+                <input
+                    type="checkbox"
+                    checked={cloud.transition}
+                    onChange={() => console.log("")}
+                />
 
-            <label className="settingsLabel">Transition: </label>
-            <input
-                type="checkbox"
-                checked={cloud.transition}
-                onChange={() => console.log("")}
-            />
-
-            <br />
-            <label className="settingsLabel">transitionFrames</label>
-            <input
-                className="settingsInput"
-                type="number"
-                min={0}
-                max={10}
-                value={cloud.transitionFrames}
-                onChange={({ target: { value } }) => console.log("")}
-            />
-
-            <button
-                className="settingsButton"
-                onClick={() => onRemoveCloud(props.id)}
-            >Remove Cloud</button>
+                <br />
+                <label className="settingsLabel">transitionFrames</label>
+                <input
+                    className="settingsInput"
+                    type="number"
+                    min={0}
+                    max={10}
+                    value={cloud.transitionFrames}
+                    onChange={({ target: { value } }) => console.log("")}
+                />
+            </div>}
         </div>
     )
 }

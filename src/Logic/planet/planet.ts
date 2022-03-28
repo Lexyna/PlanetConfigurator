@@ -5,7 +5,7 @@ import { State } from "../../types/storeType";
 import { clouds } from "../clouds/cloud";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
-import { rgbToHex } from "../utils/utils";
+import { addRGBColors, hexToRgb, rgbToHex } from "../utils/utils";
 import { calculatePixelColor, createNoiseMap, creatNewPlanet, getPlanetColorMapping, getPlanetRadius, getPlanetShape } from "./planetUtils";
 
 const planet: PlanetTemplate = creatNewPlanet();
@@ -72,13 +72,27 @@ export const renderPlanet = (buffer: Uint32Array, width: number, height: number,
         if (z >= cloud.depth || z < 0)
             return;
 
-        for (let x = 0; x < cloud.width; x++)
-            for (let y = 0; y < cloud.height; y++) {
+        const radius = cloud.maskRadius;
+        const max = radius * radius;
 
-                //              if (cloud.texture[x][y][z] <= 0)
-                //                    continue;
+        const planetMax = (planet.radius + 0) * (planet.radius + 0);
 
-                //console.log("value: " + cloud.texture[i][j][z])
+        const halfMaskRadius = cloud.maskRadius / 2;
+
+        for (let x = 0; x < cloud.maskRadius; x++)
+            for (let y = 0; y < cloud.maskRadius; y++) {
+
+                const cX = x - halfMaskRadius;
+                const cY = y - halfMaskRadius;
+
+                const planetX = cloud.positionX + (x * weight) - z;
+                const planetY = cloud.positionY + (y * weight);
+
+                if (buffer[(planetY + middleY) * width + (planetX + middleX)] === 0x00000000)
+                    continue;
+
+                if (cX * cX + cY * cY > max)
+                    continue;
 
                 if (cloud.texture[x][y][z] < 0.6)
                     continue;
@@ -89,14 +103,21 @@ export const renderPlanet = (buffer: Uint32Array, width: number, height: number,
                     r: cloud.color.r,
                     g: cloud.color.g,
                     b: cloud.color.b,
-                    a: Math.floor(255 * val)
+                    a: Math.floor(255)
                 }
+
+                if (cloud.texture[x][y][z] < 0.8)
+                    rgb.a = 230;
+
+                if (cX * cX + cY * cY > max / 2)
+                    rgb.a = 230;
 
                 const pixelColor = Number(rgbToHex(rgb));
 
-                for (let px = cloud.positionX + (x * weight) - z; px < cloud.positionX + (x * weight) + weight; px++)
-                    for (let py = cloud.positionY + (y * weight); py < cloud.positionY + (y * weight) + weight; py++)
+                for (let px = planetX; px < cloud.positionX + (x * weight) + weight - z; px++)
+                    for (let py = planetY; py < cloud.positionY + (y * weight) + weight; py++) {
                         buffer[(py + middleY) * width + (px + middleX)] = pixelColor;
+                    }
 
             }
 
