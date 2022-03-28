@@ -180,6 +180,13 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     onChange={() => console.log("")}
                 />
 
+                <label className="settingsLabel">Static: </label>
+                <input
+                    type="checkbox"
+                    checked={cloud.static}
+                    onChange={() => console.log("")}
+                />
+
                 <br />
                 <label className="settingsLabel">transitionFrames</label>
                 <input

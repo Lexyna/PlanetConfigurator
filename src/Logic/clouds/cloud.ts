@@ -25,9 +25,9 @@ export const updateClouds = () => {
 export const createCloud = (): CloudProps => {
 
     const seed = nanoid();
-    const depth = 120;
 
     const radius = planet.radius;
+    const depth = planet.noiseMap.length;
 
     const maskRadius = 10;
 
@@ -45,6 +45,7 @@ export const createCloud = (): CloudProps => {
         depth: depth,
         startFrame: Animator.getAnimationFrame(),
         transition: false,
+        static: true,
         transitionFrames: 0,
         positionX: posX,
         positionY: posY
@@ -58,7 +59,6 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
     const weight = pixelMatrix.pixelWeight;
 
-    //compute Clouds
     clouds.clouds.forEach(cloud => {
 
         const startFrame = cloud.startFrame;
@@ -70,9 +70,6 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
             else
                 if (!(animationFrame >= startFrame || animationFrame <= endFrame))
                     return;
-
-
-
 
         let z = ((animationFrame - startFrame) % planet.noiseMap.length);
 
@@ -93,7 +90,9 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                 const cX = x - halfMaskRadius;
                 const cY = y - halfMaskRadius;
 
-                const planetX = cloud.positionX + (x * weight) - z;
+                const movement = (cloud.static) ? 0 : z;
+
+                const planetX = cloud.positionX + (x * weight) - movement;
                 const planetY = cloud.positionY + (y * weight);
 
                 if (buffer[(planetY + middleY) * width + (planetX + middleX)] === 0x00000000)
@@ -122,7 +121,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                 const pixelColor = Number(rgbToHex(rgb));
 
-                for (let px = planetX; px < cloud.positionX + (x * weight) + weight - z; px++)
+                for (let px = planetX; px < cloud.positionX + (x * weight) + weight - movement; px++)
                     for (let py = planetY; py < cloud.positionY + (y * weight) + weight; py++) {
                         buffer[(py + middleY) * width + (px + middleX)] = pixelColor;
                     }

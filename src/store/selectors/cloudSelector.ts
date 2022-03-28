@@ -25,6 +25,7 @@ const initialCloud: CloudProps = {
     maskRadius: 0,
     startFrame: 0,
     transition: false,
+    static: false,
     transitionFrames: 0,
     positionX: 0,
     positionY: 0
