@@ -10,6 +10,7 @@ import { cover, popover } from "../css/planetColorPickerStyles";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { IoCloseCircle } from "react-icons/io5";
 import planet from "../../Logic/planet/planet";
+import pixelMatrix from "../../Logic/matrix/matrix";
 
 export const CloudsSettings = () => {
 
@@ -60,6 +61,21 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
         removeCloud(id);
     }
 
+    const onSeedChanged = (seed: string) => {
+        cloud.seed = seed;
+        updateCloud(cloud);
+    }
+
+    const onAnimationLengthChanged = (length: number) => {
+        cloud.depth = length;
+        updateCloud(cloud);
+    }
+
+    const onMaskRadiusChanged = (maskRadius: number) => {
+        cloud.maskRadius = maskRadius;
+        updateCloud(cloud);
+    }
+
     const onChangeColorMethod = (color: ColorResult) => {
         cloud.color = color.rgb;
         if (cloud.color.a)
@@ -69,17 +85,24 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
     }
 
     const onPositionXChanged = (positionX: number) => {
-        cloud.positionX = positionX;
+        cloud.pixelPositionX = positionX;
+        cloud.positionX = pixelMatrix.pixelWeight + positionX * pixelMatrix.pixelWeight;
         updateCloud(cloud);
     }
 
     const onPositionYChanged = (positionY: number) => {
-        cloud.positionY = positionY;
+        cloud.pixelPositionY = positionY;
+        cloud.positionY = pixelMatrix.pixelWeight + positionY * pixelMatrix.pixelWeight;
         updateCloud(cloud);
     }
 
     const onStartFrameChanged = (startFrame: number) => {
         cloud.startFrame = startFrame;
+        updateCloud(cloud);
+    }
+
+    const onStaticChanged = (staticCloud: boolean) => {
+        cloud.static = staticCloud;
         updateCloud(cloud);
     }
 
@@ -111,7 +134,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     className="settingsInput"
                     type="text"
                     value={cloud.seed}
-                    onChange={({ target: { value } }) => console.log("")}
+                    onChange={({ target: { value } }) => onSeedChanged(value)}
                 />
 
                 <label className="settingsLabel">Color:</label>
@@ -130,7 +153,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     min={1}
                     max={10}
                     value={cloud.depth}
-                    onChange={({ target: { value } }) => console.log("")}
+                    onChange={({ target: { value } }) => onAnimationLengthChanged(parseInt(value))}
                 />
 
                 <label className="settingsLabel">MaskRadius</label>
@@ -140,7 +163,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     min={1}
                     max={10}
                     value={cloud.maskRadius}
-                    onChange={({ target: { value } }) => console.log("")}
+                    onChange={({ target: { value } }) => onMaskRadiusChanged(parseInt(value))}
                 />
 
                 <label className="settingsLabel">positionX</label>
@@ -149,7 +172,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     type="number"
                     min={-radius}
                     max={radius}
-                    value={cloud.positionX}
+                    value={cloud.pixelPositionX}
                     onChange={({ target: { value } }) => onPositionXChanged(parseInt(value))}
                 />
 
@@ -159,7 +182,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     type="number"
                     min={-radius}
                     max={radius}
-                    value={cloud.positionY}
+                    value={cloud.pixelPositionY}
                     onChange={({ target: { value } }) => onPositionYChanged(parseInt(value))}
                 />
 
@@ -184,7 +207,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                 <input
                     type="checkbox"
                     checked={cloud.static}
-                    onChange={() => console.log("")}
+                    onChange={() => onStaticChanged(!cloud.static)}
                 />
 
                 <br />

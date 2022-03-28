@@ -22,6 +22,8 @@ export const updateClouds = () => {
     clouds.clouds = state.cloudSettings.clouds;
 }
 
+
+
 export const createCloud = (): CloudProps => {
 
     const seed = nanoid();
@@ -29,12 +31,15 @@ export const createCloud = (): CloudProps => {
     const radius = planet.radius;
     const depth = planet.noiseMap.length;
 
-    const maskRadius = 10;
+    const maskRadius = 20;
 
     const weight = pixelMatrix.pixelWeight;
 
-    const posX = -weight + randomRange(-radius, radius) * weight;
-    const posY = -weight + randomRange(-radius, radius) * weight;
+    const pixelPositionX = randomRange(-radius, radius);
+    const pixelPositionY = randomRange(-radius, radius);
+
+    const posX = -weight + pixelPositionX * weight;
+    const posY = -weight + pixelPositionY * weight;
 
     return {
         texture: create3DSimplexNoiseMap(seed, maskRadius, maskRadius, depth),
@@ -47,6 +52,8 @@ export const createCloud = (): CloudProps => {
         transition: false,
         static: true,
         transitionFrames: 0,
+        pixelPositionX: pixelPositionX,
+        pixelPositionY: pixelPositionY,
         positionX: posX,
         positionY: posY
     }
@@ -79,7 +86,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
         if (z >= cloud.depth)
             return;
 
-        const radius = cloud.maskRadius;
+        const radius = (cloud.maskRadius / 2);
         const max = radius * radius;
 
         const halfMaskRadius = cloud.maskRadius / 2;

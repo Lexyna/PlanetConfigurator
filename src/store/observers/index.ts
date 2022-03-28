@@ -1,7 +1,7 @@
 import { observe, Observer } from "redux-observers";
 import { State } from "../../types/storeType";
 import { store } from "../store";
-import { cloudObserver } from "./cloudObserver";
+import { majorCloudObserver, minorCloudObserver } from "./cloudObserver";
 import { colorMappingsObserver, planetRadiusObserver, planetSeedObserver } from "./planetObserver";
 import { animateObserver, fpsObserver, pixelSizeObserver } from "./renderSettingsObserver";
 
@@ -16,7 +16,8 @@ export const observers: Observer<State>[] = [
     animateObserver,
     fpsObserver,
     pixelSizeObserver,
-    cloudObserver,
+    minorCloudObserver,
+    majorCloudObserver
 ]
 
 export const initObservers = () => {

@@ -27,7 +27,7 @@ export const compareColorMappings = (curr: ColorMapping[], prev: ColorMapping[])
     return update;
 }
 
-export const compareClouds = (curr: CloudProps[], prev: CloudProps[]) => {
+export const minorCloudsChange = (curr: CloudProps[], prev: CloudProps[]) => {
     let update = true;
 
     if (prev.length !== curr.length)
@@ -38,22 +38,22 @@ export const compareClouds = (curr: CloudProps[], prev: CloudProps[]) => {
         if (cloud.startFrame !== prev[index].startFrame)
             update = false;
 
-        if (cloud.depth !== prev[index].depth)
-            update = false;
-
-        if (cloud.maskRadius !== prev[index].maskRadius)
-            update = false;
-
         if (cloud.positionX !== prev[index].positionX)
             update = false;
 
         if (cloud.positionY !== prev[index].positionY)
             update = false;
 
-        if (cloud.seed !== prev[index].seed)
+        if (cloud.pixelPositionX !== prev[index].pixelPositionX)
+            update = false;
+
+        if (cloud.pixelPositionY !== prev[index].pixelPositionY)
             update = false;
 
         if (cloud.startFrame !== prev[index].startFrame)
+            update = false;
+
+        if (cloud.static !== prev[index].static)
             update = false;
 
         if (cloud.transition !== prev[index].transition)
@@ -69,6 +69,29 @@ export const compareClouds = (curr: CloudProps[], prev: CloudProps[]) => {
             update = false;
 
         if (cloud.color.a !== prev[index].color.a)
+            update = false;
+
+    })
+
+    return update;
+}
+
+export const majorCloudsChange = (curr: CloudProps[], prev: CloudProps[]) => {
+    let update = true;
+
+    //ignore insertion/deletion
+    if (prev.length !== curr.length)
+        return true;
+
+    curr.forEach((cloud, index) => {
+
+        if (cloud.depth !== prev[index].depth)
+            update = false;
+
+        if (cloud.maskRadius !== prev[index].maskRadius)
+            update = false;
+
+        if (cloud.seed !== prev[index].seed)
             update = false;
 
     })

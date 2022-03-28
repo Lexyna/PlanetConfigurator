@@ -10,6 +10,8 @@ export interface CloudProps {
     seed: string,
     id: string,
     maskRadius: number,
+    pixelPositionX: number,
+    pixelPositionY: number,
     positionX: number,
     positionY: number
     depth: number,
