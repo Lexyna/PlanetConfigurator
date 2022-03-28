@@ -1,5 +1,6 @@
 import { saveAs } from 'file-saver';
 import JSZip from "jszip";
+import { renderClouds } from '../clouds/cloud';
 import planet, { renderPlanet } from "../planet/planet";
 import { createPlanetPNG } from "../planet/planetExporter";
 import { Animator } from "./Animator";
@@ -89,6 +90,7 @@ export class Renderer {
         this.clearCanvas();
 
         renderPlanet(this.imgBuffer, this.width, this.height, animationFrame);
+        renderClouds(this.imgBuffer, this.width, animationFrame);
 
         this.ctx.putImageData(this.canvasImg, 0, 0);
 
