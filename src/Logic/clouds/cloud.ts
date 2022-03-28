@@ -35,8 +35,6 @@ export const createCloud = (): CloudProps => {
     const posX = -weight + randomRange(-radius, radius) * weight;
     const posY = -weight + randomRange(-radius, radius) * weight;
 
-    console.log("Pos: " + posX + "  - " + posY)
-
     return {
         texture: create3DSimplexNoiseMap(seed, maskRadius, maskRadius, depth),
         seed: seed,

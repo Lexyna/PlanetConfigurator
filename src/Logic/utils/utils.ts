@@ -145,4 +145,3 @@ const valueToHex = (value: number) => {
     let hexadecimal = value.toString(16);
     return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
 }
-

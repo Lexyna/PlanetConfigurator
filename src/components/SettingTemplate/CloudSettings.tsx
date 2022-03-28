@@ -9,6 +9,7 @@ import { radiusSelector } from "../../store/selectors/planetSelector";
 import { cover, popover } from "../css/planetColorPickerStyles";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { IoCloseCircle } from "react-icons/io5";
+import planet from "../../Logic/planet/planet";
 
 export const CloudsSettings = () => {
 
@@ -100,7 +101,8 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
     return (
         <div className="mt-4 bg-gray-300 rounded-xl p-2 relative">
             <label className="settingsLabel w-full inline-block" onClick={() => setCollapsed(!collapsed)}>
-                Cloud <IoCloseCircle className="mt-1 float-right" size="20" onClick={() => onRemoveCloud(props.id)} />
+                Cloud - [{cloud.startFrame}, {(cloud.startFrame + cloud.depth) % planet.noiseMap.length}]
+                <IoCloseCircle className="mt-1 float-right" size="20" onClick={() => onRemoveCloud(props.id)} />
                 {collapsed ? <BsChevronDown className=" pt-2 float-right" size="20" /> : <BsChevronUp className="pt-2 float-right" size="20" />}
             </label>
             {collapsed ? null : <div>

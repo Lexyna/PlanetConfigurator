@@ -64,18 +64,26 @@ export const renderPlanet = (buffer: Uint32Array, width: number, height: number,
     //compute Clouds
     clouds.clouds.forEach(cloud => {
 
-        if ((cloud.startFrame >= animationFrame) || (cloud.startFrame + cloud.depth < animationFrame))
-            return;
+        const startFrame = cloud.startFrame;
+        const endFrame = (cloud.startFrame + cloud.depth) % planet.noiseMap.length;
 
-        const z = animationFrame - cloud.startFrame - 1;
+        if (endFrame > startFrame)
+            if (!(animationFrame >= startFrame && animationFrame <= endFrame))
+                return;
+            else
+                if (!(animationFrame >= startFrame || animationFrame <= endFrame))
+                    return;
 
-        if (z >= cloud.depth || z < 0)
+        let z = ((animationFrame - startFrame) % planet.noiseMap.length);
+
+        if (z < 0)
+            z += planet.noiseMap.length;
+
+        if (z >= cloud.depth)
             return;
 
         const radius = cloud.maskRadius;
         const max = radius * radius;
-
-        const planetMax = (planet.radius + 0) * (planet.radius + 0);
 
         const halfMaskRadius = cloud.maskRadius / 2;
 
