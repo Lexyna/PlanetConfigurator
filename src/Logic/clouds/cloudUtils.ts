@@ -4,13 +4,13 @@ import { store } from "../../store/store";
 import { CloudProps } from "../../types/cloudProp";
 import { CloudTemplate } from "../../types/cloudTemplate";
 import { State } from "../../types/storeType";
-import { create3DSimplexNoiseMap } from "../Random/simplexNoise";
+import { create3DSimplexNoiseMap, createLooping3DSimplexNoiseMap } from "../Random/simplexNoise";
 import { clouds } from "./cloud";
 
 export const convertClouds = (prop: CloudProps): CloudTemplate => {
 
     return {
-        texture: create3DSimplexNoiseMap(prop.seed, prop.maskRadius, prop.maskRadius, prop.depth),
+        texture: createLooping3DSimplexNoiseMap(prop.seed, prop.maskRadius, prop.maskRadius, prop.depth),//create3DSimplexNoiseMap(prop.seed, prop.maskRadius, prop.maskRadius, prop.depth),
         color: prop.color,
         seed: prop.seed,
         id: prop.id,

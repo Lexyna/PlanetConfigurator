@@ -145,3 +145,7 @@ const valueToHex = (value: number) => {
     let hexadecimal = value.toString(16);
     return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
 }
+
+export const map = (value: number, istart: number, istop: number, ostart: number, ostop: number): number => {
+    return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
+};

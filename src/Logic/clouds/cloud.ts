@@ -11,7 +11,7 @@ import { State } from "../../types/storeType";
 import pixelMatrix from "../matrix/matrix";
 import planet from "../planet/planet";
 import { randomRange } from "../Random/randomUtils";
-import { create3DSimplexNoiseMap } from "../Random/simplexNoise";
+import { create3DSimplexNoiseMap, createLooping3DSimplexNoiseMap } from "../Random/simplexNoise";
 import { Animator } from "../renderer/Animator";
 import { cerateRGBColor, rgbToHex } from "../utils/utils";
 import { addCloud, convertClouds, removeCloud, updateCloudAt } from "./cloudUtils";
@@ -32,7 +32,6 @@ export const updateClouds = () => {
     }
 
     updateCloudAt();
-
 }
 
 export const recalculateCloud = () => {
@@ -49,7 +48,7 @@ export const recalculateCloud = () => {
                     clouds[j].seed = storeClouds[i].seed;
                     clouds[j].depth = storeClouds[i].depth;
                     clouds[j].maskRadius = storeClouds[i].maskRadius;
-                    clouds[j].texture = create3DSimplexNoiseMap(clouds[i].seed, clouds[i].maskRadius, clouds[i].maskRadius, clouds[i].depth)
+                    clouds[j].texture = createLooping3DSimplexNoiseMap(clouds[i].seed, clouds[i].maskRadius, clouds[i].maskRadius, clouds[i].depth)//create3DSimplexNoiseMap(clouds[i].seed, clouds[i].maskRadius, clouds[i].maskRadius, clouds[i].depth)
                 }
         }
     }
