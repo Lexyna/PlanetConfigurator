@@ -86,13 +86,11 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
 
     const onPositionXChanged = (positionX: number) => {
         cloud.pixelPositionX = positionX;
-        cloud.positionX = pixelMatrix.pixelWeight + positionX * pixelMatrix.pixelWeight;
         updateCloud(cloud);
     }
 
     const onPositionYChanged = (positionY: number) => {
         cloud.pixelPositionY = positionY;
-        cloud.positionY = pixelMatrix.pixelWeight + positionY * pixelMatrix.pixelWeight;
         updateCloud(cloud);
     }
 
@@ -180,7 +178,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                 <input
                     className="settingsInput"
                     type="number"
-                    min={-radius}
+                    min={-radius * 2}
                     max={radius}
                     value={cloud.pixelPositionY}
                     onChange={({ target: { value } }) => onPositionYChanged(parseInt(value))}

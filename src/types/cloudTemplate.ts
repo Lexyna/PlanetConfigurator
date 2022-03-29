@@ -8,8 +8,6 @@ export interface CloudTemplate {
     maskRadius: number,
     pixelPositionX: number,
     pixelPositionY: number,
-    positionX: number,
-    positionY: number
     depth: number,
     startFrame: number,
     transition: boolean,

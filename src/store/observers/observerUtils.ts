@@ -38,12 +38,6 @@ export const minorCloudsChange = (curr: CloudProps[], prev: CloudProps[]) => {
         if (cloud.startFrame !== prev[index].startFrame)
             update = false;
 
-        if (cloud.positionX !== prev[index].positionX)
-            update = false;
-
-        if (cloud.positionY !== prev[index].positionY)
-            update = false;
-
         if (cloud.pixelPositionX !== prev[index].pixelPositionX)
             update = false;
 

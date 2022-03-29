@@ -50,7 +50,6 @@ export const recalculateCloud = () => {
                     clouds[j].depth = storeClouds[i].depth;
                     clouds[j].maskRadius = storeClouds[i].maskRadius;
                     clouds[j].texture = create3DSimplexNoiseMap(clouds[i].seed, clouds[i].maskRadius, clouds[i].maskRadius, clouds[i].depth)
-
                 }
         }
     }
@@ -61,7 +60,7 @@ export const createCloud = (): CloudProps => {
 
     const seed = nanoid();
 
-    const radius = planet.radius;
+    const radius = planet.radius - 2;
     const depth = planet.noiseMap.length;
 
     const maskRadius = 20;
@@ -69,10 +68,7 @@ export const createCloud = (): CloudProps => {
     const weight = pixelMatrix.pixelWeight;
 
     const pixelPositionX = randomRange(-radius, radius);
-    const pixelPositionY = randomRange(-radius, radius);
-
-    const posX = -weight + pixelPositionX * weight;
-    const posY = -weight + pixelPositionY * weight;
+    const pixelPositionY = randomRange(-radius * 2, radius);
 
     return {
         seed: seed,
@@ -82,16 +78,16 @@ export const createCloud = (): CloudProps => {
         depth: depth,
         startFrame: Animator.getAnimationFrame(),
         transition: false,
-        static: true,
+        static: false,
         transitionFrames: 0,
         pixelPositionX: pixelPositionX,
-        pixelPositionY: pixelPositionY,
-        positionX: posX,
-        positionY: posY
+        pixelPositionY: pixelPositionY
     }
 }
 
 export const renderClouds = (buffer: Uint32Array, width: number, animationFrame: number) => {
+
+    //TODO: CLOUDS NOT WENDERING WHEN pixel wieght not 5
 
     const middleX = pixelMatrix.middleX;
     const middleY = pixelMatrix.middleY;
@@ -129,10 +125,13 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                 const cX = x - halfMaskRadius;
                 const cY = y - halfMaskRadius;
 
-                const movement = (cloud.static) ? 0 : z;
+                const movement = (cloud.static) ? 0 : z * weight;
 
-                const planetX = cloud.positionX + (x * weight) - movement;
-                const planetY = cloud.positionY + (y * weight);
+                const posX = -weight + cloud.pixelPositionX * weight;
+                const posY = -weight + cloud.pixelPositionY * weight;
+
+                const planetX = posX + (x * weight) - movement;
+                const planetY = posY + (y * weight);
 
                 if (buffer[(planetY + middleY) * width + (planetX + middleX)] === 0x00000000)
                     continue;
@@ -160,8 +159,8 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                 const pixelColor = Number(rgbToHex(rgb));
 
-                for (let px = planetX; px < cloud.positionX + (x * weight) + weight - movement; px++)
-                    for (let py = planetY; py < cloud.positionY + (y * weight) + weight; py++) {
+                for (let px = planetX; px < posX + (x * weight) + weight - movement; px++)
+                    for (let py = planetY; py < posY + (y * weight) + weight; py++) {
                         buffer[(py + middleY) * width + (px + middleX)] = pixelColor;
                     }
             }
