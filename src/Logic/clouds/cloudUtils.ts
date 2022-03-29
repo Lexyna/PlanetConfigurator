@@ -9,8 +9,12 @@ import { clouds } from "./cloud";
 
 export const convertClouds = (prop: CloudProps): CloudTemplate => {
 
+    const texture: number[][][] = (prop.looping) ?
+        createLooping3DSimplexNoiseMap(prop.seed, prop.maskRadius, prop.maskRadius, prop.depth) :
+        create3DSimplexNoiseMap(prop.seed, prop.maskRadius, prop.maskRadius, prop.depth);
+
     return {
-        texture: createLooping3DSimplexNoiseMap(prop.seed, prop.maskRadius, prop.maskRadius, prop.depth),//create3DSimplexNoiseMap(prop.seed, prop.maskRadius, prop.maskRadius, prop.depth),
+        texture: texture,
         color: prop.color,
         seed: prop.seed,
         id: prop.id,
@@ -19,6 +23,7 @@ export const convertClouds = (prop: CloudProps): CloudTemplate => {
         pixelPositionY: prop.pixelPositionY,
         depth: prop.depth,
         startFrame: prop.startFrame,
+        looping: prop.looping,
         static: prop.static,
         transition: prop.transition,
         transitionFrames: prop.transitionFrames

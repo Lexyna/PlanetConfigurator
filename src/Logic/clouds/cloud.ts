@@ -13,7 +13,7 @@ import planet from "../planet/planet";
 import { randomRange } from "../Random/randomUtils";
 import { create3DSimplexNoiseMap, createLooping3DSimplexNoiseMap } from "../Random/simplexNoise";
 import { Animator } from "../renderer/Animator";
-import { cerateRGBColor, rgbToHex } from "../utils/utils";
+import { cerateRGBColor, map, rgbToHex } from "../utils/utils";
 import { addCloud, convertClouds, removeCloud, updateCloudAt } from "./cloudUtils";
 
 export const clouds: CloudTemplate[] = []
@@ -48,7 +48,13 @@ export const recalculateCloud = () => {
                     clouds[j].seed = storeClouds[i].seed;
                     clouds[j].depth = storeClouds[i].depth;
                     clouds[j].maskRadius = storeClouds[i].maskRadius;
-                    clouds[j].texture = createLooping3DSimplexNoiseMap(clouds[i].seed, clouds[i].maskRadius, clouds[i].maskRadius, clouds[i].depth)//create3DSimplexNoiseMap(clouds[i].seed, clouds[i].maskRadius, clouds[i].maskRadius, clouds[i].depth)
+                    clouds[j].looping = storeClouds[i].looping;
+
+                    const texture: number[][][] = (clouds[i].looping) ?
+                        createLooping3DSimplexNoiseMap(clouds[i].seed, clouds[i].maskRadius, clouds[i].maskRadius, clouds[i].depth) :
+                        create3DSimplexNoiseMap(clouds[i].seed, clouds[i].maskRadius, clouds[i].maskRadius, clouds[i].depth);
+
+                    clouds[j].texture = texture;
                 }
         }
     }
@@ -60,7 +66,10 @@ export const createCloud = (): CloudProps => {
     const seed = nanoid();
 
     const radius = planet.radius - 2;
-    const depth = planet.noiseMap.length;
+
+    //calculate depth based on time on screen 3* radius
+
+    const depth = 3 * radius; //planet.noiseMap.length;
 
     const maskRadius = 20;
 
@@ -69,17 +78,28 @@ export const createCloud = (): CloudProps => {
     const pixelPositionX = randomRange(-radius, radius);
     const pixelPositionY = randomRange(-radius * 2, radius);
 
+    //offset positionX so cloud always starts right of planet
+    const offsetX = map(pixelPositionX, -radius, radius, 2 * radius, 0);
+
+    //subtracting the offset form the startFrame, gives us the cloud in the middle of the animation, making it visible on the planet
+    //Note: The startFrame cannot be negative, so modulo it.
+    let startFrame = (Animator.getAnimationFrame() - offsetX) % planet.noiseMap.length;
+
+    if (startFrame < 0)
+        startFrame += planet.noiseMap.length;
+
     return {
         seed: seed,
         color: cerateRGBColor(255, 255, 255, 255),
         id: nanoid(),
         maskRadius: maskRadius,
         depth: depth,
-        startFrame: Animator.getAnimationFrame(),
+        startFrame: startFrame,
         transition: false,
         static: false,
+        looping: false,
         transitionFrames: 0,
-        pixelPositionX: pixelPositionX,
+        pixelPositionX: pixelPositionX + offsetX, //we add the offset because it will always be negative 
         pixelPositionY: pixelPositionY
     }
 }

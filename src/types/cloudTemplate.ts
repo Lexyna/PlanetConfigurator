@@ -10,6 +10,7 @@ export interface CloudTemplate {
     pixelPositionY: number,
     depth: number,
     startFrame: number,
+    looping: boolean,
     transition: boolean,
     static: boolean,
     transitionFrames: number

@@ -88,6 +88,9 @@ export const majorCloudsChange = (curr: CloudProps[], prev: CloudProps[]) => {
         if (cloud.seed !== prev[index].seed)
             update = false;
 
+        if (cloud.looping !== prev[index].looping)
+            update = false;
+
     })
 
     return update;

@@ -10,7 +10,6 @@ import { cover, popover } from "../css/planetColorPickerStyles";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { IoCloseCircle } from "react-icons/io5";
 import planet from "../../Logic/planet/planet";
-import pixelMatrix from "../../Logic/matrix/matrix";
 
 export const CloudsSettings = () => {
 
@@ -104,6 +103,11 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
         updateCloud(cloud);
     }
 
+    const onLoopingChanged = (looping: boolean) => {
+        cloud.looping = looping;
+        updateCloud(cloud);
+    }
+
     const onCloseMethod = () => {
         setDisplay(false);
     }
@@ -144,7 +148,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     <SketchPicker color={color} onChange={onChangeColorMethod} />
                 </div> : null}
 
-                <label className="settingsLabel">Animation Length</label>
+                <label className="settingsLabel">Animation Length:</label>
                 <input
                     className="settingsInput"
                     type="number"
@@ -154,7 +158,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     onChange={({ target: { value } }) => onAnimationLengthChanged(parseInt(value))}
                 />
 
-                <label className="settingsLabel">MaskRadius</label>
+                <label className="settingsLabel">MaskRadius:</label>
                 <input
                     className="settingsInput"
                     type="number"
@@ -164,7 +168,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     onChange={({ target: { value } }) => onMaskRadiusChanged(parseInt(value))}
                 />
 
-                <label className="settingsLabel">positionX</label>
+                <label className="settingsLabel">positionX:</label>
                 <input
                     className="settingsInput"
                     type="number"
@@ -174,7 +178,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     onChange={({ target: { value } }) => onPositionXChanged(parseInt(value))}
                 />
 
-                <label className="settingsLabel">PositionY</label>
+                <label className="settingsLabel">PositionY:</label>
                 <input
                     className="settingsInput"
                     type="number"
@@ -184,7 +188,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     onChange={({ target: { value } }) => onPositionYChanged(parseInt(value))}
                 />
 
-                <label className="settingsLabel">StartFrame</label>
+                <label className="settingsLabel">StartFrame:</label>
                 <input
                     className="settingsInput"
                     type="number"
@@ -208,8 +212,15 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     onChange={() => onStaticChanged(!cloud.static)}
                 />
 
+                <label className="settingsLabel">Looping: </label>
+                <input
+                    type="checkbox"
+                    checked={cloud.looping}
+                    onChange={() => onLoopingChanged(!cloud.looping)}
+                />
+
                 <br />
-                <label className="settingsLabel">transitionFrames</label>
+                <label className="settingsLabel">transitionFrames:</label>
                 <input
                     className="settingsInput"
                     type="number"

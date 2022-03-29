@@ -5,16 +5,16 @@ export interface CloudsProps {
 }
 
 export interface CloudProps {
-    //texture: number[][][],
     color: RGBColor,
     seed: string,
     id: string,
     maskRadius: number,
     pixelPositionX: number,
     pixelPositionY: number,
-    depth: number,
+    depth: number, //length of the animation (depth of the 3D noise map calculated)
     startFrame: number,
     transition: boolean,
+    looping: boolean,
     static: boolean,
     transitionFrames: number
 } 

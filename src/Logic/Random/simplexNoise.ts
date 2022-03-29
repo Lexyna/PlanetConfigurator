@@ -1,5 +1,4 @@
 import SimplexNoise from "simplex-noise";
-import { text } from "stream/consumers";
 import { map } from "../utils/utils";
 
 export const create3DSimplexNoiseMap = (seed: string, width: number, height: number, depth: number): number[][][] => {
