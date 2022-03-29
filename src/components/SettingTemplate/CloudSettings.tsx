@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { ColorResult, SketchPicker } from "react-color";
-import { useDispatch, useSelector } from "react-redux"
-import { bindActionCreators } from "redux";
-import { createCloud } from "../../Logic/clouds/cloud";
-import { cloudActionCreators } from "../../store";
-import { cloudSelector, cloudsSelector } from "../../store/selectors/cloudSelector"
-import { radiusSelector } from "../../store/selectors/planetSelector";
-import { cover, popover } from "../css/planetColorPickerStyles";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { IoCloseCircle } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
+import { createCloud } from "../../Logic/clouds/cloud";
 import planet from "../../Logic/planet/planet";
+import { cloudActionCreators } from "../../store";
+import { cloudSelector, cloudsSelector } from "../../store/selectors/cloudSelector";
+import { radiusSelector } from "../../store/selectors/planetSelector";
+import { cover, popover } from "../css/planetColorPickerStyles";
 
 export const CloudsSettings = () => {
 
@@ -95,6 +95,11 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
 
     const onStartFrameChanged = (startFrame: number) => {
         cloud.startFrame = startFrame;
+        updateCloud(cloud);
+    }
+
+    const onTransitionChanged = (transition: boolean) => {
+        cloud.transition = transition;
         updateCloud(cloud);
     }
 
@@ -202,7 +207,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                 <input
                     type="checkbox"
                     checked={cloud.transition}
-                    onChange={() => console.log("")}
+                    onChange={() => onTransitionChanged(!cloud.transition)}
                 />
 
                 <label className="settingsLabel">Static: </label>
@@ -220,15 +225,17 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                 />
 
                 <br />
-                <label className="settingsLabel">transitionFrames:</label>
-                <input
-                    className="settingsInput"
-                    type="number"
-                    min={0}
-                    max={10}
-                    value={cloud.transitionFrames}
-                    onChange={({ target: { value } }) => console.log("")}
-                />
+                {cloud.transition ? <div>
+                    <label className="settingsLabel">transitionFrames:</label>
+                    <input
+                        className="settingsInput"
+                        type="number"
+                        min={0}
+                        max={10}
+                        value={cloud.transitionFrames}
+                        onChange={({ target: { value } }) => console.log("")}
+                    /> </div> : null
+                }
             </div>}
         </div>
     )

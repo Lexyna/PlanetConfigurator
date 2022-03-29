@@ -1,11 +1,8 @@
 import { nanoid } from "nanoid";
-import { stat } from "node:fs";
-import { text } from "node:stream/consumers";
 import { RGBColor } from "react-color";
-import { useDispatch } from "react-redux";
 import { majorCloudsChange } from "../../store/observers/observerUtils";
 import { store } from "../../store/store";
-import { CloudProps, CloudsProps } from "../../types/cloudProp";
+import { CloudProps } from "../../types/cloudProp";
 import { CloudTemplate } from "../../types/cloudTemplate";
 import { State } from "../../types/storeType";
 import pixelMatrix from "../matrix/matrix";
@@ -14,7 +11,7 @@ import { randomRange } from "../Random/randomUtils";
 import { create3DSimplexNoiseMap, createLooping3DSimplexNoiseMap } from "../Random/simplexNoise";
 import { Animator } from "../renderer/Animator";
 import { cerateRGBColor, map, rgbToHex } from "../utils/utils";
-import { addCloud, convertClouds, removeCloud, updateCloudAt } from "./cloudUtils";
+import { addCloud, removeCloud, updateCloudAt } from "./cloudUtils";
 
 export const clouds: CloudTemplate[] = []
 
