@@ -159,7 +159,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     className="settingsInput"
                     type="number"
                     min={1}
-                    max={planet.radius - 1}
+                    max={planet.radius * 2}
                     value={cloud.maskRadius}
                     onChange={({ target: { value } }) => onMaskRadiusChanged(parseInt(value))}
                 />
