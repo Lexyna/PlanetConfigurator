@@ -169,7 +169,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                 if (cloud.texture[x][y][z] < 0.6)
                     continue;
 
-                const maxAlpha = 0.7;
+                const maxAlpha = 0.8;
 
                 const pixelColor: RGBA = {
                     r: cloud.color.r,
