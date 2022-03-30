@@ -118,6 +118,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                 if (!(animationFrame >= startFrame || animationFrame <= endFrame))
                     return;
 
+        //z is the value of the current depth space for the cloud
         let z = ((animationFrame - startFrame) % planet.noiseMap.length);
 
         if (z < 0)
@@ -134,23 +135,36 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
         for (let x = 0; x < cloud.maskRadius; x++)
             for (let y = 0; y < cloud.maskRadius; y++) {
 
+                //circle values for x and y, since the (x,y) values needs to be in range [-radius, radius]
+                //to calculate the circle
                 const cX = x - halfMaskRadius;
                 const cY = y - halfMaskRadius;
 
+                //is the cloud is static, do not move it
+                //otherwise add the depthSpace * pixelWeight to offset the cloud
                 const movement = (cloud.static) ? 0 : z * weight;
 
+                //calculate the start position for the cloud
                 const posX = -weight + cloud.pixelPositionX * weight;
                 const posY = -weight + cloud.pixelPositionY * weight;
 
+                //Add the position for every pixel in the cloud to the startPosition
+                //and apply the depth offset
                 const planetX = posX + (x * weight) - movement;
                 const planetY = posY + (y * weight);
 
+                //get the current pixel on screen for the cloud,
+                //if it's black we're outside the planet => do not draw 
                 if (buffer[(planetY + middleY) * width + (planetX + middleX)] === 0x00000000)
                     continue;
 
+                //calculate if we're outside the maskRadius defined in the cloud
+                //if we're outside it, do not draw 
                 if (cX * cX + cY * cY > max)
                     continue;
 
+                //defined hard render value for the noise
+                //if we're under it => do not draw
                 if (cloud.texture[x][y][z] < 0.6)
                     continue;
 
@@ -161,7 +175,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                     a: 1
                 }
 
-                //set transition
+                //calculate clouds fade-in
                 if (cloud.transition && startFrame + cloud.transitionFrames >= animationFrame) {
 
                     let alpha = 0;
@@ -176,14 +190,20 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                 }
 
+                //defined hard render value for the noise
+                //if we're under it => adjust the alpha
                 if (cloud.texture[x][y][z] < 0.8)
                     pixelColor.a = 0.5;
 
+                //if we're near the edge of the maskRadius
+                //adjust the alpha
                 if (cX * cX + cY * cY > max / 2)
                     pixelColor.a = 0.5;
 
+                //if specified, use the original noise value as alpha 
                 pixelColor.a = cloud.texture[x][y][z];
 
+                //calculate clouds fade-out
                 if (cloud.transition && endFrame - cloud.transitionFrames <= animationFrame) {
 
                     let alpha = 0;
@@ -194,14 +214,14 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                     alpha = 1 - (alphaDecrease * currentTransitionFrame);
 
+                    //do not override old alpha values, if it is already less then fade-out alpha value
                     if (alpha < pixelColor.a)
                         pixelColor.a = alpha;
-
                 }
 
-                const bgColor = hexToRGBA(buffer[(planetY + middleY) * width + (planetX + middleX)]);
+                const backgroundColor = hexToRGBA(buffer[(planetY + middleY) * width + (planetX + middleX)]);
 
-                const blend = blendColors(cloud.blend, bgColor, pixelColor);
+                const blend = blendColors(cloud.blend, backgroundColor, pixelColor);
 
                 const blendHex = Number(rgbToHex(blend));
 
