@@ -1,4 +1,4 @@
-import { PlanetTemplate, rgb } from "../../types/planetTemplate";
+import { PlanetTemplate } from "../../types/planetTemplate";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
 import { rgbToHex } from "../utils/utils";

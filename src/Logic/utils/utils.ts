@@ -1,5 +1,5 @@
-import { IoBagCheckOutline } from "react-icons/io5";
-import { ColorSetting } from "../../components/SettingTemplate/ColorSettings";
+import { RGBA } from "color-blend/dist/types";
+import { RGBColor } from "react-color";
 import { rgb } from "../../types/planetTemplate";
 import { point2d } from "../other/Point";
 
@@ -56,13 +56,9 @@ export const circleGenerator = (radius: number): point2d[] => {
     return circle;
 }
 
-export const cerateRGBColor = (r: number, g: number, b: number, alpha?: number): rgb => {
+export const cerateRGBColor = (r: number, g: number, b: number, alpha?: number): RGBA => {
 
-    if (alpha)
-        if (alpha > 255)
-            alpha = 255;
-        else if (alpha < 0)
-            alpha = 0;
+    const a = (alpha) ? alpha : 1;
 
     if (r > 255)
         r = 255;
@@ -82,18 +78,18 @@ export const cerateRGBColor = (r: number, g: number, b: number, alpha?: number):
     if (b < 0)
         b = 0;
 
-    return { r: r, g: g, b: b, a: alpha };
+    return { r: r, g: g, b: b, a: a };
 
 }
 
-export const rgbToHex = (color: rgb): string => {
-    if (!color.a)
-        return "0x" + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
-    else
-        return "0x" + valueToHex(color.a) + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
+export const rgbToHex = (color: RGBA): string => {
+
+    const alpha = Math.floor(map(color.a, 0, 1, 0, 255));
+
+    return "0x" + valueToHex(alpha) + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
 }
 
-export const hexToRgb = (hex: string): rgb => {
+export const hexToRgb = (hex: string): RGBA => {
     var bigint = parseInt(hex, 16);
     var r = (bigint >> 16) & 255;
     var g = (bigint >> 8) & 255;
@@ -103,7 +99,31 @@ export const hexToRgb = (hex: string): rgb => {
         r: r,
         g: g,
         b: b,
-        a: 255
+        a: 1
+    }
+}
+
+export const rgbToRGBA = (rgb: rgb): RGBA => {
+
+    const alpha = (rgb.a) ? rgb.a : 255;
+
+    const color: RGBA = {
+        r: rgb.r,
+        g: rgb.g,
+        b: rgb.b,
+        a: alpha
+    }
+
+    return color;
+
+}
+
+export const rgbColorToRGBA = (color: RGBColor): RGBA => {
+    return {
+        r: color.r,
+        g: color.g,
+        b: color.b,
+        a: (color.a) ? color.a : 1
     }
 }
 
@@ -143,7 +163,7 @@ export const addRGBColors = (back: rgb, front: rgb): rgb => {
 
 const valueToHex = (value: number) => {
     let hexadecimal = value.toString(16);
-    return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
+    return hexadecimal.length === 1 ? "0" + hexadecimal : hexadecimal;
 }
 
 export const map = (value: number, istart: number, istop: number, ostart: number, ostop: number): number => {

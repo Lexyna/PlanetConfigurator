@@ -1,5 +1,6 @@
+import { normal } from "color-blend";
+import { RGBA } from "color-blend/dist/types";
 import { nanoid } from "nanoid";
-import { RGBColor } from "react-color";
 import { majorCloudsChange } from "../../store/observers/observerUtils";
 import { store } from "../../store/store";
 import { CloudProps } from "../../types/cloudProp";
@@ -10,7 +11,7 @@ import planet from "../planet/planet";
 import { randomRange } from "../Random/randomUtils";
 import { create3DSimplexNoiseMap, createLooping3DSimplexNoiseMap } from "../Random/simplexNoise";
 import { Animator } from "../renderer/Animator";
-import { cerateRGBColor, map, rgbToHex } from "../utils/utils";
+import { cerateRGBColor, hexToRgb, map, rgbToHex } from "../utils/utils";
 import { addCloud, removeCloud, updateCloudAt } from "./cloudUtils";
 
 export const clouds: CloudTemplate[] = []
@@ -155,24 +156,34 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                 const val = cloud.texture[x][y][z];
 
-                const rgb: RGBColor = {
+                const pixelColor: RGBA = {
                     r: cloud.color.r,
                     g: cloud.color.g,
                     b: cloud.color.b,
-                    a: Math.floor(255)
+                    a: 1
                 }
 
                 if (cloud.texture[x][y][z] < 0.8)
-                    rgb.a = 230;
+                    pixelColor.a = 0.5;
 
                 if (cX * cX + cY * cY > max / 2)
-                    rgb.a = 230;
+                    pixelColor.a = 0.5;
 
-                const pixelColor = Number(rgbToHex(rgb));
+                pixelColor.a = cloud.texture[x][y][z];
+                //pixelColor.a = map(pixelColor.a, 0, 255, 0, 1);
+
+                //const pixelColor = Number(rgbToHex(rgb));
 
                 for (let px = planetX; px < posX + (x * weight) + weight - movement; px++)
                     for (let py = planetY; py < posY + (y * weight) + weight; py++) {
-                        buffer[(py + middleY) * width + (px + middleX)] = pixelColor;
+
+                        const bgColor = hexToRgb(buffer[(py + middleY) * width + (px + middleX)].toString());
+
+                        const blend = normal(bgColor, pixelColor);
+
+                        const blendHex = Number(rgbToHex(blend));
+
+                        buffer[(py + middleY) * width + (px + middleX)] = blendHex;
                     }
             }
     })

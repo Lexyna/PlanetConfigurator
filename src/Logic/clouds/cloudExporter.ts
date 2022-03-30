@@ -1,4 +1,4 @@
-import { RGBColor } from "react-color";
+import { RGBA } from "color-blend/dist/types";
 import planet from "../planet/planet";
 import { rgbToHex } from "../utils/utils";
 import { clouds } from "./cloud";
@@ -64,11 +64,11 @@ export const createCloudPng = (buffer: Uint32Array, animationFrame: number) => {
 
                 const val = cloud.texture[x][y][z];
 
-                const rgb: RGBColor = {
+                const rgb: RGBA = {
                     r: cloud.color.r,
                     g: cloud.color.g,
                     b: cloud.color.b,
-                    a: Math.floor(255)
+                    a: 255
                 }
 
                 if (cloud.texture[x][y][z] < 0.8)

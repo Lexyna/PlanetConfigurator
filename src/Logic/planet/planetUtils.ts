@@ -1,7 +1,8 @@
+import { RGBA } from "color-blend/dist/types";
 import { seedSelector } from "../../store/selectors/planetSelector";
 import { store } from "../../store/store";
 import { ColorMapping } from "../../types/planetProp";
-import { planetShape, PlanetTemplate, rgb } from "../../types/planetTemplate";
+import { planetShape, PlanetTemplate } from "../../types/planetTemplate";
 import { State } from "../../types/storeType";
 import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
@@ -66,13 +67,13 @@ export const createNoiseMap = () => {
     return generatePerlinNoise(whiteNoise, 6);
 }
 
-export const calculatePixelColor = (value: number, colorMappings: ColorMapping[]): rgb => {
+export const calculatePixelColor = (value: number, colorMappings: ColorMapping[]): RGBA => {
 
-    const pixelColor: rgb = {
+    const pixelColor: RGBA = {
         r: Math.floor(255 * value),
         g: Math.floor(255 * value),
         b: Math.floor(255 * value),
-        a: 255
+        a: 1
     }
 
     let min = 1;

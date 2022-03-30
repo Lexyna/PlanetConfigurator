@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ColorResult, SketchPicker } from "react-color";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
+import { rgbColorToRGBA } from "../../Logic/utils/utils";
 import { planetActionCreators } from "../../store";
 import { colorMappingIdSelector, colorMappingSelector } from "../../store/selectors/planetSelector";
 import { ColorMapping } from "../../types/planetProp";
@@ -22,7 +23,7 @@ export const ColorSetting = () => {
     const defaultColorMapping: ColorMapping = {
         id: "none",
         value: 0,
-        color: { r: 0, g: 0, b: 0, a: 255 }
+        color: { r: 0, g: 0, b: 0, a: 1 }
     }
 
     const onAddColorMapping = () => {
@@ -63,11 +64,11 @@ const ColorElement: React.FC<{ id: string }> = (props) => {
     );
 
     const onChangeColorMethod = (color: ColorResult) => {
-        mappingColor.color = color.rgb;
+        mappingColor.color = rgbColorToRGBA(color.rgb);
         if (mappingColor.color.a)
             mappingColor.color.a = Math.floor(mappingColor.color.a * 255);
         updateColorMapping(mappingColor);
-        setColor({ ...color.rgb })
+        setColor({ ...rgbColorToRGBA(color.rgb) })
     }
 
     const onChangeValue = (value: number) => {

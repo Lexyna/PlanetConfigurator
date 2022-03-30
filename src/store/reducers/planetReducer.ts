@@ -13,27 +13,27 @@ const initialState: PlanetProps = {
         {
             id: nanoid(),
             value: 0.35,
-            color: cerateRGBColor(29, 43, 83, 255)
+            color: cerateRGBColor(29, 43, 83, 1)
         },
         {
             id: nanoid(),
             value: 0.45,
-            color: cerateRGBColor(41, 173, 255, 255)
+            color: cerateRGBColor(41, 173, 255, 1)
         },
         {
             id: nanoid(),
             value: 0.55,
-            color: cerateRGBColor(0, 228, 54, 255)
+            color: cerateRGBColor(0, 228, 54, 1)
         },
         {
             id: nanoid(),
             value: 0.7,
-            color: cerateRGBColor(0, 135, 81, 255)
+            color: cerateRGBColor(0, 135, 81, 1)
         },
         {
             id: nanoid(),
             value: 1,
-            color: cerateRGBColor(95, 87, 79, 255)
+            color: cerateRGBColor(95, 87, 79, 1)
         }
     ]
 }
