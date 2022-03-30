@@ -40,6 +40,13 @@
     transition duration-150 ease-in-out;
   }
 
+  .settingsSelect {
+    @apply block w-full px-3 py-1.5 text-base font-mono font-bold
+    border border-solid border-gray-300 rounded-xl
+    transition ease-in-out m-0
+    focus:text-gray-700 focus:bg-white focus:border-gray-700 focus:outline-none
+  }
+
 }
 
 html, body {

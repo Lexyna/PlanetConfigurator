@@ -1,8 +1,10 @@
 import { RGBColor } from "react-color"
+import { Blend } from "./cloudProp"
 
 export interface CloudTemplate {
     texture: number[][][],
     color: RGBColor,
+    blend: Blend,
     seed: string,
     id: string,
     maskRadius: number,

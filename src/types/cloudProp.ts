@@ -6,6 +6,7 @@ export interface CloudsProps {
 
 export interface CloudProps {
     color: RGBColor,
+    blend: Blend,
     seed: string,
     id: string,
     maskRadius: number,
@@ -17,4 +18,23 @@ export interface CloudProps {
     looping: boolean,
     static: boolean,
     transitionFrames: number
-} 
+}
+
+export enum Blend {
+    NORMAL = "NORMAL",
+    MULTIPLY = "MULTIPLY",
+    SCREEN = "SCREEN",
+    OVERLAY = "OVERLAY",
+    DARKEN = "DARKEN",
+    LIGHTEN = "LIGHTEN",
+    COLORDODGE = "COLORDODGE",
+    COLORBURN = "COLORBURN",
+    HARDLIGHT = "HARDLIGHT",
+    SOFTLIGHT = "SOFTLIGHT",
+    DIFFERENCE = "DIFFERENCE",
+    EXCLUSION = "EXCLUSION",
+    HUE = "HUE",
+    SATURATION = "SATURATION",
+    COLOR = "COLOR",
+    LUMINOSITY = "LUMINOSITY"
+}

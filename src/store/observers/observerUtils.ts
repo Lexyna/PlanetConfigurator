@@ -65,6 +65,9 @@ export const minorCloudsChange = (curr: CloudProps[], prev: CloudProps[]) => {
         if (cloud.color.a !== prev[index].color.a)
             update = false;
 
+        if (cloud.blend !== prev[index].blend)
+            update = false;
+
     })
 
     return update;

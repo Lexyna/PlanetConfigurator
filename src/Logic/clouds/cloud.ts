@@ -1,9 +1,8 @@
-import { normal } from "color-blend";
 import { RGBA } from "color-blend/dist/types";
 import { nanoid } from "nanoid";
 import { majorCloudsChange } from "../../store/observers/observerUtils";
 import { store } from "../../store/store";
-import { CloudProps } from "../../types/cloudProp";
+import { Blend, CloudProps } from "../../types/cloudProp";
 import { CloudTemplate } from "../../types/cloudTemplate";
 import { State } from "../../types/storeType";
 import pixelMatrix from "../matrix/matrix";
@@ -11,7 +10,7 @@ import planet from "../planet/planet";
 import { randomRange } from "../Random/randomUtils";
 import { create3DSimplexNoiseMap, createLooping3DSimplexNoiseMap } from "../Random/simplexNoise";
 import { Animator } from "../renderer/Animator";
-import { cerateRGBColor, hexToRgb, map, rgbToHex } from "../utils/utils";
+import { blendColors, cerateRGBColor, hexToRgb, map, rgbToHex } from "../utils/utils";
 import { addCloud, removeCloud, updateCloudAt } from "./cloudUtils";
 
 export const clouds: CloudTemplate[] = []
@@ -86,6 +85,7 @@ export const createCloud = (): CloudProps => {
     return {
         seed: seed,
         color: cerateRGBColor(255, 255, 255, 255),
+        blend: Blend.NORMAL,
         id: nanoid(),
         maskRadius: maskRadius,
         depth: depth,
@@ -154,8 +154,6 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                 if (cloud.texture[x][y][z] < 0.6)
                     continue;
 
-                const val = cloud.texture[x][y][z];
-
                 const pixelColor: RGBA = {
                     r: cloud.color.r,
                     g: cloud.color.g,
@@ -170,16 +168,13 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                     pixelColor.a = 0.5;
 
                 pixelColor.a = cloud.texture[x][y][z];
-                //pixelColor.a = map(pixelColor.a, 0, 255, 0, 1);
-
-                //const pixelColor = Number(rgbToHex(rgb));
 
                 for (let px = planetX; px < posX + (x * weight) + weight - movement; px++)
                     for (let py = planetY; py < posY + (y * weight) + weight; py++) {
 
                         const bgColor = hexToRgb(buffer[(py + middleY) * width + (px + middleX)].toString());
 
-                        const blend = normal(bgColor, pixelColor);
+                        const blend = blendColors(cloud.blend, bgColor, pixelColor);
 
                         const blendHex = Number(rgbToHex(blend));
 

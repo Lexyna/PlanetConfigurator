@@ -1,6 +1,6 @@
 import { minorCloudsChange } from "../../store/observers/observerUtils";
 import { store } from "../../store/store";
-import { CloudProps } from "../../types/cloudProp";
+import { Blend, CloudProps } from "../../types/cloudProp";
 import { CloudTemplate } from "../../types/cloudTemplate";
 import { State } from "../../types/storeType";
 import { create3DSimplexNoiseMap, createLooping3DSimplexNoiseMap } from "../Random/simplexNoise";
@@ -15,6 +15,7 @@ export const convertClouds = (prop: CloudProps): CloudTemplate => {
     return {
         texture: texture,
         color: prop.color,
+        blend: Blend.NORMAL,
         seed: prop.seed,
         id: prop.id,
         maskRadius: prop.maskRadius,
@@ -86,6 +87,7 @@ export const updateCloudAt = () => {
             if (storeClouds[i].id === clouds[j].id)
                 if (!minorCloudsChange([storeClouds[i]], [clouds[j]])) {
                     clouds[j].color = storeClouds[i].color;
+                    clouds[j].blend = storeClouds[i].blend;
                     clouds[j].pixelPositionX = storeClouds[i].pixelPositionX;
                     clouds[j].pixelPositionY = storeClouds[i].pixelPositionY;
                     clouds[j].static = storeClouds[i].static;
@@ -95,5 +97,4 @@ export const updateCloudAt = () => {
                 }
         }
     }
-
 }

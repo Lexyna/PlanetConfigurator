@@ -1,5 +1,7 @@
+import { color, colorBurn, colorDodge, darken, difference, exclusion, hardLight, hue, lighten, luminosity, multiply, normal, overlay, saturation, screen, softLight } from "color-blend";
 import { RGBA } from "color-blend/dist/types";
 import { RGBColor } from "react-color";
+import { Blend } from "../../types/cloudProp";
 import { rgb } from "../../types/planetTemplate";
 import { point2d } from "../other/Point";
 
@@ -164,6 +166,51 @@ export const addRGBColors = (back: rgb, front: rgb): rgb => {
 const valueToHex = (value: number) => {
     let hexadecimal = value.toString(16);
     return hexadecimal.length === 1 ? "0" + hexadecimal : hexadecimal;
+}
+
+export const blendColors = (blend: Blend, background: RGBA, foreground: RGBA): RGBA => {
+
+    switch (blend) {
+        case Blend.NORMAL: return normal(background, foreground);
+        case Blend.COLOR: return color(background, foreground);
+        case Blend.COLORBURN: return colorBurn(background, foreground);
+        case Blend.COLORDODGE: return colorDodge(background, foreground);
+        case Blend.DARKEN: return darken(background, foreground);
+        case Blend.LIGHTEN: return lighten(background, foreground);
+        case Blend.DIFFERENCE: return difference(background, foreground);
+        case Blend.EXCLUSION: return exclusion(background, foreground);
+        case Blend.HARDLIGHT: return hardLight(background, foreground);
+        case Blend.HUE: return hue(background, foreground);
+        case Blend.LUMINOSITY: return luminosity(background, foreground);
+        case Blend.SATURATION: return saturation(background, foreground);
+        case Blend.SCREEN: return screen(background, foreground);
+        case Blend.MULTIPLY: return multiply(background, foreground);
+        case Blend.SOFTLIGHT: return softLight(background, foreground);
+        case Blend.OVERLAY: return overlay(background, foreground);
+    }
+}
+
+export const stringToBlend = (blend: string): Blend => {
+
+    switch (blend) {
+        case Blend.NORMAL: return Blend.NORMAL;
+        case Blend.COLOR: return Blend.COLOR;
+        case Blend.COLORBURN: return Blend.COLORBURN;
+        case Blend.COLORDODGE: return Blend.COLORDODGE;
+        case Blend.DARKEN: return Blend.DARKEN;
+        case Blend.LIGHTEN: return Blend.LIGHTEN;
+        case Blend.DIFFERENCE: return Blend.DIFFERENCE;
+        case Blend.EXCLUSION: return Blend.EXCLUSION;
+        case Blend.HARDLIGHT: return Blend.HARDLIGHT;
+        case Blend.HUE: return Blend.HUE;
+        case Blend.LUMINOSITY: return Blend.LUMINOSITY;
+        case Blend.SATURATION: return Blend.SATURATION;
+        case Blend.SCREEN: return Blend.SCREEN;
+        case Blend.MULTIPLY: return Blend.MULTIPLY;
+        case Blend.SOFTLIGHT: return Blend.SOFTLIGHT;
+        case Blend.OVERLAY: return Blend.OVERLAY;
+        default: return Blend.NORMAL;
+    }
 }
 
 export const map = (value: number, istart: number, istop: number, ostart: number, ostop: number): number => {

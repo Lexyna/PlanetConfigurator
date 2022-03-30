@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { createCloud } from "../../Logic/clouds/cloud";
 import planet from "../../Logic/planet/planet";
+import { stringToBlend } from "../../Logic/utils/utils";
 import { cloudActionCreators } from "../../store";
 import { cloudSelector, cloudsSelector } from "../../store/selectors/cloudSelector";
 import { radiusSelector } from "../../store/selectors/planetSelector";
+import { Blend } from "../../types/cloudProp";
 import { cover, popover } from "../css/planetColorPickerStyles";
 
 export const CloudsSettings = () => {
@@ -83,6 +85,11 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
         setColor({ ...color.rgb })
     }
 
+    const onColorBlendChanged = (blend: string) => {
+        cloud.blend = stringToBlend(blend);
+        updateCloud(cloud);
+    }
+
     const onPositionXChanged = (positionX: number) => {
         cloud.pixelPositionX = positionX;
         updateCloud(cloud);
@@ -128,6 +135,12 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
 
     } as React.CSSProperties
 
+    const blendOptions: string[] = [];
+
+    for (let option in Blend) {
+        blendOptions.push(option);
+    }
+
     return (
         <div className="mt-4 bg-gray-300 rounded-xl p-2 relative">
             <label className="settingsLabel w-full inline-block" onClick={() => setCollapsed(!collapsed)}>
@@ -152,6 +165,11 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     <div style={cover} onClick={onCloseMethod} />
                     <SketchPicker color={color} onChange={onChangeColorMethod} />
                 </div> : null}
+
+                <label className="settingsLabel">Colorblend:</label>
+                <select className="settingsSelect" value={cloud.blend} onChange={({ target: { value } }) => onColorBlendChanged(value)}>
+                    {blendOptions.map((text) => <option key={text}>{text}</option>)}
+                </select>
 
                 <label className="settingsLabel">Animation Length:</label>
                 <input
