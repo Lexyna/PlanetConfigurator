@@ -167,19 +167,25 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     onChange={({ target: { value } }) => onSeedChanged(value)}
                 />
 
-                <label className="settingsLabel">Color:</label>
-                <div onClick={onClickMethod}>
-                    <div style={colorStyle} className="rounded-xl"></div>
-                </div>
-                {display ? <div style={popover}>
-                    <div style={cover} onClick={onCloseMethod} />
-                    <SketchPicker color={color} onChange={onChangeColorMethod} />
-                </div> : null}
+                <div className="flex">
+                    <div className="w-full">
+                        <label className="settingsLabel">Color:</label>
+                        <div onClick={onClickMethod}>
+                            <div style={colorStyle} className="rounded-xl"></div>
+                        </div>
+                        {display ? <div style={popover}>
+                            <div style={cover} onClick={onCloseMethod} />
+                            <SketchPicker color={color} onChange={onChangeColorMethod} />
+                        </div> : null}
+                    </div>
 
-                <label className="settingsLabel">Colorblend:</label>
-                <select className="settingsSelect" value={cloud.blend} onChange={({ target: { value } }) => onColorBlendChanged(value)}>
-                    {blendOptions.map((text) => <option key={text}>{text}</option>)}
-                </select>
+                    <div>
+                        <label className="settingsLabel">Colorblend:</label>
+                        <select className="settingsSelect p-2 mt-1" value={cloud.blend} onChange={({ target: { value } }) => onColorBlendChanged(value)}>
+                            {blendOptions.map((text) => <option key={text}>{text}</option>)}
+                        </select>
+                    </div>
+                </div>
 
                 <label className="settingsLabel">Animation Length:</label>
                 <input
@@ -201,25 +207,30 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     onChange={({ target: { value } }) => onMaskRadiusChanged(parseInt(value))}
                 />
 
-                <label className="settingsLabel">positionX:</label>
-                <input
-                    className="settingsInput"
-                    type="number"
-                    min={-radius}
-                    max={radius}
-                    value={cloud.pixelPositionX}
-                    onChange={({ target: { value } }) => onPositionXChanged(parseInt(value))}
-                />
-
-                <label className="settingsLabel">PositionY:</label>
-                <input
-                    className="settingsInput"
-                    type="number"
-                    min={-radius * 2}
-                    max={radius}
-                    value={cloud.pixelPositionY}
-                    onChange={({ target: { value } }) => onPositionYChanged(parseInt(value))}
-                />
+                <div className="flex">
+                    <div>
+                        <label className="settingsLabel">Start positionX:</label>
+                        <input
+                            className="settingsInput"
+                            type="number"
+                            min={-radius}
+                            max={radius}
+                            value={cloud.pixelPositionX}
+                            onChange={({ target: { value } }) => onPositionXChanged(parseInt(value))}
+                        />
+                    </div>
+                    <div>
+                        <label className="settingsLabel">Start positionY:</label>
+                        <input
+                            className="settingsInput"
+                            type="number"
+                            min={-radius * 2}
+                            max={radius}
+                            value={cloud.pixelPositionY}
+                            onChange={({ target: { value } }) => onPositionYChanged(parseInt(value))}
+                        />
+                    </div>
+                </div>
 
                 <label className="settingsLabel">StartFrame:</label>
                 <input
@@ -229,13 +240,6 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     max={255}
                     value={cloud.startFrame}
                     onChange={({ target: { value } }) => onStartFrameChanged(parseInt(value))}
-                />
-
-                <label className="settingsLabel">Transition: </label>
-                <input
-                    type="checkbox"
-                    checked={cloud.transition}
-                    onChange={() => onTransitionChanged(!cloud.transition)}
                 />
 
                 <label className="settingsLabel">Static: </label>
@@ -257,6 +261,13 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     type="checkbox"
                     checked={cloud.usePreciseValues}
                     onChange={() => onPrecisionModeChanged(!cloud.usePreciseValues)}
+                />
+
+                <label className="settingsLabel">Transition: </label>
+                <input
+                    type="checkbox"
+                    checked={cloud.transition}
+                    onChange={() => onTransitionChanged(!cloud.transition)}
                 />
 
                 <br />
