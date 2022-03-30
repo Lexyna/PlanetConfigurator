@@ -53,6 +53,9 @@ export const minorCloudsChange = (curr: CloudProps[], prev: CloudProps[]) => {
         if (cloud.transition !== prev[index].transition)
             update = false;
 
+        if (cloud.transitionFrames !== prev[index].transitionFrames)
+            update = false;
+
         if (cloud.color.r !== prev[index].color.r)
             update = false;
 

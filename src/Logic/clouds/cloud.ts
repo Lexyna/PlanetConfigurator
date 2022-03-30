@@ -10,7 +10,7 @@ import planet from "../planet/planet";
 import { randomRange } from "../Random/randomUtils";
 import { create3DSimplexNoiseMap, createLooping3DSimplexNoiseMap } from "../Random/simplexNoise";
 import { Animator } from "../renderer/Animator";
-import { blendColors, cerateRGBColor, hexToRgb, map, rgbToHex } from "../utils/utils";
+import { blendColors, cerateRGBColor, hexToRGBA, map, rgbToHex } from "../utils/utils";
 import { addCloud, removeCloud, updateCloudAt } from "./cloudUtils";
 
 export const clouds: CloudTemplate[] = []
@@ -167,17 +167,40 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                 if (cX * cX + cY * cY > max / 2)
                     pixelColor.a = 0.5;
 
-                pixelColor.a = cloud.texture[x][y][z];
+                //pixelColor.a = cloud.texture[x][y][z];
+
+                //set transition
+                if (cloud.transition && startFrame + cloud.transitionFrames >= animationFrame) {
+
+                    let alpha = 0;
+
+                    const alphaIncrease = 1 / cloud.depth;
+
+                    const currentTransitionFame = animationFrame - startFrame;
+
+                    alpha = (alphaIncrease * currentTransitionFame);
+
+                    pixelColor.a = alpha;
+
+                }
+
+                //const bgColor = hexToRgb(buffer[(planetY + middleY) * width + (planetX + middleX)].toString());
+                const bgColor = hexToRGBA(buffer[(planetY + middleY) * width + (planetX + middleX)]);
+
+                /*const bgColor: RGBA = {
+                    r: 0,
+                    g: 255,
+                    b: 0,
+                    a: 1
+                }*/
+
+                const blend = blendColors(cloud.blend, bgColor, pixelColor);
+
+                //rgb to Hex, inverted values!!!!ö
+                const blendHex = Number(rgbToHex(blend));
 
                 for (let px = planetX; px < posX + (x * weight) + weight - movement; px++)
                     for (let py = planetY; py < posY + (y * weight) + weight; py++) {
-
-                        const bgColor = hexToRgb(buffer[(py + middleY) * width + (px + middleX)].toString());
-
-                        const blend = blendColors(cloud.blend, bgColor, pixelColor);
-
-                        const blendHex = Number(rgbToHex(blend));
-
                         buffer[(py + middleY) * width + (px + middleX)] = blendHex;
                     }
             }

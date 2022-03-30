@@ -91,17 +91,27 @@ export const rgbToHex = (color: RGBA): string => {
     return "0x" + valueToHex(alpha) + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
 }
 
-export const hexToRgb = (hex: string): RGBA => {
-    var bigint = parseInt(hex, 16);
-    var r = (bigint >> 16) & 255;
-    var g = (bigint >> 8) & 255;
-    var b = bigint & 255;
+export const hexToRGBA = (hex: number): RGBA => {
+
+    const hexString: string = hex.toString(16);
+
+    const hexArray = hexString.match(/.{1,2}/g);
+
+    if (!hexArray)
+        return {
+            r: 0,
+            g: 0,
+            b: 0,
+            a: 0
+        }
+
+    const alpha = map(parseInt(hexArray[0], 16), 0, 255, 0, 1);
 
     return {
-        r: r,
-        g: g,
-        b: b,
-        a: 1
+        r: parseInt(hexArray[3], 16),
+        g: parseInt(hexArray[2], 16),
+        b: parseInt(hexArray[1], 16),
+        a: alpha
     }
 }
 

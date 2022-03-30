@@ -110,6 +110,11 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
         updateCloud(cloud);
     }
 
+    const onTransitionFrameChanged = (transitionFrame: number) => {
+        cloud.transitionFrames = transitionFrame;
+        updateCloud(cloud);
+    }
+
     const onStaticChanged = (staticCloud: boolean) => {
         cloud.static = staticCloud;
         updateCloud(cloud);
@@ -251,7 +256,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                         min={0}
                         max={10}
                         value={cloud.transitionFrames}
-                        onChange={({ target: { value } }) => console.log("")}
+                        onChange={({ target: { value } }) => onTransitionFrameChanged(parseInt(value))}
                     /> </div> : null
                 }
             </div>}
