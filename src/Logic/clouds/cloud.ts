@@ -161,38 +161,45 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                     a: 1
                 }
 
+                //set transition
+                if (cloud.transition && startFrame + cloud.transitionFrames >= animationFrame) {
+
+                    let alpha = 0;
+
+                    const alphaIncrease = 1 / cloud.transitionFrames;
+
+                    const currentTransitionFrame = animationFrame - startFrame;
+
+                    alpha = (alphaIncrease * currentTransitionFrame);
+
+                    pixelColor.a = alpha;
+
+                }
+
                 if (cloud.texture[x][y][z] < 0.8)
                     pixelColor.a = 0.5;
 
                 if (cX * cX + cY * cY > max / 2)
                     pixelColor.a = 0.5;
 
-                //pixelColor.a = cloud.texture[x][y][z];
-
-                //set transition
-                if (cloud.transition && startFrame + cloud.transitionFrames >= animationFrame) {
+                if (cloud.transition && endFrame - cloud.transitionFrames <= animationFrame) {
 
                     let alpha = 0;
 
-                    const alphaIncrease = 1 / cloud.depth;
+                    const alphaDecrease = 1 / cloud.transitionFrames;
 
-                    const currentTransitionFame = animationFrame - startFrame;
+                    const currentTransitionFrame = (endFrame - animationFrame - cloud.transitionFrames) * (-1);
 
-                    alpha = (alphaIncrease * currentTransitionFame);
+                    alpha = 1 - (alphaDecrease * currentTransitionFrame);
 
-                    pixelColor.a = alpha;
+                    if (alpha < pixelColor.a)
+                        pixelColor.a = alpha;
 
                 }
 
-                //const bgColor = hexToRgb(buffer[(planetY + middleY) * width + (planetX + middleX)].toString());
-                const bgColor = hexToRGBA(buffer[(planetY + middleY) * width + (planetX + middleX)]);
+                //pixelColor.a = cloud.texture[x][y][z];
 
-                /*const bgColor: RGBA = {
-                    r: 0,
-                    g: 255,
-                    b: 0,
-                    a: 1
-                }*/
+                const bgColor = hexToRGBA(buffer[(planetY + middleY) * width + (planetX + middleX)]);
 
                 const blend = blendColors(cloud.blend, bgColor, pixelColor);
 

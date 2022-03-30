@@ -254,7 +254,6 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                         className="settingsInput"
                         type="number"
                         min={0}
-                        max={10}
                         value={cloud.transitionFrames}
                         onChange={({ target: { value } }) => onTransitionFrameChanged(parseInt(value))}
                     /> </div> : null
