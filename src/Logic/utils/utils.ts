@@ -139,40 +139,6 @@ export const rgbColorToRGBA = (color: RGBColor): RGBA => {
     }
 }
 
-export const addRGBColors = (back: rgb, front: rgb): rgb => {
-
-    const color: rgb = { r: 0, g: 0, b: 0, a: 0 };
-
-    if (!back.a || !front.a)
-        return color;
-
-    back.r /= 255;
-    back.g /= 255;
-    back.b /= 255;
-    back.a /= 255;
-
-    front.r /= 255;
-    front.g /= 255;
-    front.b /= 255;
-    front.a /= 255;
-
-    color.a = 1 - (1 - front.a) * (1 - back.a);
-
-    if (color.a < 1.0e-6)
-        return color;
-
-    color.r = front.r * front.a / color.a + back.r * back.a * (1 - front.a) / color.a;
-    color.g = front.g * front.a / color.a + back.g * back.a * (1 - front.a) / color.a;
-    color.b = front.b * front.a / color.a + back.b * back.a * (1 - front.a) / color.a;
-
-    color.r = Math.floor(color.r * 255);
-    color.g = Math.floor(color.g * 255);
-    color.b = Math.floor(color.b * 255);
-    color.a = Math.floor(color.a * 255);
-
-    return color;
-}
-
 const valueToHex = (value: number) => {
     let hexadecimal = value.toString(16);
     return hexadecimal.length === 1 ? "0" + hexadecimal : hexadecimal;

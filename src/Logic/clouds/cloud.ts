@@ -182,6 +182,8 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                 if (cX * cX + cY * cY > max / 2)
                     pixelColor.a = 0.5;
 
+                pixelColor.a = cloud.texture[x][y][z];
+
                 if (cloud.transition && endFrame - cloud.transitionFrames <= animationFrame) {
 
                     let alpha = 0;
@@ -197,13 +199,10 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                 }
 
-                //pixelColor.a = cloud.texture[x][y][z];
-
                 const bgColor = hexToRGBA(buffer[(planetY + middleY) * width + (planetX + middleX)]);
 
                 const blend = blendColors(cloud.blend, bgColor, pixelColor);
 
-                //rgb to Hex, inverted values!!!!ö
                 const blendHex = Number(rgbToHex(blend));
 
                 for (let px = planetX; px < posX + (x * weight) + weight - movement; px++)
