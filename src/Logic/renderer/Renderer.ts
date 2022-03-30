@@ -1,6 +1,7 @@
 import { saveAs } from 'file-saver';
 import JSZip from "jszip";
 import { renderClouds } from '../clouds/cloud';
+import { createCloudPng } from '../clouds/cloudExporter';
 import planet, { renderPlanet } from "../planet/planet";
 import { createPlanetPNG } from "../planet/planetExporter";
 import { Animator } from "./Animator";
@@ -109,14 +110,20 @@ export class Renderer {
             new Uint32Array(planetImg.data.buffer),
             Animator.getAnimationFrame());
 
+        createCloudPng(
+            new Uint32Array(planetImg.data.buffer),
+            Animator.getAnimationFrame());
+
         this.downloadCtx.putImageData(planetImg, 0, 0);
 
-        const link = document.createElement("a");
+        const link: HTMLAnchorElement = document.createElement("a");
+
+        this.canvas.appendChild(link);
         link.download = "planet.png";
         link.href = this.downloadCanvas.toDataURL();
         link.click();
 
-        document.removeChild(link);
+        this.canvas.removeChild(link);
 
     }
 
@@ -136,6 +143,12 @@ export class Renderer {
                 new Uint32Array(planetImg.data.buffer),
                 i
             );
+
+            createCloudPng(
+                new Uint32Array(planetImg.data.buffer),
+                i
+            );
+
             this.downloadCtx.putImageData(planetImg, 0, 0);
             const base64 = this.downloadCanvas.toDataURL()
                 .replace(/^data:image\/(png|jpg);base64,/, "");

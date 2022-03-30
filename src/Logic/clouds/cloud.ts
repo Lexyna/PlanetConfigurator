@@ -65,12 +65,9 @@ export const createCloud = (): CloudProps => {
     const radius = planet.radius - 2;
 
     //calculate depth based on time on screen 3* radius
+    const depth = 3 * radius;
 
-    const depth = 3 * radius; //planet.noiseMap.length;
-
-    const maskRadius = 20;
-
-    const weight = pixelMatrix.pixelWeight;
+    const maskRadius = radius + 2;
 
     const pixelPositionX = randomRange(-radius, radius);
     const pixelPositionY = randomRange(-radius * 2, radius);
@@ -102,8 +99,6 @@ export const createCloud = (): CloudProps => {
 }
 
 export const renderClouds = (buffer: Uint32Array, width: number, animationFrame: number) => {
-
-    //TODO: CLOUDS NOT WENDERING WHEN pixel wieght not 5
 
     const middleX = pixelMatrix.middleX;
     const middleY = pixelMatrix.middleY;
