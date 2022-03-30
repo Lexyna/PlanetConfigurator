@@ -53,6 +53,9 @@ export const minorCloudsChange = (curr: CloudProps[], prev: CloudProps[]) => {
         if (cloud.transition !== prev[index].transition)
             update = false;
 
+        if (cloud.usePreciseValues !== prev[index].usePreciseValues)
+            update = false;
+
         if (cloud.transitionFrames !== prev[index].transitionFrames)
             update = false;
 

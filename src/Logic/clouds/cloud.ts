@@ -64,7 +64,7 @@ export const createCloud = (): CloudProps => {
 
     const radius = planet.radius - 2;
 
-    //calculate depth based on time on screen 3* radius
+    //calculate depth based on time on screen (3 * radius)
     const depth = 3 * radius;
 
     const maskRadius = radius + 2;
@@ -93,6 +93,7 @@ export const createCloud = (): CloudProps => {
         transition: false,
         static: false,
         looping: false,
+        usePreciseValues: false,
         transitionFrames: 0,
         pixelPositionX: pixelPositionX + offsetX, //we add the offset because it will always be negative 
         pixelPositionY: pixelPositionY
@@ -168,11 +169,13 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                 if (cloud.texture[x][y][z] < 0.6)
                     continue;
 
+                const maxAlpha = 0.7;
+
                 const pixelColor: RGBA = {
                     r: cloud.color.r,
                     g: cloud.color.g,
                     b: cloud.color.b,
-                    a: 1
+                    a: maxAlpha
                 }
 
                 //calculate clouds fade-in
@@ -180,7 +183,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                     let alpha = 0;
 
-                    const alphaIncrease = 1 / cloud.transitionFrames;
+                    const alphaIncrease = maxAlpha / cloud.transitionFrames;
 
                     const currentTransitionFrame = animationFrame - startFrame;
 
@@ -201,14 +204,15 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                     pixelColor.a = 0.5;
 
                 //if specified, use the original noise value as alpha 
-                pixelColor.a = cloud.texture[x][y][z];
+                if (cloud.usePreciseValues)
+                    pixelColor.a = cloud.texture[x][y][z];
 
                 //calculate clouds fade-out
                 if (cloud.transition && endFrame - cloud.transitionFrames <= animationFrame) {
 
                     let alpha = 0;
 
-                    const alphaDecrease = 1 / cloud.transitionFrames;
+                    const alphaDecrease = maxAlpha / cloud.transitionFrames;
 
                     const currentTransitionFrame = (endFrame - animationFrame - cloud.transitionFrames) * (-1);
 

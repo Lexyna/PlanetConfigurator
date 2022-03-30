@@ -120,6 +120,11 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
         updateCloud(cloud);
     }
 
+    const onPrecisionModeChanged = (precisionMode: boolean) => {
+        cloud.usePreciseValues = precisionMode;
+        updateCloud(cloud);
+    }
+
     const onLoopingChanged = (looping: boolean) => {
         cloud.looping = looping;
         updateCloud(cloud);
@@ -245,6 +250,13 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     type="checkbox"
                     checked={cloud.looping}
                     onChange={() => onLoopingChanged(!cloud.looping)}
+                />
+
+                <label className="settingsLabel">PrecisionMode: </label>
+                <input
+                    type="checkbox"
+                    checked={cloud.usePreciseValues}
+                    onChange={() => onPrecisionModeChanged(!cloud.usePreciseValues)}
                 />
 
                 <br />

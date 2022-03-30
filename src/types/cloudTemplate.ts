@@ -15,5 +15,6 @@ export interface CloudTemplate {
     looping: boolean,
     transition: boolean,
     static: boolean,
+    usePreciseValues: boolean,
     transitionFrames: number
 } 

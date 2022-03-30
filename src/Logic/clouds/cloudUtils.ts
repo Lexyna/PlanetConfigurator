@@ -26,6 +26,7 @@ export const convertClouds = (prop: CloudProps): CloudTemplate => {
         looping: prop.looping,
         static: prop.static,
         transition: prop.transition,
+        usePreciseValues: prop.usePreciseValues,
         transitionFrames: prop.transitionFrames
     }
 
@@ -91,6 +92,7 @@ export const updateCloudAt = () => {
                     clouds[j].pixelPositionX = storeClouds[i].pixelPositionX;
                     clouds[j].pixelPositionY = storeClouds[i].pixelPositionY;
                     clouds[j].static = storeClouds[i].static;
+                    clouds[j].usePreciseValues = storeClouds[i].usePreciseValues;
                     clouds[j].startFrame = storeClouds[i].startFrame;
                     clouds[j].transition = storeClouds[i].transition;
                     clouds[j].transitionFrames = storeClouds[i].transitionFrames;

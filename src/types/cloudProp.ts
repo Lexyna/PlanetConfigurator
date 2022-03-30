@@ -17,6 +17,7 @@ export interface CloudProps {
     transition: boolean,
     looping: boolean,
     static: boolean,
+    usePreciseValues: boolean,
     transitionFrames: number
 }
 
