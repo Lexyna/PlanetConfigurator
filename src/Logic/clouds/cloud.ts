@@ -64,8 +64,9 @@ export const createCloud = (): CloudProps => {
 
     const radius = planet.radius - 2;
 
-    //calculate depth based on time on screen (3 * radius)
-    const depth = 3 * radius;
+    //calculate depth based on time on screen ((3 * radius) / movement speed)
+    //+1 for convenience
+    const depth = Math.floor((3 * radius) / 2) + 3;
 
     const maskRadius = radius + 2;
 
@@ -143,7 +144,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                 //is the cloud is static, do not move it
                 //otherwise add the depthSpace * pixelWeight to offset the cloud
-                const movement = (cloud.static) ? 0 : z * weight;
+                const movement = (cloud.static) ? 0 : 2 * z * weight;
 
                 //calculate the start position for the cloud
                 const posX = -weight + cloud.pixelPositionX * weight;
