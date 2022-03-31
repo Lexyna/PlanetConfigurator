@@ -86,6 +86,7 @@ export const createCloud = (): CloudProps => {
     return {
         seed: seed,
         color: cerateRGBColor(255, 255, 255, 255),
+        maxAlpha: 0.8,
         blend: Blend.NORMAL,
         id: nanoid(),
         maskRadius: maskRadius,
@@ -173,7 +174,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                 //max alpha defined for this cloud
                 //used as a base to calculate the alpha increase/decrease during transitions
-                const maxAlpha = 0.8;
+                const maxAlpha = cloud.maxAlpha;
 
                 const pixelColor: RGBA = {
                     r: cloud.color.r,

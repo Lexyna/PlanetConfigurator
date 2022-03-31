@@ -6,6 +6,7 @@ export interface CloudsProps {
 
 export interface CloudProps {
     color: RGBColor,
+    maxAlpha: number,
     blend: Blend,
     seed: string,
     id: string,

@@ -15,6 +15,7 @@ export const convertClouds = (prop: CloudProps): CloudTemplate => {
     return {
         texture: texture,
         color: prop.color,
+        maxAlpha: prop.maxAlpha,
         blend: Blend.NORMAL,
         seed: prop.seed,
         id: prop.id,
@@ -89,6 +90,7 @@ export const updateCloudAt = () => {
             if (storeClouds[i].id === clouds[j].id)
                 if (!minorCloudsChange([storeClouds[i]], [clouds[j]])) {
                     clouds[j].color = storeClouds[i].color;
+                    clouds[j].maxAlpha = storeClouds[i].maxAlpha;
                     clouds[j].blend = storeClouds[i].blend;
                     clouds[j].pixelPositionX = storeClouds[i].pixelPositionX;
                     clouds[j].pixelPositionY = storeClouds[i].pixelPositionY;

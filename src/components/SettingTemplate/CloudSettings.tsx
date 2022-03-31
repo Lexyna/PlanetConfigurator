@@ -85,6 +85,12 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
         setColor({ ...color.rgb })
     }
 
+    const onMaxAlphaChanged = (alpha: number) => {
+        cloud.maxAlpha = alpha;
+
+        updateCloud(cloud);
+    }
+
     const onColorBlendChanged = (blend: string) => {
         cloud.blend = stringToBlend(blend);
         updateCloud(cloud);
@@ -182,6 +188,19 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                             <div style={cover} onClick={onCloseMethod} />
                             <SketchPicker color={color} onChange={onChangeColorMethod} />
                         </div> : null}
+                    </div>
+
+                    <div>
+                        <label className="settingsLabel">AlphaMax:</label>
+                        <input
+                            className="settingsInput"
+                            type="number"
+                            min={0}
+                            max={1}
+                            step={0.01}
+                            defaultValue={cloud.maxAlpha}
+                            onChange={({ target: { value } }) => onMaxAlphaChanged(parseFloat(value))}
+                        />
                     </div>
 
                     <div>

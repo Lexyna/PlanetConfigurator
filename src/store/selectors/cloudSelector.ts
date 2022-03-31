@@ -18,6 +18,7 @@ export const cloudSelector = (id: string) => (state: State): CloudProps => {
 
 const initialCloud: CloudProps = {
     color: cerateRGBColor(255, 255, 255, 255),
+    maxAlpha: 0,
     blend: Blend.NORMAL,
     id: nanoid(),
     seed: nanoid(),

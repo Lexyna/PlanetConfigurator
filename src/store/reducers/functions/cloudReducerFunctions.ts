@@ -1,4 +1,4 @@
-import { CloudProps, CloudsProps } from "../../../types/cloudProp";
+import { CloudsProps } from "../../../types/cloudProp";
 import { AddCloudAction, RemoveCloudAction, UpdateCloudAction } from "../../actions/cloudActions";
 
 export const addCloud = (state: CloudsProps, action: AddCloudAction): CloudsProps => {

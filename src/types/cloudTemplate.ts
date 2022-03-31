@@ -4,6 +4,7 @@ import { Blend } from "./cloudProp"
 export interface CloudTemplate {
     texture: number[][][],
     color: RGBColor,
+    maxAlpha: number,
     blend: Blend,
     seed: string,
     id: string,
