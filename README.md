@@ -2,6 +2,7 @@
 
 ![samplePlanet1](https://github.com/Lexyna/PlanetConfigurator/blob/dev/res/gifs/samplePlanet.gif)
 ![samplePlanet2](https://github.com/Lexyna/PlanetConfigurator/blob/dev/res/gifs/samplePlanet2.gif)
+![samplePlanet3](https://github.com/Lexyna/PlanetConfigurator/blob/dev/res/gifs/samplePlanet3.gif)
 
 ## Demo
 
