@@ -7,7 +7,7 @@ export const createPlanetPNG = (buffer: Uint32Array, animationFrame: number) => 
 
     const radius: number = planet.radius;
 
-    const imgSize = radius * 2;
+    const imgSize = (radius * 2) + 1;
 
     planet.shape.pixelCircle.forEach((pixel: point2d, index: number) => {
 

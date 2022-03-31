@@ -1,4 +1,4 @@
-import { RGBColor } from "react-color";
+import { RGBA } from "color-blend/dist/types";
 
 export interface PlanetProps {
     radius: number;
@@ -9,5 +9,5 @@ export interface PlanetProps {
 export interface ColorMapping {
     id: string,
     value: number,
-    color: RGBColor
+    color: RGBA
 }

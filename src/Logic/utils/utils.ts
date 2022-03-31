@@ -1,3 +1,7 @@
+import { color, colorBurn, colorDodge, darken, difference, exclusion, hardLight, hue, lighten, luminosity, multiply, normal, overlay, saturation, screen, softLight } from "color-blend";
+import { RGBA } from "color-blend/dist/types";
+import { RGBColor } from "react-color";
+import { Blend } from "../../types/cloudProp";
 import { rgb } from "../../types/planetTemplate";
 import { point2d } from "../other/Point";
 
@@ -54,13 +58,9 @@ export const circleGenerator = (radius: number): point2d[] => {
     return circle;
 }
 
-export const cerateRGBColor = (r: number, g: number, b: number, alpha?: number): rgb => {
+export const cerateRGBColor = (r: number, g: number, b: number, alpha?: number): RGBA => {
 
-    if (alpha)
-        if (alpha > 255)
-            alpha = 255;
-        else if (alpha < 0)
-            alpha = 0;
+    const a = (alpha) ? alpha : 1;
 
     if (r > 255)
         r = 255;
@@ -80,18 +80,115 @@ export const cerateRGBColor = (r: number, g: number, b: number, alpha?: number):
     if (b < 0)
         b = 0;
 
-    return { r: r, g: g, b: b, a: alpha };
+    return { r: r, g: g, b: b, a: a };
 
 }
 
-export const rgbToHex = (color: rgb): string => {
-    if (!color.a)
-        return "0x" + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
-    else
-        return "0x" + valueToHex(color.a) + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
+export const rgbToHex = (color: RGBA): string => {
+
+    const alpha = Math.floor(map(color.a, 0, 1, 0, 255));
+
+    return "0x" + valueToHex(alpha) + valueToHex(color.b) + valueToHex(color.g) + valueToHex(color.r)
+}
+
+export const hexToRGBA = (hex: number): RGBA => {
+
+    const hexString: string = hex.toString(16);
+
+    const hexArray = hexString.match(/.{1,2}/g);
+
+    if (!hexArray)
+        return {
+            r: 0,
+            g: 0,
+            b: 0,
+            a: 0
+        }
+
+    const alpha = map(parseInt(hexArray[0], 16), 0, 255, 0, 1);
+
+    return {
+        r: parseInt(hexArray[3], 16),
+        g: parseInt(hexArray[2], 16),
+        b: parseInt(hexArray[1], 16),
+        a: alpha
+    }
+}
+
+export const rgbToRGBA = (rgb: rgb): RGBA => {
+
+    const alpha = (rgb.a) ? rgb.a : 255;
+
+    const color: RGBA = {
+        r: rgb.r,
+        g: rgb.g,
+        b: rgb.b,
+        a: alpha
+    }
+
+    return color;
+
+}
+
+export const rgbColorToRGBA = (color: RGBColor): RGBA => {
+    return {
+        r: color.r,
+        g: color.g,
+        b: color.b,
+        a: (color.a) ? color.a : 1
+    }
 }
 
 const valueToHex = (value: number) => {
     let hexadecimal = value.toString(16);
-    return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
+    return hexadecimal.length === 1 ? "0" + hexadecimal : hexadecimal;
 }
+
+export const blendColors = (blend: Blend, background: RGBA, foreground: RGBA): RGBA => {
+
+    switch (blend) {
+        case Blend.NORMAL: return normal(background, foreground);
+        case Blend.COLOR: return color(background, foreground);
+        case Blend.COLORBURN: return colorBurn(background, foreground);
+        case Blend.COLORDODGE: return colorDodge(background, foreground);
+        case Blend.DARKEN: return darken(background, foreground);
+        case Blend.LIGHTEN: return lighten(background, foreground);
+        case Blend.DIFFERENCE: return difference(background, foreground);
+        case Blend.EXCLUSION: return exclusion(background, foreground);
+        case Blend.HARDLIGHT: return hardLight(background, foreground);
+        case Blend.HUE: return hue(background, foreground);
+        case Blend.LUMINOSITY: return luminosity(background, foreground);
+        case Blend.SATURATION: return saturation(background, foreground);
+        case Blend.SCREEN: return screen(background, foreground);
+        case Blend.MULTIPLY: return multiply(background, foreground);
+        case Blend.SOFTLIGHT: return softLight(background, foreground);
+        case Blend.OVERLAY: return overlay(background, foreground);
+    }
+}
+
+export const stringToBlend = (blend: string): Blend => {
+
+    switch (blend) {
+        case Blend.NORMAL: return Blend.NORMAL;
+        case Blend.COLOR: return Blend.COLOR;
+        case Blend.COLORBURN: return Blend.COLORBURN;
+        case Blend.COLORDODGE: return Blend.COLORDODGE;
+        case Blend.DARKEN: return Blend.DARKEN;
+        case Blend.LIGHTEN: return Blend.LIGHTEN;
+        case Blend.DIFFERENCE: return Blend.DIFFERENCE;
+        case Blend.EXCLUSION: return Blend.EXCLUSION;
+        case Blend.HARDLIGHT: return Blend.HARDLIGHT;
+        case Blend.HUE: return Blend.HUE;
+        case Blend.LUMINOSITY: return Blend.LUMINOSITY;
+        case Blend.SATURATION: return Blend.SATURATION;
+        case Blend.SCREEN: return Blend.SCREEN;
+        case Blend.MULTIPLY: return Blend.MULTIPLY;
+        case Blend.SOFTLIGHT: return Blend.SOFTLIGHT;
+        case Blend.OVERLAY: return Blend.OVERLAY;
+        default: return Blend.NORMAL;
+    }
+}
+
+export const map = (value: number, istart: number, istop: number, ostart: number, ostop: number): number => {
+    return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
+};

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { IoColorPalette, IoDice, IoPlanet, IoPlayCircle } from "react-icons/io5";
+import { IoColorPalette, IoDice, IoPlanet, IoPlayCircle, IoCloud } from "react-icons/io5";
 import { PropertiesEditor } from "./PropertieEditor";
+import { CloudsSettings } from "./SettingTemplate/CloudSettings";
 import { ColorSetting } from "./SettingTemplate/ColorSettings";
 import { PlanetSettingsTemplate } from "./SettingTemplate/PlanetSettings";
 import { RandomSetting } from "./SettingTemplate/RandomSettings";
@@ -9,6 +10,7 @@ import { RenderSetting } from "./SettingTemplate/RenderSettings";
 export const SideBar = () => {
 
     const [displayState, setDisplayState] = useState([
+        false,
         false,
         false,
         false,
@@ -31,8 +33,9 @@ export const SideBar = () => {
 
             <SideBarIcon icon={<IoPlanet size="32" />} text="Planet settings" settingsTemplate={<PlanetSettingsTemplate />} display={displayState[0]} toggleDisplay={() => updateEditor(0)} />
             <SideBarIcon icon={<IoColorPalette size="32" />} text="Color settings" settingsTemplate={<ColorSetting />} display={displayState[1]} toggleDisplay={() => updateEditor(1)} />
-            <SideBarIcon icon={<IoDice size="32" />} text="Random settings" settingsTemplate={<RandomSetting />} display={displayState[2]} toggleDisplay={() => updateEditor(2)} />
-            <SideBarIcon icon={<IoPlayCircle size="32" />} text="Render settings" settingsTemplate={<RenderSetting />} display={displayState[3]} toggleDisplay={() => updateEditor(3)} />
+            <SideBarIcon icon={<IoCloud size="32" />} text="Cloud settings" settingsTemplate={<CloudsSettings />} display={displayState[2]} toggleDisplay={() => updateEditor(2)} />
+            <SideBarIcon icon={<IoDice size="32" />} text="Random settings" settingsTemplate={<RandomSetting />} display={displayState[3]} toggleDisplay={() => updateEditor(3)} />
+            <SideBarIcon icon={<IoPlayCircle size="32" />} text="Render settings" settingsTemplate={<RenderSetting />} display={displayState[4]} toggleDisplay={() => updateEditor(4)} />
 
         </div>
     )

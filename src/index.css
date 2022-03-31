@@ -16,7 +16,7 @@
     @apply absolute w-auto p-2 m-2 min-w-max left-14 
     rounded-md shadow-md
     text-white bg-gray-900
-    text-xs font-bold
+    text-xs font-bold z-10
     transition-all duration-100 scale-0 origin-left;
   }
 
@@ -38,6 +38,13 @@
     focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 
     active:bg-gray-800 active:shadow-lg
     transition duration-150 ease-in-out;
+  }
+
+  .settingsSelect {
+    @apply block w-full px-3 py-1.5 text-base font-mono font-bold
+    border border-solid border-gray-300 rounded-xl
+    transition ease-in-out m-0
+    focus:text-gray-700 focus:bg-white focus:border-gray-700 focus:outline-none
   }
 
 }

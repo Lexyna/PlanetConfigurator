@@ -1,5 +1,7 @@
 import { saveAs } from 'file-saver';
 import JSZip from "jszip";
+import { renderClouds } from '../clouds/cloud';
+import { createCloudPng } from '../clouds/cloudExporter';
 import planet, { renderPlanet } from "../planet/planet";
 import { createPlanetPNG } from "../planet/planetExporter";
 import { Animator } from "./Animator";
@@ -89,6 +91,7 @@ export class Renderer {
         this.clearCanvas();
 
         renderPlanet(this.imgBuffer, this.width, this.height, animationFrame);
+        renderClouds(this.imgBuffer, this.width, animationFrame);
 
         this.ctx.putImageData(this.canvasImg, 0, 0);
 
@@ -97,24 +100,32 @@ export class Renderer {
     //Draw planet on the second canvas an create a link, downloading that img
     private downloadPlanetPNG() {
 
-        const imgSize = planet.radius * 2;
+        const imgSize = (planet.radius * 2) + 1;
         this.downloadCanvas.width = imgSize;
         this.downloadCanvas.height = imgSize;
 
         const planetImg = this.downloadCtx.createImageData(imgSize, imgSize);
 
+        const animationFrame = Animator.getAnimationFrame() - 1;
+
         createPlanetPNG(
             new Uint32Array(planetImg.data.buffer),
-            Animator.getAnimationFrame());
+            animationFrame);
+
+        createCloudPng(
+            new Uint32Array(planetImg.data.buffer),
+            animationFrame);
 
         this.downloadCtx.putImageData(planetImg, 0, 0);
 
-        const link = document.createElement("a");
+        const link: HTMLAnchorElement = document.createElement("a");
+
+        this.canvas.appendChild(link);
         link.download = "planet.png";
         link.href = this.downloadCanvas.toDataURL();
         link.click();
 
-        document.removeChild(link);
+        this.canvas.removeChild(link);
 
     }
 
@@ -122,7 +133,7 @@ export class Renderer {
     private downloadPlanetAnimation() {
 
         const length = planet.noiseMap.length;
-        const imgSize = planet.radius * 2;
+        const imgSize = (planet.radius * 2) + 1;
 
         this.downloadCanvas.width = imgSize;
         this.downloadCanvas.height = imgSize;
@@ -134,6 +145,12 @@ export class Renderer {
                 new Uint32Array(planetImg.data.buffer),
                 i
             );
+
+            createCloudPng(
+                new Uint32Array(planetImg.data.buffer),
+                i
+            );
+
             this.downloadCtx.putImageData(planetImg, 0, 0);
             const base64 = this.downloadCanvas.toDataURL()
                 .replace(/^data:image\/(png|jpg);base64,/, "");

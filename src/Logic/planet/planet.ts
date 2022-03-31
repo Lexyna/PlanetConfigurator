@@ -56,6 +56,7 @@ export const renderPlanet = (buffer: Uint32Array, width: number, height: number,
             for (let y = pixel.y; y < pixel.y + weight; y++)
                 buffer[(y + middleY) * width + (x + middleX)] = pixelColor;
     });
+
 }
 
 export default planet;
