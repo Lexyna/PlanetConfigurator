@@ -30,5 +30,6 @@ const initialCloud: CloudProps = {
     usePreciseValues: false,
     transitionFrames: 0,
     pixelPositionX: 0,
-    pixelPositionY: 0
+    pixelPositionY: 0,
+    speed: 0
 }

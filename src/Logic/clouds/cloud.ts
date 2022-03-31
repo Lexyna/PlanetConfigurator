@@ -97,7 +97,8 @@ export const createCloud = (): CloudProps => {
         usePreciseValues: false,
         transitionFrames: 0,
         pixelPositionX: pixelPositionX + offsetX, //we add the offset because it will always be negative 
-        pixelPositionY: pixelPositionY
+        pixelPositionY: pixelPositionY,
+        speed: 2
     }
 }
 
@@ -144,7 +145,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                 //is the cloud is static, do not move it
                 //otherwise add the depthSpace * pixelWeight to offset the cloud
-                const movement = (cloud.static) ? 0 : 2 * z * weight;
+                const movement = (cloud.static) ? 0 : cloud.speed * z * weight;
 
                 //calculate the start position for the cloud
                 const posX = -weight + cloud.pixelPositionX * weight;
@@ -170,6 +171,8 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                 if (cloud.texture[x][y][z] < 0.6)
                     continue;
 
+                //max alpha defined for this cloud
+                //used as a base to calculate the alpha increase/decrease during transitions
                 const maxAlpha = 0.8;
 
                 const pixelColor: RGBA = {
@@ -221,7 +224,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                     //do not override old alpha values, if it is already less then fade-out alpha value
                     if (alpha < pixelColor.a)
-                        pixelColor.a = alpha;
+                        pixelColor.a = (pixelColor.a - alpha < 0) ? 0 : alpha;
                 }
 
                 const backgroundColor = hexToRGBA(buffer[(planetY + middleY) * width + (planetX + middleX)]);

@@ -12,6 +12,7 @@ export interface CloudProps {
     maskRadius: number,
     pixelPositionX: number,
     pixelPositionY: number,
+    speed: number,
     depth: number, //length of the animation (depth of the 3D noise map calculated)
     startFrame: number,
     transition: boolean,

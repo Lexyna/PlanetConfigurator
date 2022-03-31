@@ -100,6 +100,11 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
         updateCloud(cloud);
     }
 
+    const onSpeedChanged = (speed: number) => {
+        cloud.speed = speed;
+        updateCloud(cloud);
+    }
+
     const onStartFrameChanged = (startFrame: number) => {
         cloud.startFrame = startFrame;
         updateCloud(cloud);
@@ -227,7 +232,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
 
                 <div className="flex">
                     <div>
-                        <label className="settingsLabel">Start positionX:</label>
+                        <label className="settingsLabel">StartposX:</label>
                         <input
                             className="settingsInput"
                             type="number"
@@ -238,7 +243,7 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                         />
                     </div>
                     <div>
-                        <label className="settingsLabel">Start positionY:</label>
+                        <label className="settingsLabel">StartposY:</label>
                         <input
                             className="settingsInput"
                             type="number"
@@ -246,6 +251,18 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                             max={radius}
                             value={cloud.pixelPositionY}
                             onChange={({ target: { value } }) => onPositionYChanged(parseInt(value))}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="settingsLabel">Speed:</label>
+                        <input
+                            className="settingsInput"
+                            type="number"
+                            min={-3}
+                            max={3}
+                            value={cloud.speed}
+                            onChange={({ target: { value } }) => onSpeedChanged(parseInt(value))}
                         />
                     </div>
                 </div>
@@ -270,6 +287,8 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     checked={cloud.usePreciseValues}
                     onChange={() => onPrecisionModeChanged(!cloud.usePreciseValues)}
                 />
+
+                <br />
 
                 <label className="settingsLabel">Transition: </label>
                 <input

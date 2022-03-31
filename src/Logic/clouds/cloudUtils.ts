@@ -21,6 +21,7 @@ export const convertClouds = (prop: CloudProps): CloudTemplate => {
         maskRadius: prop.maskRadius,
         pixelPositionX: prop.pixelPositionX,
         pixelPositionY: prop.pixelPositionY,
+        speed: prop.speed,
         depth: prop.depth,
         startFrame: prop.startFrame,
         looping: prop.looping,
@@ -91,6 +92,7 @@ export const updateCloudAt = () => {
                     clouds[j].blend = storeClouds[i].blend;
                     clouds[j].pixelPositionX = storeClouds[i].pixelPositionX;
                     clouds[j].pixelPositionY = storeClouds[i].pixelPositionY;
+                    clouds[j].speed = storeClouds[i].speed;
                     clouds[j].static = storeClouds[i].static;
                     clouds[j].usePreciseValues = storeClouds[i].usePreciseValues;
                     clouds[j].startFrame = storeClouds[i].startFrame;
