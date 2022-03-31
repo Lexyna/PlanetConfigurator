@@ -187,25 +187,43 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                     </div>
                 </div>
 
-                <label className="settingsLabel">Animation Length:</label>
-                <input
-                    className="settingsInput"
-                    type="number"
-                    min={1}
-                    max={planet.noiseMap.length}
-                    value={cloud.depth}
-                    onChange={({ target: { value } }) => onAnimationLengthChanged(parseInt(value))}
-                />
+                <div className="flex">
+                    <div>
+                        <label className="settingsLabel">StartFrame:</label>
+                        <input
+                            className="settingsInput"
+                            type="number"
+                            min={1}
+                            max={255}
+                            value={cloud.startFrame}
+                            onChange={({ target: { value } }) => onStartFrameChanged(parseInt(value))}
+                        />
+                    </div>
 
-                <label className="settingsLabel">MaskRadius:</label>
-                <input
-                    className="settingsInput"
-                    type="number"
-                    min={1}
-                    max={planet.radius * 2}
-                    value={cloud.maskRadius}
-                    onChange={({ target: { value } }) => onMaskRadiusChanged(parseInt(value))}
-                />
+                    <div>
+                        <label className="settingsLabel">Frames:</label>
+                        <input
+                            className="settingsInput"
+                            type="number"
+                            min={1}
+                            max={planet.noiseMap.length}
+                            value={cloud.depth}
+                            onChange={({ target: { value } }) => onAnimationLengthChanged(parseInt(value))}
+                        />
+                    </div>
+
+                    <div>
+                        <label className="settingsLabel">MaskRadius:</label>
+                        <input
+                            className="settingsInput"
+                            type="number"
+                            min={1}
+                            max={planet.radius * 2}
+                            value={cloud.maskRadius}
+                            onChange={({ target: { value } }) => onMaskRadiusChanged(parseInt(value))}
+                        />
+                    </div>
+                </div>
 
                 <div className="flex">
                     <div>
@@ -231,16 +249,6 @@ const CloudSettings: React.FC<{ id: string }> = (props) => {
                         />
                     </div>
                 </div>
-
-                <label className="settingsLabel">StartFrame:</label>
-                <input
-                    className="settingsInput"
-                    type="number"
-                    min={1}
-                    max={255}
-                    value={cloud.startFrame}
-                    onChange={({ target: { value } }) => onStartFrameChanged(parseInt(value))}
-                />
 
                 <label className="settingsLabel">Static: </label>
                 <input
