@@ -1,13 +1,13 @@
 import { RGBA } from "color-blend/dist/types";
 import planet from "../planet/planet";
-import { rgbToHex } from "../utils/utils";
+import { blendColors, hexToRGBA, rgbToHex } from "../utils/utils";
 import { clouds } from "./cloud";
 
 export const createCloudPng = (buffer: Uint32Array, animationFrame: number) => {
 
     const planetRadius: number = planet.radius;
 
-    const imgSize = planetRadius * 2;
+    const imgSize = (planetRadius * 2) + 1;
 
     clouds.forEach(cloud => {
 
@@ -40,7 +40,7 @@ export const createCloudPng = (buffer: Uint32Array, animationFrame: number) => {
                 const cX = x - halfMaskRadius;
                 const cY = y - halfMaskRadius;
 
-                const movement = (cloud.static) ? 0 : z;
+                const movement = (cloud.static) ? 0 : cloud.speed * z;
 
                 const posX = cloud.pixelPositionX + planetRadius;
                 const posY = cloud.pixelPositionY + planetRadius;
@@ -53,6 +53,9 @@ export const createCloudPng = (buffer: Uint32Array, animationFrame: number) => {
                 if (planetX >= imgSize || planetX < 0)
                     continue;
 
+                if (!buffer[(planetY) * imgSize + (planetX)])
+                    continue;
+
                 if (buffer[(planetY) * imgSize + (planetX)] === 0x00000000)
                     continue;
 
@@ -62,24 +65,67 @@ export const createCloudPng = (buffer: Uint32Array, animationFrame: number) => {
                 if (cloud.texture[x][y][z] < 0.6)
                     continue;
 
-                const val = cloud.texture[x][y][z];
+                const maxAlpha = cloud.maxAlpha;
 
-                const rgb: RGBA = {
+                const pixelColor: RGBA = {
                     r: cloud.color.r,
                     g: cloud.color.g,
                     b: cloud.color.b,
-                    a: 255
+                    a: maxAlpha
                 }
 
+                //calculate clouds fade-in
+                if (cloud.transition && startFrame + cloud.transitionFrames >= animationFrame) {
+
+                    let alpha = 0;
+
+                    const alphaIncrease = maxAlpha / cloud.transitionFrames;
+
+                    const currentTransitionFrame = animationFrame - startFrame;
+
+                    alpha = (alphaIncrease * currentTransitionFrame);
+
+                    pixelColor.a = alpha;
+
+                }
+
+                //defined hard render value for the noise
+                //if we're under it => adjust the alpha
                 if (cloud.texture[x][y][z] < 0.8)
-                    rgb.a = 230;
+                    pixelColor.a = 0.5;
 
+                //if we're near the edge of the maskRadius
+                //adjust the alpha
                 if (cX * cX + cY * cY > max / 2)
-                    rgb.a = 230;
+                    pixelColor.a = 0.5;
 
-                const pixelColor = Number(rgbToHex(rgb));
+                //if specified, use the original noise value as alpha 
+                if (cloud.usePreciseValues)
+                    pixelColor.a = cloud.texture[x][y][z];
 
-                buffer[(planetY) * imgSize + (planetX)] = pixelColor;
+                //calculate clouds fade-out
+                if (cloud.transition && endFrame - cloud.transitionFrames <= animationFrame) {
+
+                    let alpha = 0;
+
+                    const alphaDecrease = maxAlpha / cloud.transitionFrames;
+
+                    const currentTransitionFrame = (endFrame - animationFrame - cloud.transitionFrames) * (-1);
+
+                    alpha = 1 - (alphaDecrease * currentTransitionFrame);
+
+                    //do not override old alpha values, if it is already less then fade-out alpha value
+                    if (alpha < pixelColor.a)
+                        pixelColor.a = (pixelColor.a - alpha < 0) ? 0 : alpha;
+                }
+
+                const backgroundColor = hexToRGBA(buffer[(planetY) * imgSize + (planetX)]);
+
+                const blend = blendColors(cloud.blend, backgroundColor, pixelColor);
+
+                const blendHex = Number(rgbToHex(blend));
+
+                buffer[(planetY) * imgSize + (planetX)] = blendHex;
 
             }
     })

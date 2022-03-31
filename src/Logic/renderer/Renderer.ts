@@ -100,19 +100,21 @@ export class Renderer {
     //Draw planet on the second canvas an create a link, downloading that img
     private downloadPlanetPNG() {
 
-        const imgSize = planet.radius * 2;
+        const imgSize = (planet.radius * 2) + 1;
         this.downloadCanvas.width = imgSize;
         this.downloadCanvas.height = imgSize;
 
         const planetImg = this.downloadCtx.createImageData(imgSize, imgSize);
 
+        const animationFrame = Animator.getAnimationFrame() - 1;
+
         createPlanetPNG(
             new Uint32Array(planetImg.data.buffer),
-            Animator.getAnimationFrame());
+            animationFrame);
 
         createCloudPng(
             new Uint32Array(planetImg.data.buffer),
-            Animator.getAnimationFrame());
+            animationFrame);
 
         this.downloadCtx.putImageData(planetImg, 0, 0);
 
@@ -131,7 +133,7 @@ export class Renderer {
     private downloadPlanetAnimation() {
 
         const length = planet.noiseMap.length;
-        const imgSize = planet.radius * 2;
+        const imgSize = (planet.radius * 2) + 1;
 
         this.downloadCanvas.width = imgSize;
         this.downloadCanvas.height = imgSize;
