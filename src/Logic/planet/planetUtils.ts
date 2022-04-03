@@ -8,7 +8,7 @@ import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
 import { generatePerlinNoise } from "../Random/perlinNoise";
 import { generateWhiteNoiseWithSeed } from "../Random/seededNoise";
-import { createDoubleLooping3DSimplexNoiseMap } from "../Random/simplexNoise";
+import { create3DPlanetMap } from "../Random/simplexNoise";
 import { Circles } from "../utils/Circles";
 
 
@@ -75,7 +75,7 @@ export const createAnimatedNoiseMap = () => {
     const seed = seedSelector(state);
     const radius = radiusSelector(state);
 
-    return createDoubleLooping3DSimplexNoiseMap(seed, 256, 129, 256);
+    return create3DPlanetMap(seed, 256, 129, 256);
 
 }
 

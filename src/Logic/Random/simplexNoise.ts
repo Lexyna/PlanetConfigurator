@@ -48,7 +48,7 @@ export const createLooping3DSimplexNoiseMap = (seed: string, width: number, heig
     return texture;
 }
 
-export const createDoubleLooping3DSimplexNoiseMap = (seed: string, width: number, height: number, depth: number): number[][][] => {
+export const create3DPlanetMap = (seed: string, width: number, height: number, depth: number): number[][][] => {
 
     const texture: number[][][] = [];
 
