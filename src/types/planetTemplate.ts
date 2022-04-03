@@ -4,7 +4,7 @@ import { ColorMapping } from "./planetProp";
 export interface PlanetTemplate {
     radius: number,
     shape: planetShape,
-    noiseMap: number[][],
+    noiseMap: number[][] | number[][][],
     colorMappings: ColorMapping[],
 }
 

@@ -1,9 +1,10 @@
 import { nanoid } from "nanoid";
+import { BsArrowRepeat } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Renderer } from "../../Logic/renderer/Renderer";
 import { planetActionCreators } from "../../store";
-import { radiusSelector, seedSelector } from "../../store/selectors/planetSelector";
+import { animatedTerrainSelector, radiusSelector, seedSelector } from "../../store/selectors/planetSelector";
 
 export const PlanetSettingsTemplate = () => {
 
@@ -11,8 +12,9 @@ export const PlanetSettingsTemplate = () => {
 
     const radius = useSelector(radiusSelector);
     const seed = useSelector(seedSelector);
+    const animated = useSelector(animatedTerrainSelector);
 
-    const { updatePlanetRadius, updateSeed } = bindActionCreators(
+    const { updatePlanetRadius, updateSeed, updateTerrain } = bindActionCreators(
         planetActionCreators,
         dispatch
     )
@@ -33,20 +35,36 @@ export const PlanetSettingsTemplate = () => {
                 }
             />
             <br />
-            <label className="settingsLabel">
-                seed:
-            </label>
+
+            <div className="flex">
+                <div className="w-full mr-1">
+                    <label className="settingsLabel">
+                        seed:
+                    </label>
+                    <input
+                        className="settingsInput"
+                        type="text"
+                        value={seed}
+                        onChange={({ target: { value } }) => updateSeed(value)}
+                    />
+                </div>
+
+                <div className="pt-6">
+                    <button
+                        className="settingsButton text-black group"
+                        onClick={() => updateSeed(nanoid())}>
+                        <BsArrowRepeat size="20" className="group-hover:animate-spin" />
+                    </button>
+                </div>
+            </div>
+
+            <label className="settingsLabel">Animated Terrain: </label>
             <input
-                className="settingsInput"
-                type="text"
-                value={seed}
-                onChange={({ target: { value } }) => updateSeed(value)}
+                type="checkbox"
+                checked={animated}
+                onChange={() => updateTerrain(!animated)}
             />
-            <button
-                className="settingsButton"
-                onClick={() => updateSeed(nanoid())}>
-                New Seed
-            </button>
+
             <button
                 className="settingsButton"
                 onClick={() => { Renderer.downloadPlanetImg(); }}

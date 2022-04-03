@@ -1,5 +1,5 @@
 import { RGBA } from "color-blend/dist/types";
-import { seedSelector } from "../../store/selectors/planetSelector";
+import { radiusSelector, seedSelector } from "../../store/selectors/planetSelector";
 import { store } from "../../store/store";
 import { ColorMapping } from "../../types/planetProp";
 import { planetShape, PlanetTemplate } from "../../types/planetTemplate";
@@ -8,6 +8,7 @@ import pixelMatrix from "../matrix/matrix";
 import { point2d } from "../other/Point";
 import { generatePerlinNoise } from "../Random/perlinNoise";
 import { generateWhiteNoiseWithSeed } from "../Random/seededNoise";
+import { createDoubleLooping3DSimplexNoiseMap } from "../Random/simplexNoise";
 import { Circles } from "../utils/Circles";
 
 
@@ -65,6 +66,17 @@ export const createNoiseMap = () => {
     const whiteNoise = generateWhiteNoiseWithSeed(seed, 256, 256);
 
     return generatePerlinNoise(whiteNoise, 6);
+}
+
+export const createAnimatedNoiseMap = () => {
+
+    const state: State = store.getState();
+
+    const seed = seedSelector(state);
+    const radius = radiusSelector(state);
+
+    return createDoubleLooping3DSimplexNoiseMap(seed, 256, 129, 256);
+
 }
 
 export const calculatePixelColor = (value: number, colorMappings: ColorMapping[]): RGBA => {

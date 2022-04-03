@@ -2,12 +2,13 @@ import { nanoid } from "nanoid";
 import { cerateRGBColor } from "../../Logic/utils/utils";
 import { PlanetProps } from "../../types/planetProp";
 import { planetActionType } from "../action-types/planetActionType";
-import { addColorMapping, removeColorMapping, updateColorMapping, updateRadius, updateSeed } from "./functions/planetReducerFunctions";
+import { addColorMapping, removeColorMapping, updateColorMapping, updateRadius, updateSeed, updateTerrain } from "./functions/planetReducerFunctions";
 import reducerFactory, { IHandler } from "./reducerFactory";
 
 
 const initialState: PlanetProps = {
     radius: 20,
+    animatedTerrain: false,
     seed: nanoid(),
     colorMapping: [
         {
@@ -42,6 +43,7 @@ const handlers: IHandler = {};
 
 handlers[planetActionType.UPDATE_RADIUS] = updateRadius;
 handlers[planetActionType.UPDATE_SEED] = updateSeed;
+handlers[planetActionType.ANIMATE_TERRAIN] = updateTerrain
 handlers[planetActionType.ADD_COLOR_MAPPING] = addColorMapping;
 handlers[planetActionType.UPDATE_COLOR_MAPPING] = updateColorMapping;
 handlers[planetActionType.REMOVE_COLOR_MAPPING] = removeColorMapping;

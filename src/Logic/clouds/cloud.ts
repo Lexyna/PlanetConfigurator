@@ -144,6 +144,8 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                 const cX = x - halfMaskRadius;
                 const cY = y - halfMaskRadius;
 
+                //Texture index
+
                 //is the cloud is static, do not move it
                 //otherwise add the depthSpace * pixelWeight to offset the cloud
                 const movement = (cloud.static) ? 0 : cloud.speed * z * weight;
@@ -174,7 +176,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
 
                 //max alpha defined for this cloud
                 //used as a base to calculate the alpha increase/decrease during transitions
-                const maxAlpha = cloud.maxAlpha;
+                const maxAlpha = 1;//cloud.maxAlpha;
 
                 const pixelColor: RGBA = {
                     r: cloud.color.r,
@@ -182,6 +184,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                     b: cloud.color.b,
                     a: maxAlpha
                 }
+
 
                 //calculate clouds fade-in
                 if (cloud.transition && startFrame + cloud.transitionFrames >= animationFrame) {
@@ -227,6 +230,7 @@ export const renderClouds = (buffer: Uint32Array, width: number, animationFrame:
                     if (alpha < pixelColor.a)
                         pixelColor.a = (pixelColor.a - alpha < 0) ? 0 : alpha;
                 }
+
 
                 const backgroundColor = hexToRGBA(buffer[(planetY + middleY) * width + (planetX + middleX)]);
 

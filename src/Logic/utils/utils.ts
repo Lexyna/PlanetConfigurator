@@ -192,3 +192,7 @@ export const stringToBlend = (blend: string): Blend => {
 export const map = (value: number, istart: number, istop: number, ostart: number, ostop: number): number => {
     return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
 };
+
+export const lerp = (a: number, b: number, t: number): number => {
+    return (1 - t) * a + t * b;
+}
