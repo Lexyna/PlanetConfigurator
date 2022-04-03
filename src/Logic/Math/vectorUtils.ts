@@ -93,4 +93,10 @@ export const crossProduct = (v1: Vector3, v2: Vector3): Vector3 => {
     );
 }
 
-
+export const rotateVec3OnAxis = (v: Vector3, axis: Vector3, angle: number) => {
+    //Rodrigues' rotation formula
+    return addVec3(
+        addVec3(multiplyScalar(v, Math.cos(angle)), multiplyScalar(crossProduct(axis, v), Math.sin(angle))),
+        multiplyScalar(mulVec3(axis, mulVec3(axis, v)), (1 - Math.cos(angle)))
+    );
+}

@@ -1,6 +1,6 @@
 import SimplexNoise from "simplex-noise";
 import { solveQuadratic } from "../Math/utils";
-import { addVec3, crossProduct, multiplyScalar, mulVec3, subVec3, Vector3 } from "../Math/vectorUtils";
+import { addVec3, multiplyScalar, rotateVec3OnAxis, subVec3, Vector3 } from "../Math/vectorUtils";
 import { map } from "../utils/utils";
 
 const simplex1 = new SimplexNoise("1");
@@ -54,7 +54,6 @@ export const createDoubleLooping3DSimplexNoiseMap = (seed: string, width: number
 
     const simplex = new SimplexNoise(seed);
     const radius = 64;
-    console.log("here")
 
     for (let x = 0; x < width; x++) {
         texture[x] = [];
@@ -93,7 +92,7 @@ export const createDoubleLooping3DSimplexNoiseMap = (seed: string, width: number
                     continue;
                 }
 
-                if (t0 > t1) {
+                /*if (t0 > t1) {
                     const temp = t0;
                     t0 = t1;
                     t1 = temp;
@@ -106,18 +105,20 @@ export const createDoubleLooping3DSimplexNoiseMap = (seed: string, width: number
                 if (t0 < 0) {
                     texture[x + radius][y + radius][z] = 0;
                     continue;
-                }
+                }*/
 
                 //use t0 to calculate 
                 const hit: Vector3 = addVec3(rotOrigin, multiplyScalar(direction, t0));
 
                 const unitVec: Vector3 = new Vector3(0, -1, 0);
+                const unitVec2: Vector3 = new Vector3(1, 0, 0);
 
                 //Rodrigues' rotation formula
-                const vRot: Vector3 = addVec3(
-                    addVec3(multiplyScalar(hit, Math.cos(angle)), multiplyScalar(crossProduct(unitVec, hit), Math.sin(angle))),
-                    multiplyScalar(mulVec3(unitVec, mulVec3(unitVec, hit)), (1 - Math.cos(angle)))
-                );
+
+
+
+                let vRot = rotateVec3OnAxis(hit, unitVec, angle);
+                //vRot = rotateVec3OnAxis(vRot, unitVec2, -angle);
 
                 vRot.x = Number(vRot.x.toFixed(10));
                 vRot.z = Number(vRot.z.toFixed(10));
