@@ -110,15 +110,9 @@ export const createDoubleLooping3DSimplexNoiseMap = (seed: string, width: number
                 //use t0 to calculate 
                 const hit: Vector3 = addVec3(rotOrigin, multiplyScalar(direction, t0));
 
-                const unitVec: Vector3 = new Vector3(0, -1, 0);
-                const unitVec2: Vector3 = new Vector3(1, 0, 0);
-
-                //Rodrigues' rotation formula
-
-
+                const unitVec: Vector3 = new Vector3(0, 1, 0);
 
                 let vRot = rotateVec3OnAxis(hit, unitVec, angle);
-                //vRot = rotateVec3OnAxis(vRot, unitVec2, -angle);
 
                 vRot.x = Number(vRot.x.toFixed(10));
                 vRot.z = Number(vRot.z.toFixed(10));
