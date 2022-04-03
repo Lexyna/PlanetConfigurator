@@ -65,8 +65,6 @@ const ColorElement: React.FC<{ id: string }> = (props) => {
 
     const onChangeColorMethod = (color: ColorResult) => {
         mappingColor.color = rgbColorToRGBA(color.rgb);
-        if (mappingColor.color.a)
-            mappingColor.color.a = Math.floor(mappingColor.color.a * 255);
         updateColorMapping(mappingColor);
         setColor({ ...rgbColorToRGBA(color.rgb) })
     }
