@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/PlanetConfigurator/static/css/main.b95e1ee0.css",
-    "main.js": "/PlanetConfigurator/static/js/main.3331a1a9.js",
+    "main.js": "/PlanetConfigurator/static/js/main.4fb259c4.js",
     "static/js/787.f710fa9a.chunk.js": "/PlanetConfigurator/static/js/787.f710fa9a.chunk.js",
     "index.html": "/PlanetConfigurator/index.html",
     "main.b95e1ee0.css.map": "/PlanetConfigurator/static/css/main.b95e1ee0.css.map",
-    "main.3331a1a9.js.map": "/PlanetConfigurator/static/js/main.3331a1a9.js.map",
+    "main.4fb259c4.js.map": "/PlanetConfigurator/static/js/main.4fb259c4.js.map",
     "787.f710fa9a.chunk.js.map": "/PlanetConfigurator/static/js/787.f710fa9a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b95e1ee0.css",
-    "static/js/main.3331a1a9.js"
+    "static/js/main.4fb259c4.js"
   ]
 }
