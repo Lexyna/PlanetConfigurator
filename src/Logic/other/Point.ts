@@ -1,3 +1,5 @@
+import { Vector3 } from "../Math/vectorUtils";
+
 export class Point {
 
     private x: number;
@@ -21,4 +23,8 @@ export class Point {
 export interface point2d {
     x: number,
     y: number
+}
+
+export interface pointToSphereCoordinate {
+    [pixel: string]: Vector3
 }

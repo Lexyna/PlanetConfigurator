@@ -3,7 +3,9 @@ import { RGBA } from "color-blend/dist/types";
 import { RGBColor } from "react-color";
 import { Blend } from "../../types/cloudProp";
 import { rgb } from "../../types/planetTemplate";
-import { point2d } from "../other/Point";
+import { solveQuadratic } from "../Math/utils";
+import { addVec3, multiplyScalar, subVec3, Vector3 } from "../Math/vectorUtils";
+import { point2d, pointToSphereCoordinate } from "../other/Point";
 
 export const circleGenerator = (radius: number): point2d[] => {
 
@@ -57,6 +59,50 @@ export const circleGenerator = (radius: number): point2d[] => {
 
     return circle;
 }
+
+export const sphereGenerator = (radius: number): pointToSphereCoordinate => {
+
+    const coordinates: pointToSphereCoordinate = {};
+
+    //Constant "origin position"
+    //Try different fov// 100 is good
+    const fov = 60;
+    const origin: Vector3 = new Vector3(0, 0, -100);//-65
+    const center: Vector3 = new Vector3(0, 0, 0);
+
+    for (let x = -radius; x < radius + 0; x++)
+        for (let y = -radius; y < radius + 0; y++) {
+
+            //calculate Sphere based on line-sphere-intersection
+            //https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
+            let t0: number, t1: number;
+
+            //z = fov
+            const direction: Vector3 = new Vector3(x, y, fov);
+
+            const L: Vector3 = subVec3(origin, center);
+
+            const a: number = direction.dot(direction);
+            const b: number = 2 * direction.dot(L);
+            const c: number = L.dot(L) - (radius * radius);
+
+            [t0, t1] = solveQuadratic(a, b, c);
+
+            if (isNaN(t0)) {
+                const key: string = x + "," + y;
+                coordinates[key] = new Vector3(NaN, NaN, NaN);
+                continue;
+            }
+
+            //use t0 to calculate 
+            const hit: Vector3 = addVec3(origin, multiplyScalar(direction, t0));
+            const key: string = x + "," + y;
+            coordinates[key] = hit;
+
+        }
+    return coordinates;
+}
+
 
 export const cerateRGBColor = (r: number, g: number, b: number, alpha?: number): RGBA => {
 

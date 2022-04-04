@@ -1,6 +1,6 @@
 import SimplexNoise from "simplex-noise";
-import { solveQuadratic } from "../Math/utils";
-import { addVec3, multiplyScalar, rotateVec3OnAxis, subVec3, Vector3 } from "../Math/vectorUtils";
+import { rotateVec3OnAxis, Vector3 } from "../Math/vectorUtils";
+import { Spheres } from "../utils/Sphere";
 import { map } from "../utils/utils";
 
 const simplex1 = new SimplexNoise("1");
@@ -53,7 +53,7 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
     const texture: number[][][] = [];
 
     const simplex = new SimplexNoise(seed);
-    const radius = 64;
+    const radius = 40;
 
     for (let x = 0; x < width; x++) {
         texture[x] = [];
@@ -62,23 +62,32 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
     }
 
     //Constant "origin position"
+    //Try different fov// 100 is good //80
+    const fov = 100;
     const origin: Vector3 = new Vector3(0, 0, -100);//-65
     const center: Vector3 = new Vector3(0, 0, 0);
 
+    const sphere = Spheres.getSphere(radius);
+    console.log("here")
+
     for (let x = -radius; x < radius + 0; x++)
-        for (let y = -radius; y < radius + 0; y++)
+        for (let y = -radius; y < radius + 0; y++) {
+
+            const unitVec: Vector3 = new Vector3(0, 1, 0);
+            const sphereVector = sphere.getSphereCoordinate(x, y);
+
             for (let z = 0; z < depth; z++) {
 
                 const angle = map(z, 0, depth, 0, 2 * Math.PI);
 
                 //calculate Sphere based on line-sphere-intersection
                 //https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
-                let t0: number, t1: number;
+                /*let t0: number, t1: number;
 
                 const rotOrigin: Vector3 = origin;
 
                 //z = fov
-                const direction: Vector3 = new Vector3(x, y, 40);
+                const direction: Vector3 = new Vector3(x, y, fov);
 
                 const L: Vector3 = subVec3(rotOrigin, center);
 
@@ -92,33 +101,21 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
                     continue;
                 }
 
-                /*if (t0 > t1) {
-                    const temp = t0;
-                    t0 = t1;
-                    t1 = temp;
-                }
-
-                if (t0 < 0) {
-                    t0 = t1;
-                }
-
-                if (t0 < 0) {
-                    texture[x + radius][y + radius][z] = 0;
-                    continue;
-                }*/
-
                 //use t0 to calculate 
-                const hit: Vector3 = addVec3(rotOrigin, multiplyScalar(direction, t0));
+                const hit: Vector3 = addVec3(rotOrigin, multiplyScalar(direction, t0));*/
 
-                const unitVec: Vector3 = new Vector3(0, 1, 0);
+                let vRot = rotateVec3OnAxis(sphereVector, unitVec, angle);
 
-                let vRot = rotateVec3OnAxis(hit, unitVec, angle);
+                //let computed;
+                //if (x == 45 && y == -37) {
+                //computed = sphereTest?.getSphereCoordinate(x, y);
+                //}
 
                 vRot.x = Number(vRot.x.toFixed(10));
                 vRot.z = Number(vRot.z.toFixed(10));
 
-                const noiseVal = (simplex.noise3D(vRot.x / 32, vRot.y / 32, vRot.z / 32) +
-                    0.5 * simplex1.noise3D(vRot.x / 16, vRot.y / 16, vRot.z / 32) + 1) / 2;
+                const noiseVal = (simplex.noise3D(vRot.x / 8, vRot.y / 8, vRot.z / 32) +
+                    0.5 * simplex1.noise3D(vRot.x / 4, vRot.y / 4, vRot.z / 32) + 1) / 2;
 
                 let val = noiseVal / (1.5);
 
@@ -129,7 +126,7 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
                 }
 
                 texture[x + radius][y + radius][z] = val
-
             }
+        }
     return texture;
 }
