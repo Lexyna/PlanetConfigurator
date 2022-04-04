@@ -20,6 +20,10 @@ ReactDOM.render(
 
 initObservers();
 
+//init a 40r sphere
+//for (let i = 0; i < 65; i++)
+//Spheres.getSphere(i);
+
 Renderer.createRenderer(getCanvas("rootCanvas"));
 
 Animator.createAnimator();

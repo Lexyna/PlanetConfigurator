@@ -91,7 +91,7 @@ export const renderPlanet3D = (buffer: Uint32Array, width: number, height: numbe
 
         const pixelPoint: point2d = planet.shape.pixelCircle[index];
 
-        const colorValue: number = noiseMap[pixelPoint.x + planet.radius][pixelPoint.y + planet.radius][animationFrame];
+        const colorValue: number = noiseMap[animationFrame][pixelPoint.x + planet.radius][pixelPoint.y + planet.radius];
 
         const rgbColor = calculatePixelColor(colorValue, planet.colorMappings);
 

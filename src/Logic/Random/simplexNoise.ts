@@ -53,11 +53,14 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
     const texture: number[][][] = [];
 
     const simplex = new SimplexNoise(seed);
-    const radius = 40;
+    const radius = 10;
+    //r, fov, z
+    //64, 100, -100
+    //all, 99, -99 
 
     for (let x = 0; x < width; x++) {
         texture[x] = [];
-        for (let y = 0; y < height; y++)
+        for (let y = 0; y < radius * 2 + 1; y++)
             texture[x][y] = [];
     }
 
@@ -75,6 +78,9 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
 
             const unitVec: Vector3 = new Vector3(0, 1, 0);
             const sphereVector = sphere.getSphereCoordinate(x, y);
+
+            if (!sphereVector || isNaN(sphereVector.x))
+                continue;
 
             for (let z = 0; z < depth; z++) {
 
@@ -125,7 +131,7 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
                     val = 0;
                 }
 
-                texture[x + radius][y + radius][z] = val
+                texture[z][x + radius][y + radius] = val
             }
         }
     return texture;
