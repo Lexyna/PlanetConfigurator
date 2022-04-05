@@ -86,8 +86,6 @@ export const sphereGenerator = (radius: number, length: number): pointToSphereCo
 
     for (let z = 0; z < length; z++) {
         const angle = map(z, 0, length, 0, 2 * Math.PI);
-        //const rotO = rotateVec3OnAxis(origin, unitVec, angle);
-        //new Vector3(z * Math.sign(angle), 0, z * Math.cos(angle));
         for (let x = -radius; x < radius + 0; x++)
             for (let y = -radius; y < radius + 0; y++) {
 
@@ -95,16 +93,8 @@ export const sphereGenerator = (radius: number, length: number): pointToSphereCo
                 //https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
                 let t0: number, t1: number;
 
-                //const vX = x * Math.cos(-angle)
-                //const vZ = -x * Math.sin(-angle)
-
-                //let pixelOrign = new Vector3(x, y, 0);
-                //pixelOrign = rotateVec3OnAxis(pixelOrign, unitVec, angle);
-                //z = fov
                 const direction: Vector3 = new Vector3(x, y, fov);
-                //direction = rotateVec3OnAxis(direction, unitVec, -angle);
 
-                //const direction = subVec3(pixelOrign, rotO);
 
                 const L: Vector3 = subVec3(origin, center);
 
