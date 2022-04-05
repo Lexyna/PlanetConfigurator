@@ -4,7 +4,7 @@ import { RGBColor } from "react-color";
 import { Blend } from "../../types/cloudProp";
 import { rgb } from "../../types/planetTemplate";
 import { solveQuadratic } from "../Math/utils";
-import { addVec3, multiplyScalar, subVec3, Vector3 } from "../Math/vectorUtils";
+import { addVec3, multiplyScalar, rotateVec3OnAxis, subVec3, Vector3 } from "../Math/vectorUtils";
 import { point2d, pointToSphereCoordinate } from "../other/Point";
 
 export const circleGenerator = (radius: number): point2d[] => {
@@ -60,7 +60,7 @@ export const circleGenerator = (radius: number): point2d[] => {
     return circle;
 }
 
-export const sphereGenerator = (radius: number): pointToSphereCoordinate => {
+export const sphereGenerator = (radius: number, length: number): pointToSphereCoordinate => {
 
     const coordinates: pointToSphereCoordinate = {};
 
@@ -82,37 +82,52 @@ export const sphereGenerator = (radius: number): pointToSphereCoordinate => {
     //const fov = 40;
     const origin: Vector3 = new Vector3(0, 0, -128);//-80
     const center: Vector3 = new Vector3(0, 0, 0);
+    const unitVec: Vector3 = new Vector3(0, 1, 0);
 
-    for (let x = -radius; x < radius + 0; x++)
-        for (let y = -radius; y < radius + 0; y++) {
+    for (let z = 0; z < length; z++) {
+        const angle = map(z, 0, length, 0, 2 * Math.PI);
+        //const rotO = rotateVec3OnAxis(origin, unitVec, angle);
+        //new Vector3(z * Math.sign(angle), 0, z * Math.cos(angle));
+        for (let x = -radius; x < radius + 0; x++)
+            for (let y = -radius; y < radius + 0; y++) {
 
-            //calculate Sphere based on line-sphere-intersection
-            //https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
-            let t0: number, t1: number;
+                //calculate Sphere based on line-sphere-intersection
+                //https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
+                let t0: number, t1: number;
 
-            //z = fov
-            const direction: Vector3 = new Vector3(x, y, fov);
+                //const vX = x * Math.cos(-angle)
+                //const vZ = -x * Math.sin(-angle)
 
-            const L: Vector3 = subVec3(origin, center);
+                //let pixelOrign = new Vector3(x, y, 0);
+                //pixelOrign = rotateVec3OnAxis(pixelOrign, unitVec, angle);
+                //z = fov
+                const direction: Vector3 = new Vector3(x, y, fov);
+                //direction = rotateVec3OnAxis(direction, unitVec, -angle);
 
-            const a: number = direction.dot(direction);
-            const b: number = 2 * direction.dot(L);
-            const c: number = L.dot(L) - (radius * radius);
+                //const direction = subVec3(pixelOrign, rotO);
 
-            [t0, t1] = solveQuadratic(a, b, c);
+                const L: Vector3 = subVec3(origin, center);
 
-            if (isNaN(t0)) {
-                const key: string = x + "," + y;
-                coordinates[key] = new Vector3(NaN, NaN, NaN);
-                continue;
+                const a: number = direction.dot(direction);
+                const b: number = 2 * direction.dot(L);
+                const c: number = L.dot(L) - (radius * radius);
+
+                [t0, t1] = solveQuadratic(a, b, c);
+
+                if (isNaN(t0)) {
+                    const key: string = x + "," + y + "," + z
+                    coordinates[key] = new Vector3(NaN, NaN, NaN);
+                    continue;
+                }
+
+                //use t0 to calculate 
+                let hit: Vector3 = addVec3(origin, multiplyScalar(direction, t0));
+                hit = rotateVec3OnAxis(hit, unitVec, angle);
+
+                const key: string = x + "," + y + "," + z;
+                coordinates[key] = hit;
             }
-
-            //use t0 to calculate 
-            const hit: Vector3 = addVec3(origin, multiplyScalar(direction, t0));
-            const key: string = x + "," + y;
-            coordinates[key] = hit;
-
-        }
+    }
     return coordinates;
 }
 

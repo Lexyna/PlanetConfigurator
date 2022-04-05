@@ -17,6 +17,11 @@ export class Spheres {
         Spheres.instance = new Spheres();
     }
 
+    public static initSpheres() {
+        for (let i = 4; i <= 65; i++)
+            spheres[i] = new Sphere(i);
+    }
+
     public static getSphere(radius: number): Sphere {
         if (radius < 4)
             return new Sphere(0);
@@ -38,11 +43,11 @@ export class Sphere {
 
     constructor(radius: number) {
         this.radius = radius;
-        this.coordinates = sphereGenerator(this.radius);
+        this.coordinates = sphereGenerator(this.radius, 256);
     }
 
-    public getSphereCoordinate = (x: number, y: number): Vector3 => {
-        return this.coordinates[x + "," + y];
+    public getSphereCoordinate = (x: number, y: number, z: number): Vector3 => {
+        return this.coordinates[x + "," + y + "," + z];
     }
 
 }
