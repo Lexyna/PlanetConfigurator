@@ -78,9 +78,9 @@ export const sphereGenerator = (radius: number): pointToSphereCoordinate => {
         fov = radius + 60;
         zOffset = -(radius + 45);
     }
-    fov = 60;
+    fov = 128;
     //const fov = 40;
-    const origin: Vector3 = new Vector3(0, 0, -60);//-80
+    const origin: Vector3 = new Vector3(0, 0, -128);//-80
     const center: Vector3 = new Vector3(0, 0, 0);
 
     for (let x = -radius; x < radius + 0; x++)

@@ -53,7 +53,7 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
     const texture: number[][][] = [];
 
     const simplex = new SimplexNoise(seed);
-    const radius = 20;
+    const radius = 64;
     //r, fov, z
     //64, 100, -100
     //all, 99, -99 
@@ -89,7 +89,6 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
             for (let z = 0; z < depth; z++) {
 
                 const angle = map(z, 0, depth, 0, 2 * Math.PI);
-                const shift = map(z, 0, depth, -Math.PI, Math.PI);
 
                 //calculate Sphere based on line-sphere-intersection
                 //https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
@@ -125,8 +124,8 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
                 vRot.x = Number(vRot.x.toFixed(10));
                 vRot.z = Number(vRot.z.toFixed(10));
 
-                const noiseVal = (simplex.noise4D(vRot.x / 8, vRot.y / 8, vRot.z / 32, Math.sin(angle)) +
-                    0.5 * simplex1.noise4D(vRot.x / 4, vRot.y / 4, vRot.z / 32, Math.sin(angle)) + 1) / 2;
+                const noiseVal = (simplex.noise3D(vRot.x / 8, vRot.y / 8, vRot.z / 32) +
+                    0.5 * simplex1.noise3D(vRot.x / 4, vRot.y / 4, vRot.z / 32,) + 1) / 2;
 
                 let val = noiseVal / (1.5);
 
