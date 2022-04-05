@@ -66,8 +66,21 @@ export const sphereGenerator = (radius: number): pointToSphereCoordinate => {
 
     //Constant "origin position"
     //Try different fov// 100 is good
-    const fov = 99;
-    const origin: Vector3 = new Vector3(0, 0, -80);//-65
+
+    let fov;
+    let zOffset;
+
+    //create a function with predefined fov and Z offsets
+    if (radius >= 50) {
+        fov = 2 * radius;
+        zOffset = -2 * radius;
+    } else {
+        fov = radius + 60;
+        zOffset = -(radius + 45);
+    }
+    fov = 60;
+    //const fov = 40;
+    const origin: Vector3 = new Vector3(0, 0, -60);//-80
     const center: Vector3 = new Vector3(0, 0, 0);
 
     for (let x = -radius; x < radius + 0; x++)

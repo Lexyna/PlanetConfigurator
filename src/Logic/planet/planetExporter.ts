@@ -59,7 +59,7 @@ const createPlanetPNG3D = (buffer: Uint32Array, animationFrame: number) => {
         const imgIndexX = pixel.x + radius;
         const imgIndexY = pixel.y + radius;
 
-        const colorValue = noiseMap[imgIndexX][imgIndexY][animationFrame];
+        const colorValue = noiseMap[animationFrame][imgIndexX][imgIndexY];
 
         const rgbColor = calculatePixelColor(colorValue, planet.colorMappings);
 
