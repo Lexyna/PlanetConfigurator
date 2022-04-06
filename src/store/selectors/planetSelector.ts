@@ -8,6 +8,8 @@ export const radiusSelector = (state: State): number => planetSelector(state).ra
 
 export const seedSelector = (state: State): string => planetSelector(state).seed;
 
+export const sim3DTerrainSelector = (state: State): boolean => planetSelector(state).sim3DTerrain;
+
 export const colorMappingSelector = (state: State): ColorMapping[] => planetSelector(state).colorMapping;
 
 export const colorMappingIdSelector = (id: string) => (state: State): ColorMapping => {

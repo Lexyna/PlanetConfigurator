@@ -3,7 +3,10 @@ import { RGBA } from "color-blend/dist/types";
 import { RGBColor } from "react-color";
 import { Blend } from "../../types/cloudProp";
 import { rgb } from "../../types/planetTemplate";
-import { point2d } from "../other/Point";
+import { solveQuadratic } from "../Math/utils";
+import { addVec3, multiplyScalar, rotateVec3OnAxis, subVec3, Vector3 } from "../Math/vectorUtils";
+import { point2d, pointToSphereCoordinate } from "../other/Point";
+import { getSphereParameters } from "./Sphere";
 
 export const circleGenerator = (radius: number): point2d[] => {
 
@@ -57,6 +60,53 @@ export const circleGenerator = (radius: number): point2d[] => {
 
     return circle;
 }
+
+export const sphereGenerator = (radius: number, length: number): pointToSphereCoordinate => {
+
+    const coordinates: pointToSphereCoordinate = {};
+
+    const [fov, zOffset] = getSphereParameters(radius);
+
+    const origin: Vector3 = new Vector3(0, 0, zOffset);//-80
+    const center: Vector3 = new Vector3(0, 0, 0);
+    const unitVec: Vector3 = new Vector3(0, 1, 0);
+
+    for (let z = 0; z < length; z++) {
+        const angle = map(z, 0, length, 0, 2 * Math.PI);
+        for (let x = -radius; x < radius + 0; x++)
+            for (let y = -radius; y < radius + 0; y++) {
+
+                //calculate Sphere based on line-sphere-intersection
+                //https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
+                let t0: number, t1: number;
+
+                const direction: Vector3 = new Vector3(x, y, fov);
+
+                const L: Vector3 = subVec3(origin, center);
+
+                const a: number = direction.dot(direction);
+                const b: number = 2 * direction.dot(L);
+                const c: number = L.dot(L) - (radius * radius);
+
+                [t0, t1] = solveQuadratic(a, b, c);
+
+                if (isNaN(t0)) {
+                    const key: string = x + "," + y + "," + z
+                    coordinates[key] = new Vector3(NaN, NaN, NaN);
+                    continue;
+                }
+
+                //use t0 to calculate 
+                let hit: Vector3 = addVec3(origin, multiplyScalar(direction, t0));
+                hit = rotateVec3OnAxis(hit, unitVec, angle);
+
+                const key: string = x + "," + y + "," + z;
+                coordinates[key] = hit;
+            }
+    }
+    return coordinates;
+}
+
 
 export const cerateRGBColor = (r: number, g: number, b: number, alpha?: number): RGBA => {
 
@@ -192,3 +242,7 @@ export const stringToBlend = (blend: string): Blend => {
 export const map = (value: number, istart: number, istop: number, ostart: number, ostop: number): number => {
     return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
 };
+
+export const lerp = (a: number, b: number, t: number): number => {
+    return (1 - t) * a + t * b;
+}

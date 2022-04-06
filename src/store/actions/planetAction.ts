@@ -12,6 +12,11 @@ export interface UpdateSeedAction {
     payload: string,
 }
 
+export interface AnimateTerrainAction {
+    type: planetActionType.ANIMATE_TERRAIN,
+    payload: boolean,
+}
+
 export interface AddColorMappingAction {
     type: planetActionType.ADD_COLOR_MAPPING,
     payload: ColorMapping
