@@ -6,6 +6,7 @@ import { rgb } from "../../types/planetTemplate";
 import { solveQuadratic } from "../Math/utils";
 import { addVec3, multiplyScalar, rotateVec3OnAxis, subVec3, Vector3 } from "../Math/vectorUtils";
 import { point2d, pointToSphereCoordinate } from "../other/Point";
+import { getSphereParameters } from "./Sphere";
 
 export const circleGenerator = (radius: number): point2d[] => {
 
@@ -67,20 +68,10 @@ export const sphereGenerator = (radius: number, length: number): pointToSphereCo
     //Constant "origin position"
     //Try different fov// 100 is good
 
-    let fov;
-    let zOffset;
+    const [fov, zOffset] = getSphereParameters(radius);
 
-    //create a function with predefined fov and Z offsets
-    if (radius >= 50) {
-        fov = 2 * radius;
-        zOffset = -2 * radius;
-    } else {
-        fov = radius + 60;
-        zOffset = -(radius + 45);
-    }
-    fov = 128;
     //const fov = 40;
-    const origin: Vector3 = new Vector3(0, 0, -128);//-80
+    const origin: Vector3 = new Vector3(0, 0, zOffset);//-80
     const center: Vector3 = new Vector3(0, 0, 0);
     const unitVec: Vector3 = new Vector3(0, 1, 0);
 
@@ -94,7 +85,6 @@ export const sphereGenerator = (radius: number, length: number): pointToSphereCo
                 let t0: number, t1: number;
 
                 const direction: Vector3 = new Vector3(x, y, fov);
-
 
                 const L: Vector3 = subVec3(origin, center);
 

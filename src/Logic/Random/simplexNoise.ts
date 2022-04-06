@@ -1,5 +1,5 @@
 import SimplexNoise from "simplex-noise";
-import { Vector3 } from "../Math/vectorUtils";
+import planet from "../planet/planet";
 import { Spheres } from "../utils/Sphere";
 import { map } from "../utils/utils";
 
@@ -53,14 +53,7 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
     const texture: number[][][] = [];
 
     const simplex = new SimplexNoise(seed);
-    const radius = 30;
-    //r, fov, z
-    //64, 100, -100
-    //all, 99, -99 
-    //40, 100, -80 => r, r+60, -(r+40)
-    //20, 80, 60 => r, r+60, -(r+50)
-    //50, 105, -100
-    //64, 120, -120
+    const radius = planet.radius;
 
     for (let x = 0; x < width; x++) {
         texture[x] = [];
@@ -73,15 +66,12 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
     for (let z = 0; z < depth; z++) {
         for (let x = -radius; x < radius + 0; x++)
             for (let y = -radius; y < radius + 0; y++) {
-
-                const unitVec: Vector3 = new Vector3(0, 1, 0);
                 const sphereVector = sphere.getSphereCoordinate(x, y, z);
-
                 if (!sphereVector || isNaN(sphereVector.x))
                     continue;
 
                 const noiseVal = (simplex.noise3D(sphereVector.x / 16, sphereVector.y / 16, sphereVector.z / 32) +
-                    0.5 * simplex1.noise3D(sphereVector.x / 8, sphereVector.y / 8, sphereVector.z / 32,) + 1) / 2;
+                    0.5 * simplex1.noise3D(sphereVector.x / 8, sphereVector.y / 8, sphereVector.z / 32) + 1) / 2;
                 let val = noiseVal / (1.5);
 
                 val = Math.pow(val * 1.15, 0.9);
