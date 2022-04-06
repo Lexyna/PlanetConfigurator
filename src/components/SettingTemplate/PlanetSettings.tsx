@@ -21,21 +21,6 @@ export const PlanetSettingsTemplate = () => {
 
     return (
         <div>
-            <label className="settingsLabel">
-                radius:
-            </label>
-            <input
-                className="settingsInput"
-                type="number"
-                min={4}
-                max={64}
-                defaultValue={radius}
-                onChange={
-                    ({ target: { value } }) => updatePlanetRadius(parseInt(value))
-                }
-            />
-            <br />
-
             <div className="flex">
                 <div className="w-full mr-1">
                     <label className="settingsLabel">
@@ -58,7 +43,22 @@ export const PlanetSettingsTemplate = () => {
                 </div>
             </div>
 
-            <label className="settingsLabel">Animated Terrain: </label>
+            <label className="settingsLabel">
+                radius:
+            </label>
+            <input
+                className="settingsInput"
+                type="number"
+                min={4}
+                max={64}
+                defaultValue={radius}
+                disabled={animated}
+                onChange={
+                    ({ target: { value } }) => updatePlanetRadius(parseInt(value))
+                }
+            />
+
+            <label className="settingsLabel">3D: </label>
             <input
                 type="checkbox"
                 checked={animated}

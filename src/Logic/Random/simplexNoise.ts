@@ -61,7 +61,6 @@ export const create3DPlanetMap = (seed: string, width: number, height: number, d
             texture[x][y] = [];
     }
     const sphere = Spheres.getSphere(radius);
-    console.log("here")
 
     for (let z = 0; z < depth; z++) {
         for (let x = -radius; x < radius + 0; x++)

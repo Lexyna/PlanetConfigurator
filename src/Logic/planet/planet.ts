@@ -10,6 +10,8 @@ const planet: PlanetTemplate = creatNewPlanet();
 
 export const updatePlanet = () => {
 
+    const state: State = store.getState();
+
     const radius = getPlanetRadius();
     const shape = getPlanetShape();
 
