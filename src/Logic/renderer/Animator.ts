@@ -25,6 +25,8 @@ export class Animator {
     public static setAnimationFrame(keyframe: number) {
         Animator.stop();
         Animator.getInstance().animationFrame = keyframe - 1;
+        if (Animator.getInstance().animationFrame < 0)
+            Animator.getInstance().animationFrame = 0;
         Animator.getInstance().tick();
     }
 

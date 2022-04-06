@@ -1,10 +1,10 @@
 import React from "react";
+import { IoPlay, IoStopCircle } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Animator } from "../Logic/renderer/Animator";
 import { renderSettingsCreator } from "../store";
 import { animateSelector, keyframeSelector } from "../store/selectors/renderSelector";
-import { IoStopCircle, IoPlay } from "react-icons/io5";
 
 export const Keyframe = () => {
 
