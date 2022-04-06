@@ -8,7 +8,7 @@ import reducerFactory, { IHandler } from "./reducerFactory";
 
 const initialState: PlanetProps = {
     radius: 20,
-    animatedTerrain: false,
+    sim3DTerrain: false,
     seed: nanoid(),
     colorMapping: [
         {

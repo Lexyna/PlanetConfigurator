@@ -23,7 +23,7 @@ export const updatePlanet = () => {
 export const updateNoiseMap = () => {
     const state: State = store.getState();
 
-    if (!state.planet.animatedTerrain)
+    if (!state.planet.sim3DTerrain)
         planet.noiseMap = createNoiseMap();
     else
         planet.noiseMap = createAnimatedNoiseMap();
@@ -39,7 +39,7 @@ export const renderPlanet = (buffer: Uint32Array, width: number, height: number,
 
     const state: State = store.getState();
 
-    if (!state.planet.animatedTerrain)
+    if (!state.planet.sim3DTerrain)
         renderPlanet2D(buffer, width, height, animationFrame);
     else
         renderPlanet3D(buffer, width, height, animationFrame);

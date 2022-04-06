@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Renderer } from "../../Logic/renderer/Renderer";
 import { planetActionCreators } from "../../store";
-import { animatedTerrainSelector, radiusSelector, seedSelector } from "../../store/selectors/planetSelector";
+import { radiusSelector, seedSelector, sim3DTerrainSelector } from "../../store/selectors/planetSelector";
 
 export const PlanetSettingsTemplate = () => {
 
@@ -12,7 +12,7 @@ export const PlanetSettingsTemplate = () => {
 
     const radius = useSelector(radiusSelector);
     const seed = useSelector(seedSelector);
-    const animated = useSelector(animatedTerrainSelector);
+    const sim3D = useSelector(sim3DTerrainSelector);
 
     const { updatePlanetRadius, updateSeed, updateTerrain } = bindActionCreators(
         planetActionCreators,
@@ -52,7 +52,7 @@ export const PlanetSettingsTemplate = () => {
                 min={4}
                 max={64}
                 defaultValue={radius}
-                disabled={animated}
+                disabled={sim3D}
                 onChange={
                     ({ target: { value } }) => updatePlanetRadius(parseInt(value))
                 }
@@ -61,8 +61,8 @@ export const PlanetSettingsTemplate = () => {
             <label className="settingsLabel">3D: </label>
             <input
                 type="checkbox"
-                checked={animated}
-                onChange={() => updateTerrain(!animated)}
+                checked={sim3D}
+                onChange={() => updateTerrain(!sim3D)}
             />
 
             <button

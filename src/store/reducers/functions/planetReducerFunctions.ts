@@ -21,7 +21,7 @@ export const updateSeed = (state: PlanetProps, action: UpdateSeedAction): Planet
 export const updateTerrain = (state: PlanetProps, action: AnimateTerrainAction): PlanetProps => {
     return {
         ...state,
-        animatedTerrain: action.payload
+        sim3DTerrain: action.payload
     }
 }
 

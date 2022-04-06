@@ -9,7 +9,7 @@ export const createPlanetPNG = (buffer: Uint32Array, animationFrame: number) => 
 
     const state: State = store.getState();
 
-    if (!state.planet.animatedTerrain)
+    if (!state.planet.sim3DTerrain)
         createPlanetPNGFlat(buffer, animationFrame);
     else
         createPlanetPNG3D(buffer, animationFrame);
